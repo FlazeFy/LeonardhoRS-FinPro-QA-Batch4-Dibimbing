@@ -125,6 +125,23 @@ public class DashboardPage extends BasePage {
         return getValueByLabel("Total Employee", "preceding","p");
     }
 
+    // Fast Track Element
+    public String getTotalFastTrack() {
+        return getValueByLabel("Total Fast Track Class", "preceding", "p");
+    }
+
+    public String getTotalFastTrackClass() {
+        return getValueByLabel("Fast Track Class Active", "following", "p");
+    }
+
+    public String getFastTrackClassFinished() {
+        return getValueByLabel("Fast Track Class Finished", "following", "p");
+    }
+
+    public String getNearestFastTrackClassMessage() {
+        return getValueByLabel("Nearest Fast Track Class", "following", "div");
+    }
+
     // Action
     public void clickProfileButton() {
         try {
