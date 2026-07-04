@@ -4,6 +4,7 @@ import core.BaseTest;
 import core.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.DashboardPage;
 import org.example.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 public class LoginTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(LoginTest.class);
     private LoginPage loginPage;
+    private DashboardPage dashboardPage;
 
     // Positive Test | P1 | Valid Case
     @Test(priority = 2, groups = {"smoke"}, description = "TC-AUTH-001 - User can login into the app using valid basic auth")
@@ -180,5 +182,54 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(loginPage.getErrorMessage(), "account not found", "The error message is mismatched");
 
         logger.info("User cant login into the app using unregistered account : executed successfully");
+    }
+
+    // Positive Test | P4
+    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-007 - User can masked their password")
+    public void testUserCanMaskedTheirPassword() {
+        logger.info("Pre-Condition: Admin account already registered");
+
+        // Test Steps
+        logger.info("TS-1: Open the login page");
+        loginPage = new LoginPage(DriverManager.getDriver());
+
+        logger.info("TS-2: Fill the E-mail and Password field");
+        String email = config.getProperty("validEmailAuth");
+        String password = config.getProperty("invalidPasswordAuth");
+        loginPage.fillLoginCredentials(email, password);
+
+        logger.info("TS-3: Toggle the Eye icon at the Password field");
+        Assert.assertTrue(loginPage.isPasswordMasked(), "The password is not masked");
+        loginPage.clickMaskedPassword();
+
+        // Expected Result
+        logger.info("Expected Result: Password can be masked or viewed");
+        Assert.assertFalse(loginPage.isPasswordMasked(), "The password is masked");
+
+        logger.info("User can masked their password : executed successfully");
+    }
+
+    // Positive Test | P1
+    @Test(priority = 3, groups = {"smoke"}, description = "TC-AUTH-008 - User can sign out from the app")
+    public void testUserCanSignOutFromTheApp() {
+        logger.info("Pre-Condition: User already signed in");
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver());
+        loginPage.doLogin(config.getProperty("validEmailAuth"), config.getProperty("validPasswordAuth"));
+
+        // Test Steps
+        logger.info("TS-1: On the Dashboard page, click the 'Profile' button in the navbar");
+        dashboardPage = new DashboardPage(DriverManager.getDriver());
+        dashboardPage.clickProfileButton();
+
+        logger.info("TS-2: Click the Sign Out button");
+        dashboardPage.clickSignOutButton();
+
+        // Expected Result
+        logger.info("Expected Result: System redirect to Login page");
+        loginPage.waitForUrlToContain("/login");
+        String currentUrl = DriverManager.getDriver().getCurrentUrl();
+        Assert.assertTrue(currentUrl.contains("/login"), "Expected to stay at the same page (Login), but URL was: " + currentUrl);
+
+        logger.info("User can sign out from the app : executed successfully");
     }
 }

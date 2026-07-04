@@ -16,6 +16,9 @@ public class LoginPage extends BasePage {
     @FindBy(id = "button-sign-in")
     private WebElement loginButton;
 
+    @FindBy(id = "field-password-right-element")
+    private WebElement passwordMaskedButton;
+
     // Text element
     @FindBy(xpath = "//input[@id='input-username-or-email']/following-sibling::p")
     private WebElement loginErrorMessage;
@@ -32,6 +35,10 @@ public class LoginPage extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public boolean isPasswordMasked() {
+        return "password".equals(passwordInput.getAttribute("type"));
     }
 
     // Check last rendered text
@@ -74,5 +81,15 @@ public class LoginPage extends BasePage {
 
     public void clickSignIn() {
         loginButton.click();
+    }
+
+    public void clickMaskedPassword() {
+        waitForElementToBeVisible(passwordMaskedButton);
+        passwordMaskedButton.click();
+    }
+
+    public void doLogin(String username, String password) {
+        fillLoginCredentials(username, password);
+        clickSignIn();
     }
 }
