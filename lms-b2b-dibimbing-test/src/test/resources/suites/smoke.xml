@@ -3,5 +3,11 @@
 <suite name="Test Suite" parallel="tests" thread-count="2">
     <listeners>
         <listener class-name="core.TestListener"/>
-    </listeners>xwx`
+    </listeners>
+
+    <test name="Login Tests">
+        <classes>
+            <class name="test.e2e.auth.LoginTest"/>
+        </classes>
+    </test>
 </suite>
