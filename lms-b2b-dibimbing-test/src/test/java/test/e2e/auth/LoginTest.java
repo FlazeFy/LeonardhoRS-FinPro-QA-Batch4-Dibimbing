@@ -17,7 +17,7 @@ public class LoginTest extends BaseTest {
     private DashboardPage dashboardPage;
 
     // Positive Test | P1 | Valid Case
-    @Test(priority = 2, groups = {"smoke"}, description = "TC-AUTH-001 - User can login into the app using valid basic auth")
+    @Test(priority = 2, groups = {"ui-test"}, description = "TC-AUTH-001 - User can login into the app using valid basic auth")
     public void testUserCanLoginIntoTheAppUsingValidBasicAuth() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -45,7 +45,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Negative Test | P1 | Invalid Case
-    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-002 - User cant login into the app using invalid wrong password")
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-AUTH-002 - User cant login into the app using invalid wrong password")
     public void testUserCantLoginIntoTheAppUsingInvalidWrongPassword() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -73,7 +73,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Negative Test | P2 | Edge Case
-    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-003 - User cant login into the app using invalid character long")
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-AUTH-003 - User cant login into the app using invalid character long")
     public void testUserCantLoginIntoTheAppUsingInvalidCharacterLong() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -101,7 +101,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Negative Test | P1 | Edge Case
-    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-004 - User cant login into the app using empty field")
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-AUTH-004 - User cant login into the app using empty field")
     public void testUserCantLoginIntoTheAppUsingEmptyField() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -129,7 +129,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Negative Test | P2 | Invalid Case
-    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-005 - User cant login into the app using invalid email")
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-AUTH-005 - User cant login into the app using invalid email")
     public void testUserCantLoginIntoTheAppUsingInvalidEmail() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -157,7 +157,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Negative Test | P1 | Invalid Case
-    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-006 - User cant login into the app using unregistered account")
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-AUTH-006 - User cant login into the app using unregistered account")
     public void testUserCantLoginIntoTheAppUsingUnregisteredAccount() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -185,7 +185,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Positive Test | P4
-    @Test(priority = 1, groups = {"smoke"}, description = "TC-AUTH-007 - User can masked their password")
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-AUTH-007 - User can masked their password")
     public void testUserCanMaskedTheirPassword() {
         logger.info("Pre-Condition: Admin account already registered");
 
@@ -210,7 +210,7 @@ public class LoginTest extends BaseTest {
     }
 
     // Positive Test | P1
-    @Test(priority = 3, groups = {"smoke"}, description = "TC-AUTH-008 - User can sign out from the app")
+    @Test(priority = 3, groups = {"ui-test"}, description = "TC-AUTH-008 - User can sign out from the app")
     public void testUserCanSignOutFromTheApp() {
         logger.info("Pre-Condition: User already signed in");
         LoginPage loginPage = new LoginPage(DriverManager.getDriver());

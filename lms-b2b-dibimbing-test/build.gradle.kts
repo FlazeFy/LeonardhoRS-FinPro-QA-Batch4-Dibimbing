@@ -37,7 +37,8 @@ tasks.test {
         }
     }
     testLogging {
-        events("passed", "skipped", "failed", "standardOut", "standardError")
+        events("started", "passed", "skipped", "failed", "standardOut", "standardError")
+        showStandardStreams = true
         showExceptions = true
         showCauses = true
         showStackTraces = true
