@@ -5,9 +5,16 @@
         <listener class-name="core.TestListener"/>
     </listeners>
 
-    <test name="Login Tests">
+    <test name="Auth Tests">
         <classes>
             <class name="test.e2e.auth.LoginTest"/>
+        </classes>
+    </test>
+
+    <test name="Dashboard Tests">
+        <classes>
+            <class name="test.e2e.dashboard.CompanyProfileTest"/>
+            <class name="test.e2e.dashboard.FastTrackClassTest"/>
         </classes>
     </test>
 </suite>
