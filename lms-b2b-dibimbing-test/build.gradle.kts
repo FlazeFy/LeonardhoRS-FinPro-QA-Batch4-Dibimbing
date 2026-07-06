@@ -20,6 +20,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-core:2.25.1")
     implementation("org.apache.logging.log4j:log4j-api:2.25.1")
     implementation("commons-io:commons-io:2.15.1")
+    testImplementation("io.rest-assured:rest-assured:5.5.6")
 }
 
 
