@@ -31,15 +31,10 @@ public class MutationLogin extends BaseApiTest {
                  password: $password
                ) {
                  user {
-                   id
-                   name
-                   username
-                   email
-                   role
+                   id name username email role
                  }
                  errors {
-                   field
-                   message
+                   field message
                  }
                }
              }
@@ -55,10 +50,9 @@ public class MutationLogin extends BaseApiTest {
         variables.put("usernameOrEmail", config.getProperty("validEmailAuth"));
         variables.put("password", config.getProperty("validPasswordAuth"));
         variables.put("companyId", config.getProperty("companyId"));
-        System.out.println(variables);
 
         // Request
-        Response response = templateGraphQLRequest("login", mutation, variables);
+        Response response = templateGraphQLRequest("login", mutation, variables, null, null, null);
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure
@@ -91,7 +85,7 @@ public class MutationLogin extends BaseApiTest {
         variables.put("companyId", config.getProperty("companyId"));
 
         // Request
-        Response response = templateGraphQLRequest("login", mutation, variables);
+        Response response = templateGraphQLRequest("login", mutation, variables, null, null, null);
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure

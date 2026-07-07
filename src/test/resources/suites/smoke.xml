@@ -25,4 +25,14 @@
             <class name="test.integration.auth.MutationLogin"/>
         </classes>
     </test>
+
+    <test name="API Integration Test : Dashboard Module">
+        <classes>
+            <class name="test.integration.dashboard.QueryMyCompany"/>
+            <class name="test.integration.dashboard.QueryCountEmployees"/>
+            <class name="test.integration.dashboard.QueryCountPrograms"/>
+            <class name="test.integration.dashboard.QueryCountActiveTraining"/>
+            <class name="test.integration.dashboard.QueryCountFinishTraining"/>
+        </classes>
+    </test>
 </suite>
