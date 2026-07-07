@@ -1,5 +1,6 @@
 package core;
 
+import io.restassured.specification.RequestSpecification;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import static io.restassured.RestAssured.given;
 
-public class TestUtil {
+public class TestUtil extends BaseApiTest{
 
     public static Object[][] getTestData(String filePath, String sheetName) {
         FileInputStream fis;
@@ -77,18 +78,23 @@ public class TestUtil {
     }
 
     // API Test
-    public static Response templateGraphQLRequest(String endpointName, String graphqlQuery, Object variables) {
+    public static Response templateGraphQLRequest(String endpointName, String graphqlQuery, Object variables, String username, String password, String sessionId) {
         String contentType = "application/json";
-
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("query", graphqlQuery);
+        if (variables != null) requestBody.put("variables", variables);
 
-        if (variables != null) {
-            requestBody.put("variables", variables);
+        RequestSpecification request = given().contentType(contentType);
+        // Basic Auth
+        if (username != null && !username.isBlank()) {
+            request.auth().preemptive().basic(username, password);
+        }
+        // Session Cookie
+        if (sessionId != null && !sessionId.isBlank()) {
+            request.cookie("sid_b2b", sessionId);
         }
 
-        Response response = given()
-                .contentType(contentType)
+        Response response = request
                 .body(requestBody)
                 .when()
                 .post("/graphql")
@@ -98,8 +104,6 @@ public class TestUtil {
                 .response();
 
         System.out.println("==== GraphQL : " + endpointName + " ====");
-        System.out.println("Status Code : " + response.getStatusCode());
-        System.out.println("Response : ");
         System.out.println(response.asPrettyString());
 
         return response;
@@ -119,7 +123,6 @@ public class TestUtil {
             for (String field : fields) {
                 // Validate field exists
                 Assert.assertTrue(item.containsKey(field), "Missing field: " + field);
-
                 Object value = item.get(field);
 
                 // Nullable validation
@@ -161,5 +164,39 @@ public class TestUtil {
                 }
             }
         }
+    }
+
+    public static String getSid() {
+        final String mutation = """
+            mutation Login(
+               $companyId: String!
+               $usernameOrEmail: String!
+               $password: String!
+             ) {
+               login(
+                 companyId: $companyId
+                 usernameOrEmail: $usernameOrEmail
+                 password: $password
+               ) {
+                 user {
+                   id
+                 }
+                 errors {
+                   field
+                   message
+                 }
+               }
+             }
+            """;
+
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("usernameOrEmail", config.getProperty("validEmailAuth"));
+        variables.put("password", config.getProperty("validPasswordAuth"));
+        variables.put("companyId", config.getProperty("companyId"));
+
+        Response response = templateGraphQLRequest("login", mutation, variables, null, null, null);
+        String sid = response.getCookie("sid_b2b");
+
+        return sid;
     }
 }
