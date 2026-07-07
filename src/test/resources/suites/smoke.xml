@@ -6,18 +6,18 @@
     </listeners>
 
     <!-- E2E UI Test -->
-<!--    <test name="Auth Tests">-->
-<!--        <classes>-->
-<!--            <class name="test.e2e.auth.LoginTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Auth Tests">
+        <classes>
+            <class name="test.e2e.auth.LoginTest"/>
+        </classes>
+    </test>
 
-<!--    <test name="Dashboard Tests">-->
-<!--        <classes>-->
-<!--            <class name="test.e2e.dashboard.CompanyProfileTest"/>-->
-<!--            <class name="test.e2e.dashboard.FastTrackClassTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Dashboard Tests">
+        <classes>
+            <class name="test.e2e.dashboard.CompanyProfileTest"/>
+            <class name="test.e2e.dashboard.FastTrackClassTest"/>
+        </classes>
+    </test>
 
     <!-- Integration API Test -->
     <test name="API Integration Test : Auth Module">
@@ -32,6 +32,7 @@
             <class name="test.integration.dashboard.QueryCountEmployees"/>
             <class name="test.integration.dashboard.QueryCountPrograms"/>
             <class name="test.integration.dashboard.QueryCountActiveTraining"/>
+            <class name="test.integration.dashboard.QueryCountFinishTraining"/>
         </classes>
     </test>
 </suite>
