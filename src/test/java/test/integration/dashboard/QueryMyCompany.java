@@ -39,12 +39,16 @@ public class QueryMyCompany extends BaseApiTest {
         Map<String, Object> company = jsonPath.getMap("data.myCompany");
 
         // Validate myCompany props
-        // Get list key / column
-        List<String> stringFields = List.of("id");
+        // Validate each fields data type
         List<String> stringNullableFields = List.of("slug", "name", "logoUrl", "address", "phoneNumber", "email", "vision", "mission", "workCulture");
-
         TestUtil.validateColumn(company, stringNullableFields, "string", true);
+
+        List<String> stringFields = List.of("id");
         TestUtil.validateColumn(company, stringFields, "string", false);
+
+        // Validate each fields not empty / not whitespace only
+        List<String> notEmptyStringFields = List.of("name", "address", "email", "phoneNumber", "vision", "mission", "workCulture");
+        TestUtil.validateNotEmptyString(company, notEmptyStringFields);
 
         logger.info("User can view company profile: executed successfully");
     }

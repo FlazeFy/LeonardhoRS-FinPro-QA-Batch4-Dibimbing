@@ -14,6 +14,7 @@ import java.io.IOException;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -198,5 +199,34 @@ public class TestUtil extends BaseApiTest{
         String sid = response.getCookie("sid_b2b");
 
         return sid;
+    }
+
+    public static void validateNotEmptyString(Object data, List<String> fields) {
+        // Convert object to list
+        List<Map<String, Object>> dataArray;
+        dataArray = data instanceof List ? (List<Map<String, Object>>) data : List.of((Map<String, Object>) data);
+
+        // Loop item
+        for (Map<String, Object> item : dataArray) {
+            // Validate object
+            Assert.assertNotNull(item);
+
+            // If fields is null, validate all fields
+            List<String> validateFields = fields != null ? fields : new ArrayList<>(item.keySet());
+
+            // Loop fields
+            for (String field : validateFields) {
+                // Validate field exists
+                Assert.assertTrue(item.containsKey(field), "Missing field: " + field);
+                Object value = item.get(field);
+
+                // Validate datatype
+                Assert.assertTrue(value instanceof String, field + " is not String");
+
+                // Validate empty
+                String valStr = (String)value;
+                Assert.assertFalse(valStr.trim().isEmpty(), field+" was empty");
+            }
+        }
     }
 }
