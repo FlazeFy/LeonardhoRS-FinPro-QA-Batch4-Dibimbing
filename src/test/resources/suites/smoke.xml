@@ -23,6 +23,7 @@
     <test name="API Integration Test : Auth Module">
         <classes>
             <class name="test.integration.auth.MutationLogin"/>
+            <class name="test.integration.auth.MutationLogout"/>
         </classes>
     </test>
 
