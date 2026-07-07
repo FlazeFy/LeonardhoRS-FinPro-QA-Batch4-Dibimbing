@@ -30,6 +30,7 @@
         <classes>
             <class name="test.integration.dashboard.QueryMyCompany"/>
             <class name="test.integration.dashboard.QueryCountEmployees"/>
+            <class name="test.integration.dashboard.QueryCountPrograms"/>
         </classes>
     </test>
 </suite>
