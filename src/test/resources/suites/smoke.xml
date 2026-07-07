@@ -29,6 +29,7 @@
     <test name="API Integration Test : Dashboard Module">
         <classes>
             <class name="test.integration.dashboard.QueryMyCompany"/>
+            <class name="test.integration.dashboard.QueryCountEmployees"/>
         </classes>
     </test>
 </suite>

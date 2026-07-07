@@ -16,7 +16,7 @@ import static core.TestUtil.templateGraphQLRequest;
 public class QueryMyCompany extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(QueryMyCompany.class);
 
-    private static final String MY_COMPANY_QUERY = """
+    private static final String query = """
         query MyCompany {
           myCompany {
             id slug name logoUrl address phoneNumber email vision mission workCulture
@@ -26,12 +26,12 @@ public class QueryMyCompany extends BaseApiTest {
 
     // Positive Test | P4
     @Test(priority = 1, groups = {"api-test"}, description = "TC-DASH-001 - User can view company profile")
-    public void userCanGetMyCompany() {
+    public void myCompanyValidData() {
         logger.info("Pre-Condition: User already signed in");
         final String sid = TestUtil.getSid();
 
         // Request
-        Response response = templateGraphQLRequest("myCompany", MY_COMPANY_QUERY, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = templateGraphQLRequest("myCompany", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure
