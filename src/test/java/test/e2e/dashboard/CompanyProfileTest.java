@@ -66,17 +66,17 @@ public class CompanyProfileTest extends BaseTest {
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 
-        // Email check - valid format
+        // Validate email has valid format
         Assert.assertTrue(email.matches(EMAIL_REGEX), "Company email is not a valid email format: " + email);
 
-        // Phone check - length within valid range
+        // Validate phone number has length within valid range
         String digitsOnly = phone.replaceAll("[^0-9]", "");
         Assert.assertTrue(digitsOnly.length() >= MIN_PHONE_LENGTH && digitsOnly.length() <= MAX_PHONE_LENGTH,
                 "Company phone number length is invalid. Expected between " + MIN_PHONE_LENGTH
                         + " and " + MAX_PHONE_LENGTH + " digits, but got " + digitsOnly.length()
                         + " digits: " + phone);
 
-        // Total Employee - not empty and numeric
+        // Validate total employee is not empty and numeric
         Assert.assertTrue(totalEmployee.matches("\\d+"), "Total Employee should be a numeric value, but got: " + totalEmployee);
 
         logger.info("User can view company profile: executed successfully");
