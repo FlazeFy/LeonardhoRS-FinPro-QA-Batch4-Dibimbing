@@ -2,12 +2,14 @@ package test.e2e.classmanagement;
 
 import core.BaseTest;
 import core.DriverManager;
+import core.TestDataReader;
 import core.TestUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.ClassPage;
 import org.example.DashboardPage;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.e2e.dashboard.CompanyProfileTest;
@@ -46,19 +48,32 @@ public class ViewClassTest extends BaseTest {
         Assert.assertTrue(classPage.isClassListDisplayed(), "Class list not displayed correctly");
 
         // Validate each fields not empty / not whitespace only
-        List<Map<String, String>> cardData = classPage.getClassCardData();
-        TestUtil.validateNotEmptyString(cardData, null);
+        List<Map<String, String>> classData = classPage.getClassCardData();
+        TestUtil.validateNotEmptyString(classData, null);
 
-        for (Map<String, String> card : cardData) {
+        for (Map<String, String> dt : classData) {
             // validate total employee is a valid non-negative number
-            String totalEmployeeAssigned = card.get("employee");
+            String totalEmployeeAssigned = dt.get("employee");
             Assert.assertTrue(TestUtil.isValidPositiveNumber(totalEmployeeAssigned), "Total assigned employee should be at least 0, but got "+totalEmployeeAssigned);
 
             // validate start date has format "d MMMM yyyy"
-            String date = card.get("startDate");
+            String date = dt.get("startDate");
             Assert.assertTrue(TestUtil.isValidDateFormat(date, "d MMMM yyyy"), "Start date does not match expected format 'd MMMM yyyy'");
         }
 
         logger.info("User can view all classes: executed successfully");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        // Store first class title for next test scenario
+        if (classPage != null) {
+            List<Map<String, String>> classData = classPage.getClassCardData();
+
+            if (!classData.isEmpty()) {
+                String classTitle = classData.get(0).get("title");
+                if (classTitle != null && !classTitle.trim().isEmpty()) TestDataReader.setValue("class-title", classTitle);
+            }
+        }
     }
 }

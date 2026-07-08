@@ -22,6 +22,7 @@
     <test name="Class Management Tests">
         <classes>
             <class name="test.e2e.classmanagement.ViewClassTest"/>
+            <class name="test.e2e.classmanagement.SearchClassTest"/>
         </classes>
     </test>
 

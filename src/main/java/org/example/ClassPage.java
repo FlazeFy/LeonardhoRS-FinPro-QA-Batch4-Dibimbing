@@ -14,6 +14,10 @@ import java.util.Map;
 public class ClassPage extends BasePage {
     private static final Logger logger = LogManager.getLogger(DashboardPage.class);
 
+    // Input Element
+    @FindBy(xpath = "//input[@placeholder='Search class...']")
+    private WebElement searchClassInput;
+
     // Button Element
     @FindBy(xpath = "//button[normalize-space()='Add New Class']")
     private WebElement addNewClassButton;
@@ -119,5 +123,20 @@ public class ClassPage extends BasePage {
             logger.error("Class list validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
             return false;
         }
+    }
+
+    // Assertion
+    public boolean isSearchClassDisplayed() {
+        try {
+            waitForElementToBeVisible(searchClassInput);
+            return searchClassInput.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Action
+    public void fillSearchClass(String classTitle) {
+        searchClassInput.sendKeys(classTitle);
     }
 }
