@@ -44,4 +44,10 @@
             <class name="test.integration.dashboard.QueryCountFinishTraining"/>
         </classes>
     </test>
+
+    <test name="API Integration Test : Class Management Module">
+        <classes>
+            <class name="test.integration.classmanagement.QueryAngkatan"/>
+        </classes>
+    </test>
 </suite>
