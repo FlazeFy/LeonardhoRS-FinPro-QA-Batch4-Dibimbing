@@ -18,6 +18,9 @@ public class DashboardPage extends BasePage {
     @FindBy(id = "menu-list-layout-desktop-menu-settings-menuitem-:r9:")
     private WebElement signOutButton;
 
+    @FindBy(id = "layout-desktop-menu-item-box-class")
+    private WebElement classMenuButton;
+
     public DashboardPage(WebDriver driver) {
         super(driver);
     }
@@ -156,6 +159,15 @@ public class DashboardPage extends BasePage {
         try {
             waitForElementToBeVisible(signOutButton);
             signOutButton.click();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void clickClassMenuButton() {
+        try {
+            waitForElementToBeVisible(classMenuButton);
+            classMenuButton.click();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

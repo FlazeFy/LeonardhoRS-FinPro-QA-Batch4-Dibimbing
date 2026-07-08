@@ -14,10 +14,11 @@ import java.io.IOException;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
+
 import static io.restassured.RestAssured.given;
 
 public class TestUtil extends BaseApiTest{
@@ -227,6 +228,29 @@ public class TestUtil extends BaseApiTest{
                 String valStr = (String)value;
                 Assert.assertFalse(valStr.trim().isEmpty(), field+" was empty");
             }
+        }
+    }
+    
+    public static boolean isValidPositiveNumber(String numStr) {
+        int num;
+
+        try {
+            num = Integer.parseInt(numStr);
+        } catch (NumberFormatException e) {
+            Assert.fail("Not a valid number");
+            return false;
+        }
+
+        return num >= 0;
+    }
+
+    public static boolean isValidDateFormat(String value, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+        try {
+            LocalDate.parse(value, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
         }
     }
 }

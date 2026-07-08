@@ -19,6 +19,12 @@
         </classes>
     </test>
 
+    <test name="Class Management Tests">
+        <classes>
+            <class name="test.e2e.classmanagement.ViewClassTest"/>
+        </classes>
+    </test>
+
     <!-- Integration API Test -->
     <test name="API Integration Test : Auth Module">
         <classes>
