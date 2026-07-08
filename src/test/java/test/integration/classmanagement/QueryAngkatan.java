@@ -36,8 +36,6 @@ public class QueryAngkatan extends BaseApiTest {
         Response response = templateGraphQLRequest("angkatans", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
         JsonPath jsonPath = response.jsonPath();
 
-        System.out.println(jsonPath);
-
         // Validate base structure
         Assert.assertNotNull(jsonPath.get("data.angkatans"));
         List<Map<String, Object>> angkatans = jsonPath.getList("data.angkatans");

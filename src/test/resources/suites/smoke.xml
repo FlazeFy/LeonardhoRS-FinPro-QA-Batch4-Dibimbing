@@ -48,6 +48,7 @@
     <test name="API Integration Test : Class Management Module">
         <classes>
             <class name="test.integration.classmanagement.QueryAngkatan"/>
+            <class name="test.integration.classmanagement.QueryBootcamps"/>
         </classes>
     </test>
 </suite>
