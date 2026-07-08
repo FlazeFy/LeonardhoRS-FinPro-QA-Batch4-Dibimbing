@@ -18,6 +18,10 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Search class...']")
     private WebElement searchClassInput;
 
+    // Select Element
+    @FindBy(xpath = "//button[.//p[normalize-space()='Filter by Angkatan']]")
+    private WebElement filterClassBatchSelect;
+
     // Button Element
     @FindBy(xpath = "//button[normalize-space()='Add New Class']")
     private WebElement addNewClassButton;
@@ -80,35 +84,35 @@ public class ClassPage extends BasePage {
 
     public boolean isClassListDisplayed() {
         try {
-            List<WebElement> cards = getClassCards();
-            if (cards.isEmpty()) return false;
+            List<WebElement> data = getClassCards();
+            if (data.isEmpty()) return false;
 
             int idx = 0;
-            for (WebElement card : cards) {
+            for (WebElement dt : data) {
                 // validate class image
-                boolean hasImage = !card.findElements(By.cssSelector("img[alt='bootcamp image']")).isEmpty();
+                boolean hasImage = !dt.findElements(By.cssSelector("img[alt='bootcamp image']")).isEmpty();
 
                 // validate class title
-                boolean hasTitle = !card.findElements(By.xpath(".//p[1]")).isEmpty();
+                boolean hasTitle = !dt.findElements(By.xpath(".//p[1]")).isEmpty();
 
                 // validate edit and manage content button
-                boolean hasEditButton = !card.findElements(By.xpath(".//button[contains(text(),'Edit & Manage Content')]")).isEmpty();
+                boolean hasEditButton = !dt.findElements(By.xpath(".//button[contains(text(),'Edit & Manage Content')]")).isEmpty();
 
                 // validate delete class button
-                boolean hasDeleteButton = !card.findElements(By.xpath(".//button[contains(text(),'Delete Class')]")).isEmpty();
+                boolean hasDeleteButton = !dt.findElements(By.xpath(".//button[contains(text(),'Delete Class')]")).isEmpty();
 
                 // validate program studi info
-                boolean hasMajor = !card.findElements(By.xpath(".//p[contains(text(),'Program Studi:')]")).isEmpty();
+                boolean hasMajor = !dt.findElements(By.xpath(".//p[contains(text(),'Program Studi:')]")).isEmpty();
 
                 // validate angkatan info
-                boolean hasBatch = !card.findElements(By.xpath(".//p[contains(text(),'Angkatan:')]")).isEmpty();
+                boolean hasBatch = !dt.findElements(By.xpath(".//p[contains(text(),'Angkatan:')]")).isEmpty();
 
                 // validate employee join info
                 // boolean hasEmployeeJoin = !card.findElements(By.xpath(".//p[contains(text(),'Employee join this class')]")).isEmpty();
-                boolean hasEmployeeJoin = !card.findElements(By.xpath(".//p[contains(.,'Employee join this class')]")).isEmpty();
+                boolean hasEmployeeJoin = !dt.findElements(By.xpath(".//p[contains(.,'Employee join this class')]")).isEmpty();
 
                 // validate class start date info
-                boolean hasStartDate = !card.findElements(By.xpath(".//p[contains(text(),'Started at')]")).isEmpty();
+                boolean hasStartDate = !dt.findElements(By.xpath(".//p[contains(text(),'Started at')]")).isEmpty();
 
                 if (!(hasImage && hasTitle && hasEditButton && hasDeleteButton && hasMajor && hasBatch && hasEmployeeJoin && hasStartDate)) {
                     System.out.println("Class invalid at - "+idx);
@@ -135,8 +139,39 @@ public class ClassPage extends BasePage {
         }
     }
 
+    public boolean isFilterClassBatchDisplayed() {
+        try {
+            waitForElementToBeVisible(filterClassBatchSelect);
+            return filterClassBatchSelect.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     // Action
     public void fillSearchClass(String classTitle) {
         searchClassInput.sendKeys(classTitle);
+    }
+
+    public void selectClassBatch(String batch) {
+        try {
+            filterClassBatchSelect.click();
+            WebElement menuItem = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@role='menu']//button[@role='menuitem'][normalize-space(.)='" + batch + "']")
+            ));
+            menuItem.click();
+
+            // Confirm the dropdown menu is hidden (render finish)
+            wait.until(driver -> {
+                WebElement menu = driver.findElement(By.xpath(
+                        "//button[.//p[normalize-space()='Filter by Angkatan']]/following::div[@role='menu'][1]"
+                ));
+
+                String visibility = menu.getCssValue("visibility");
+                return "hidden".equalsIgnoreCase(visibility);
+            });
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

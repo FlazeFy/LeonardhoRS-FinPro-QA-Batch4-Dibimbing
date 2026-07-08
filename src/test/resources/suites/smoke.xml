@@ -23,6 +23,7 @@
         <classes>
             <class name="test.e2e.classmanagement.ViewClassTest"/>
             <class name="test.e2e.classmanagement.SearchClassTest"/>
+            <class name="test.e2e.classmanagement.FilterClassByBatch"/>
         </classes>
     </test>
 
