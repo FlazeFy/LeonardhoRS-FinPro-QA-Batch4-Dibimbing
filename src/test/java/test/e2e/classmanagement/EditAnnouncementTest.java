@@ -54,7 +54,7 @@ public class EditAnnouncementTest extends BaseTest {
     }
 
     // Positive Test | P2 | Valid
-    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-011 - User can edit class announcement with valid data")
+    @Test(priority = 2, groups = {"ui-test"}, description = "TC-CLMG-011 - User can edit class announcement with valid data")
     public void testUserCanEditClassAnnouncementWithValidData() {
         classPage = new ClassPage(DriverManager.getDriver());
 
@@ -78,6 +78,36 @@ public class EditAnnouncementTest extends BaseTest {
         Assert.assertTrue(allPage.getResponsePopUpText().contains("Succes Update Announcement"), "The success message is mismatched");
 
         logger.info("User can edit class announcement with valid data: executed successfully");
+    }
+
+    // Negative Test | P2 | Invalid
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-012 - User cant edit class announcement with empty title")
+    public void testUserCantEditClassAnnouncementWithEmptyTitle() {
+        final String emptyAnnouncementTitle = "";
+
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Announcement tab");
+        classPage.openTabByTitle("Announcement");
+
+        logger.info("TS-2: Below the Create Announcement form. Select an announcement");
+        classPage.findAnnouncementByTitle(announcementTitle);
+
+        logger.info("TS-3: Click the 'Edit' button");
+        classPage.clickEditAnnouncementByTitle(announcementTitle);
+
+        logger.info("TS-4: On the Edit Announcement pop-up. Change the field especially clear the Announcement Title");
+        classPage.fillEditAnnouncement(emptyAnnouncementTitle, announcementDesc);
+
+        logger.info("TS-5: Click the 'Edit Announcement' button");
+        classPage.clickSubmitEditAnnouncement();
+
+        logger.info("Expected Result: System show success message 'Check field title'");
+        allPage = new AllPage(DriverManager.getDriver());
+        System.out.println(allPage.getResponsePopUpText());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field title"), "The success message is mismatched");
+
+        logger.info("User cant edit class announcement with empty title: executed successfully");
     }
 
     @AfterMethod

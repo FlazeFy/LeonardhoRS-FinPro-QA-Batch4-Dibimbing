@@ -76,7 +76,7 @@ public class CreateAnnouncementTest extends BaseTest {
         logger.info("User can add class announcement with valid data: executed successfully");
     }
 
-    // Positive Test | P2 | Invalid
+    // Negative Test | P2 | Invalid
     @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-010 - User cant add class announcement with empty title")
     public void testUserCantAddClassAnnouncementWithEmptyTitle() {
         final String emptyAnnouncementTitle = "";
