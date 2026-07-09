@@ -21,9 +21,15 @@ public class ClassPage extends BasePage {
     @FindBy(id = "create-announcement-title-input")
     private WebElement announcementTitleInput;
 
+    @FindBy(id = "edit-announcement-title-input")
+    private WebElement announcementTitleEditInput;
+
     // Richtext Editor Element
     @FindBy(id = "create-announcement-description-input")
     private WebElement announcementDescInput;
+
+    @FindBy(id = "edit-announcement-description-input")
+    private WebElement announcementDescEditInput;
 
     // Select Element
     @FindBy(xpath = "//button[.//p[normalize-space()='Filter by Angkatan']]")
@@ -35,6 +41,9 @@ public class ClassPage extends BasePage {
 
     @FindBy(id = "create-announcement-button")
     private WebElement submitAnnouncementButton;
+
+    @FindBy(id = "edit-announcement-button")
+    private WebElement submitEditAnnouncementButton;
 
     // Text
     @FindBy(xpath = "//p[normalize-space()='Manage Class']")
@@ -280,8 +289,19 @@ public class ClassPage extends BasePage {
         announcementDescInput.sendKeys(announcementDesc);
     }
 
+    public void fillEditAnnouncement(String announcementTitle, String announcementDesc) {
+        waitForElementToBeVisible(announcementTitleEditInput);
+        announcementTitleEditInput.sendKeys(announcementTitle);
+        waitForElementToBeVisible(announcementDescEditInput);
+        announcementDescEditInput.sendKeys(announcementDesc);
+    }
+
     public void clickSubmitAnnouncement() {
         submitAnnouncementButton.click();
+    }
+
+    public void clickSubmitEditAnnouncement() {
+        submitEditAnnouncementButton.click();
     }
 
     public void openTabByTitle(String title) {
@@ -297,6 +317,34 @@ public class ClassPage extends BasePage {
         } catch (TimeoutException e) {
             throw new NoSuchElementException("Tab not found or could not be opened: " + title, e);
         }
+    }
+
+    public boolean findAnnouncementByTitle(String title) {
+        List<WebElement> cards = getAnnouncementCards();
+
+        for (WebElement card : cards) {
+            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
+            if (announcementTitle.equalsIgnoreCase(title.trim())) return true;
+        }
+
+        return false;
+    }
+
+    public void clickEditAnnouncementByTitle(String title) {
+        List<WebElement> cards = getAnnouncementCards();
+
+        for (WebElement card : cards) {
+            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
+
+            if (announcementTitle.equalsIgnoreCase(title.trim())) {
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit']"));
+                wait.until(ExpectedConditions.elementToBeClickable(editButton));
+                editButton.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No announcement found with title: " + title);
     }
 
     public void selectClassBatch(String batch) {

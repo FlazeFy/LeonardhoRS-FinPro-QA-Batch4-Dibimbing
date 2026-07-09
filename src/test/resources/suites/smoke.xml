@@ -26,6 +26,7 @@
             <class name="test.e2e.classmanagement.FilterClassByBatch"/>
             <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>
             <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
+            <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
         </classes>
     </test>
 
