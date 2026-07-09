@@ -82,6 +82,19 @@ public class ClassPage extends BasePage {
         );
     }
 
+    public boolean isClassFailedMessageDisplayed(String message) {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(addNewClassButton));
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[normalize-space()='Add New Class']/following::div[contains(., '" + message + "')]")
+            ));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     public boolean isClassListDisplayed() {
         try {
             List<WebElement> data = getClassCards();
