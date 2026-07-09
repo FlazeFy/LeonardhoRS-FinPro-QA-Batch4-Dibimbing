@@ -18,6 +18,7 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Search class...']")
     private WebElement searchClassInput;
 
+    // Input Element - Announcement
     @FindBy(id = "create-announcement-title-input")
     private WebElement announcementTitleInput;
 
@@ -26,6 +27,28 @@ public class ClassPage extends BasePage {
 
     @FindBy(id = "delete-announcement-delete-button")
     private WebElement announcementDeleteButton;
+
+    // Input Element - Content
+    @FindBy(xpath = "//input[@placeholder='Title']")
+    private WebElement contentTitleInput;
+
+    @FindBy(xpath = "//input[@placeholder='Check In Key']")
+    private WebElement contentCheckInKeyInput;
+
+    @FindBy(xpath = "//input[@placeholder='Check Out Key']")
+    private WebElement contentCheckOutKeyInput;
+
+    @FindBy(xpath = "//input[@placeholder='Link Meeting Class']")
+    private WebElement contentLinkMeetingClassInput;
+
+    @FindBy(xpath = "//input[@placeholder='Pre Test Url']")
+    private WebElement contentPreTestUrlInput;
+
+    @FindBy(xpath = "//input[@placeholder='Live Class Duration']")
+    private WebElement contentLiveClassDurationInput;
+
+    @FindBy(xpath = "//input[@placeholder='Live Class Date']")
+    private WebElement contentLiveClassDateInput;
 
     // Richtext Editor Element
     @FindBy(id = "create-announcement-description-input")
@@ -48,12 +71,21 @@ public class ClassPage extends BasePage {
     @FindBy(id = "edit-announcement-button")
     private WebElement submitEditAnnouncementButton;
 
+    @FindBy(id = "content-create-button")
+    private WebElement addNewContentButton;
+
+    @FindBy(xpath = "//button[normalize-space()='Add Content']")
+    private WebElement submitContentButton;
+
     // Text
     @FindBy(xpath = "//p[normalize-space()='Manage Class']")
     private WebElement classManagementSectionTitle;
 
     @FindBy(xpath = "//p[normalize-space()='Announcement']")
     private WebElement classAnnouncementSectionTitle;
+
+    @FindBy(xpath = "//p[normalize-space()='Content']")
+    private WebElement classContentSectionTitle;
 
     @FindBy(xpath = "//section[contains(@class,'chakra-modal__content') and @role='dialog']//header//p[normalize-space()='Delete Announcement']")
     private WebElement deleteAnnouncementModalTitle;
@@ -77,6 +109,16 @@ public class ClassPage extends BasePage {
         try {
             waitForElementToBeVisible(classAnnouncementSectionTitle);
             return classAnnouncementSectionTitle.isDisplayed();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isClassContentSectionTitleDisplayed() {
+        try {
+            waitForElementToBeVisible(classContentSectionTitle);
+            return classContentSectionTitle.isDisplayed();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -314,6 +356,38 @@ public class ClassPage extends BasePage {
         editor.sendKeys(announcementDesc);
     }
 
+    public void fillCreateContent(
+            String contentTitle, String contentDesc, String checkInKey, String checkOutKey, String contentPreTestUrl,
+            String contentLinkMeeting, String liveClassDuration, String liveClassDate) {
+        // Content Title
+        waitForElementToBeVisible(contentTitleInput);
+        contentTitleInput.sendKeys(contentTitle);
+        // Content Desc
+        WebElement editor = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[normalize-space()='Description']/following::div[@role='textbox'][1]")));
+        editor.sendKeys(contentDesc);
+        // Content Check In Key
+        waitForElementToBeVisible(contentCheckInKeyInput);
+        contentCheckInKeyInput.sendKeys(checkInKey);
+        // Content Check Out Key
+        waitForElementToBeVisible(contentCheckOutKeyInput);
+        contentCheckOutKeyInput.sendKeys(checkOutKey);
+        // Enable Check In & Check Out
+        selectCheckInOutKeyOption("Enable", "Check In");
+        selectCheckInOutKeyOption("Enable", "Check Out");
+        // Content Link Meeting Class
+        waitForElementToBeVisible(contentLinkMeetingClassInput);
+        contentLinkMeetingClassInput.sendKeys(contentLinkMeeting);
+        // Content Pre Test URL
+        waitForElementToBeVisible(contentPreTestUrlInput);
+        contentPreTestUrlInput.sendKeys(contentPreTestUrl);
+        // Content Live Class Duration
+        waitForElementToBeVisible(contentLiveClassDurationInput);
+        contentLiveClassDurationInput.sendKeys(liveClassDuration);
+        // Content Live Class Date
+        waitForElementToBeVisible(contentLiveClassDateInput);
+        contentLiveClassDateInput.sendKeys(liveClassDate);
+    }
+
     public void clickSubmitAnnouncement() {
         submitAnnouncementButton.click();
     }
@@ -377,6 +451,15 @@ public class ClassPage extends BasePage {
         announcementDeleteButton.click();
     }
 
+    public void clickAddContentPageButton() {
+        waitForElementToBeVisible(addNewContentButton);
+        addNewContentButton.click();
+    }
+
+    public void clickSubmitContent() {
+        submitContentButton.click();
+    }
+
     public void selectClassBatch(String batch) {
         try {
             filterClassBatchSelect.click();
@@ -397,5 +480,33 @@ public class ClassPage extends BasePage {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void setAttendanceEnabled(boolean enabled) {
+        WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//p[normalize-space()='Activate Attendance']/following::input[@type='checkbox'][1]")
+        ));
+
+        if (checkbox.isSelected() != enabled) {
+            WebElement toggle = driver.findElement(
+                    By.xpath("//p[normalize-space()='Activate Attendance']/following::span[contains(@class,'chakra-switch__track')][1]")
+            );
+
+            wait.until(ExpectedConditions.elementToBeClickable(toggle));
+            toggle.click();
+
+            wait.until(driver -> checkbox.isSelected() == enabled);
+        }
+    }
+
+    public void selectCheckInOutKeyOption(String option, String type) {
+        WebElement radio = wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath(
+                    "//p[normalize-space()='Enable " + type + " Key']/following::div[@role='radiogroup'][1]" +
+                            "//p[normalize-space()='" + option + "']"
+            )
+        ));
+
+        radio.click();
     }
 }
