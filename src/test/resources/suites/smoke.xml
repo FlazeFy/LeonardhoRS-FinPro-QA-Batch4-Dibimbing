@@ -27,6 +27,7 @@
             <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>
             <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
             <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
+            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
         </classes>
     </test>
 

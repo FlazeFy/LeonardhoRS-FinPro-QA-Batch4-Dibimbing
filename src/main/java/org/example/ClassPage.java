@@ -24,6 +24,9 @@ public class ClassPage extends BasePage {
     @FindBy(id = "edit-announcement-title-input")
     private WebElement announcementTitleEditInput;
 
+    @FindBy(id = "delete-announcement-delete-button")
+    private WebElement announcementDeleteButton;
+
     // Richtext Editor Element
     @FindBy(id = "create-announcement-description-input")
     private WebElement announcementDescInput;
@@ -51,6 +54,9 @@ public class ClassPage extends BasePage {
 
     @FindBy(xpath = "//p[normalize-space()='Announcement']")
     private WebElement classAnnouncementSectionTitle;
+
+    @FindBy(xpath = "//section[contains(@class,'chakra-modal__content') and @role='dialog']//header//p[normalize-space()='Delete Announcement']")
+    private WebElement deleteAnnouncementModalTitle;
 
     public ClassPage(WebDriver driver) {
         super(driver);
@@ -258,7 +264,7 @@ public class ClassPage extends BasePage {
         return result;
     }
 
-    // Assertion
+    // For Assertion
     public boolean isSearchClassDisplayed() {
         try {
             waitForElementToBeVisible(searchClassInput);
@@ -277,6 +283,15 @@ public class ClassPage extends BasePage {
         }
     }
 
+    public boolean isDeleteAnnouncementModalDisplayed() {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(deleteAnnouncementModalTitle));
+            return deleteAnnouncementModalTitle.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     // Action
     public void fillSearchClass(String classTitle) {
         searchClassInput.sendKeys(classTitle);
@@ -291,9 +306,12 @@ public class ClassPage extends BasePage {
 
     public void fillEditAnnouncement(String announcementTitle, String announcementDesc) {
         waitForElementToBeVisible(announcementTitleEditInput);
+        clearInput(announcementTitleEditInput);
         announcementTitleEditInput.sendKeys(announcementTitle);
-        waitForElementToBeVisible(announcementDescEditInput);
-        announcementDescEditInput.sendKeys(announcementDesc);
+
+        WebElement editor = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("edit-announcement-description-input")));
+        clearRichText(editor);
+        editor.sendKeys(announcementDesc);
     }
 
     public void clickSubmitAnnouncement() {
@@ -330,14 +348,14 @@ public class ClassPage extends BasePage {
         return false;
     }
 
-    public void clickEditAnnouncementByTitle(String title) {
+    public void clickAnnouncementButton(String title, String type) {
         List<WebElement> cards = getAnnouncementCards();
 
         for (WebElement card : cards) {
             String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
 
             if (announcementTitle.equalsIgnoreCase(title.trim())) {
-                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit']"));
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='" + type + "']"));
                 wait.until(ExpectedConditions.elementToBeClickable(editButton));
                 editButton.click();
                 return;
@@ -345,6 +363,18 @@ public class ClassPage extends BasePage {
         }
 
         throw new NoSuchElementException("No announcement found with title: " + title);
+    }
+
+    public void clickEditAnnouncementByTitle(String title) {
+        clickAnnouncementButton(title, "Edit");
+    }
+
+    public void clickDeleteAnnouncementByTitle(String title) {
+        clickAnnouncementButton(title, "Delete");
+    }
+
+    public void clickSubmitDeleteAnnouncement() {
+        announcementDeleteButton.click();
     }
 
     public void selectClassBatch(String batch) {

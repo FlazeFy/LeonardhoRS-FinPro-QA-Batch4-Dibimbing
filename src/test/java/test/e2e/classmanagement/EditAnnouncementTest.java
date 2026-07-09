@@ -102,10 +102,9 @@ public class EditAnnouncementTest extends BaseTest {
         logger.info("TS-5: Click the 'Edit Announcement' button");
         classPage.clickSubmitEditAnnouncement();
 
-        logger.info("Expected Result: System show success message 'Check field title'");
+        logger.info("Expected Result: System show failed message 'Check field title'");
         allPage = new AllPage(DriverManager.getDriver());
-        System.out.println(allPage.getResponsePopUpText());
-        Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field title"), "The success message is mismatched");
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field title"), "The failed message is mismatched");
 
         logger.info("User cant edit class announcement with empty title: executed successfully");
     }
