@@ -92,7 +92,7 @@ public class ClassPage extends BasePage {
     }
 
     private List<WebElement> getClassCards() {
-        wait.until(ExpectedConditions.visibilityOf(addNewClassButton));
+        waitForElementToBeVisible(addNewClassButton);
 
         // wait for the skeleton loading state to clear before reading real content
         wait.until(driver -> {
@@ -124,7 +124,7 @@ public class ClassPage extends BasePage {
 
     public boolean isClassFailedMessageDisplayed(String message) {
         try {
-            wait.until(ExpectedConditions.visibilityOf(addNewClassButton));
+            waitForElementToBeVisible(addNewClassButton);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//button[normalize-space()='Add New Class']/following::div[contains(., '" + message + "')]")
@@ -180,6 +180,73 @@ public class ClassPage extends BasePage {
             logger.error("Class list validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
             return false;
         }
+    }
+
+    // Announcement
+    private List<WebElement> getAnnouncementCards() {
+        waitForElementToBeVisible(classAnnouncementSectionTitle);
+
+        wait.until(driver ->
+                !driver.findElements(By.xpath("//li[contains(@class,'chakra-stack')][.//h2]")).isEmpty()
+        );
+
+        return driver.findElements(By.xpath("//li[contains(@class,'chakra-stack')][.//h2]"));
+    }
+
+    public boolean isAnnouncementListDisplayed() {
+        try {
+            List<WebElement> data = getAnnouncementCards();
+            if (data.isEmpty()) return false;
+
+            int idx = 0;
+            for (WebElement dt : data) {
+                // Announcement title
+                boolean hasTitle = !dt.findElements(By.xpath(".//h2[normalize-space()]")).isEmpty();
+
+                // Role + Created At (first p)
+                boolean hasRoleAndCreatedAt = !dt.findElements(By.xpath(".//h2/following::p[1][normalize-space()]")).isEmpty();
+
+                // Description (last p)
+                boolean hasDescription = !dt.findElements(By.xpath(".//p[last()][normalize-space()]")).isEmpty();
+
+                // Edit button
+                boolean hasEditButton = !dt.findElements(By.xpath(".//button[normalize-space()='Edit']")).isEmpty();
+
+                // Delete button
+                boolean hasDeleteButton = !dt.findElements(By.xpath(".//button[normalize-space()='Delete']")).isEmpty();
+
+                if (!(hasTitle && hasRoleAndCreatedAt && hasDescription && hasEditButton && hasDeleteButton)) {
+                    System.out.println("Announcement invalid at - " + idx);
+                    return false;
+                }
+
+                idx++;
+            }
+
+            return true;
+        } catch (Exception e) {
+            logger.error("Announcement list validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Map<String, String>> getAnnouncementCardData() {
+        List<Map<String, String>> result = new ArrayList<>();
+
+        for (WebElement dt : getAnnouncementCards()) {
+            Map<String, String> data = new HashMap<>();
+
+            String roleAndCreatedAt = dt.findElement(By.xpath(".//h2/following::p[1][normalize-space()]")).getText().trim();
+            String[] parts = roleAndCreatedAt.split(",\\s*", 2);
+            data.put("title", dt.findElement(By.xpath(".//h2[normalize-space()]")).getText().trim());
+            data.put("role", parts.length > 0 ? parts[0].trim() : "");
+            data.put("created-at", parts.length > 1 ? parts[1].trim() : "");
+            data.put("description", dt.findElement(By.xpath(".//p[last()][normalize-space()]")).getText().trim());
+
+            result.add(data);
+        }
+
+        return result;
     }
 
     // Assertion

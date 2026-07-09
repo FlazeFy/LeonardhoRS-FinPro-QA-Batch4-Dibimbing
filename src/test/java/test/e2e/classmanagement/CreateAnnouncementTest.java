@@ -11,6 +11,8 @@ import org.example.AllPage;
 import org.example.ClassPage;
 import org.example.DashboardPage;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.e2e.dashboard.CompanyProfileTest;
@@ -86,7 +88,7 @@ public class CreateAnnouncementTest extends BaseTest {
         classPage.openTabByTitle("Announcement");
 
         logger.info("TS-2: Scroll to the Create Announcement section");
-        Assert.assertTrue(classPage.isClassAnnouncementSectionTitleDisplayed(), "Section title 'Manage Class' must be visible");
+        Assert.assertTrue(classPage.isClassAnnouncementSectionTitleDisplayed(), "Section title 'Announcement' must be visible");
 
         logger.info("TS-3: Fill the Announcement Description");
         classPage.fillCreateAnnouncement(emptyAnnouncementTitle, announcementDesc);
@@ -96,9 +98,16 @@ public class CreateAnnouncementTest extends BaseTest {
 
         logger.info("Expected Result: System show success message 'Check field title'");
         allPage = new AllPage(DriverManager.getDriver());
-        System.out.println(allPage.getResponsePopUpText());
         Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field title"), "The success message is mismatched");
 
         logger.info("User cant add class announcement with empty title: executed successfully");
+    }
+
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        // Store created announcement
+        if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("testUserCanAddClassAnnouncementWithValidData")) {
+            TestDataReader.setValue("created-announcement-title", announcementTitle);
+        }
     }
 }
