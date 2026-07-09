@@ -18,6 +18,13 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Search class...']")
     private WebElement searchClassInput;
 
+    @FindBy(id = "create-announcement-title-input")
+    private WebElement announcementTitleInput;
+
+    // Richtext Editor Element
+    @FindBy(id = "create-announcement-description-input")
+    private WebElement announcementDescInput;
+
     // Select Element
     @FindBy(xpath = "//button[.//p[normalize-space()='Filter by Angkatan']]")
     private WebElement filterClassBatchSelect;
@@ -26,9 +33,15 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//button[normalize-space()='Add New Class']")
     private WebElement addNewClassButton;
 
+    @FindBy(id = "create-announcement-button")
+    private WebElement submitAnnouncementButton;
+
     // Text
     @FindBy(xpath = "//p[normalize-space()='Manage Class']")
     private WebElement classManagementSectionTitle;
+
+    @FindBy(xpath = "//p[normalize-space()='Announcement']")
+    private WebElement classAnnouncementSectionTitle;
 
     public ClassPage(WebDriver driver) {
         super(driver);
@@ -39,6 +52,16 @@ public class ClassPage extends BasePage {
         try {
             waitForElementToBeVisible(classManagementSectionTitle);
             return classManagementSectionTitle.isDisplayed();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isClassAnnouncementSectionTitleDisplayed() {
+        try {
+            waitForElementToBeVisible(classAnnouncementSectionTitle);
+            return classAnnouncementSectionTitle.isDisplayed();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -80,6 +103,23 @@ public class ClassPage extends BasePage {
         return driver.findElements(
                 By.xpath("//button[normalize-space()='Add New Class']/following::img[@alt='bootcamp image']/ancestor::div[3]")
         );
+    }
+
+    public void openClassDetail(String title) {
+        List<WebElement> cards = getClassCards();
+
+        for (WebElement card : cards) {
+            String cardTitle = card.findElement(By.xpath(".//p[1]")).getText().trim().toLowerCase();
+
+            if (cardTitle.equals(title.trim().toLowerCase())) {
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit & Manage Content']"));
+                wait.until(ExpectedConditions.elementToBeClickable(editButton));
+                editButton.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No class card found with title: " + title);
     }
 
     public boolean isClassFailedMessageDisplayed(String message) {
@@ -164,6 +204,32 @@ public class ClassPage extends BasePage {
     // Action
     public void fillSearchClass(String classTitle) {
         searchClassInput.sendKeys(classTitle);
+    }
+
+    public void fillCreateAnnouncement(String announcementTitle, String announcementDesc) {
+        waitForElementToBeVisible(announcementTitleInput);
+        announcementTitleInput.sendKeys(announcementTitle);
+        waitForElementToBeVisible(announcementDescInput);
+        announcementDescInput.sendKeys(announcementDesc);
+    }
+
+    public void clickSubmitAnnouncement() {
+        submitAnnouncementButton.click();
+    }
+
+    public void openTabByTitle(String title) {
+        try {
+            WebElement tab = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@role='tablist']//button[@role='tab'][normalize-space()='" + title + "']")
+            ));
+
+            tab.click();
+
+            // Wait until the clicked tab becomes active
+            wait.until(ExpectedConditions.attributeToBe(tab, "aria-selected", "true"));
+        } catch (TimeoutException e) {
+            throw new NoSuchElementException("Tab not found or could not be opened: " + title, e);
+        }
     }
 
     public void selectClassBatch(String batch) {
