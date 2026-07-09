@@ -18,6 +18,19 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Search class...']")
     private WebElement searchClassInput;
 
+    @FindBy(id = "create-announcement-title-input")
+    private WebElement announcementTitleInput;
+
+    @FindBy(id = "edit-announcement-title-input")
+    private WebElement announcementTitleEditInput;
+
+    // Richtext Editor Element
+    @FindBy(id = "create-announcement-description-input")
+    private WebElement announcementDescInput;
+
+    @FindBy(id = "edit-announcement-description-input")
+    private WebElement announcementDescEditInput;
+
     // Select Element
     @FindBy(xpath = "//button[.//p[normalize-space()='Filter by Angkatan']]")
     private WebElement filterClassBatchSelect;
@@ -26,9 +39,18 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//button[normalize-space()='Add New Class']")
     private WebElement addNewClassButton;
 
+    @FindBy(id = "create-announcement-button")
+    private WebElement submitAnnouncementButton;
+
+    @FindBy(id = "edit-announcement-button")
+    private WebElement submitEditAnnouncementButton;
+
     // Text
     @FindBy(xpath = "//p[normalize-space()='Manage Class']")
     private WebElement classManagementSectionTitle;
+
+    @FindBy(xpath = "//p[normalize-space()='Announcement']")
+    private WebElement classAnnouncementSectionTitle;
 
     public ClassPage(WebDriver driver) {
         super(driver);
@@ -39,6 +61,16 @@ public class ClassPage extends BasePage {
         try {
             waitForElementToBeVisible(classManagementSectionTitle);
             return classManagementSectionTitle.isDisplayed();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isClassAnnouncementSectionTitleDisplayed() {
+        try {
+            waitForElementToBeVisible(classAnnouncementSectionTitle);
+            return classAnnouncementSectionTitle.isDisplayed();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -69,7 +101,7 @@ public class ClassPage extends BasePage {
     }
 
     private List<WebElement> getClassCards() {
-        wait.until(ExpectedConditions.visibilityOf(addNewClassButton));
+        waitForElementToBeVisible(addNewClassButton);
 
         // wait for the skeleton loading state to clear before reading real content
         wait.until(driver -> {
@@ -80,6 +112,36 @@ public class ClassPage extends BasePage {
         return driver.findElements(
                 By.xpath("//button[normalize-space()='Add New Class']/following::img[@alt='bootcamp image']/ancestor::div[3]")
         );
+    }
+
+    public void openClassDetail(String title) {
+        List<WebElement> cards = getClassCards();
+
+        for (WebElement card : cards) {
+            String cardTitle = card.findElement(By.xpath(".//p[1]")).getText().trim().toLowerCase();
+
+            if (cardTitle.equals(title.trim().toLowerCase())) {
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit & Manage Content']"));
+                wait.until(ExpectedConditions.elementToBeClickable(editButton));
+                editButton.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No class card found with title: " + title);
+    }
+
+    public boolean isClassFailedMessageDisplayed(String message) {
+        try {
+            waitForElementToBeVisible(addNewClassButton);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[normalize-space()='Add New Class']/following::div[contains(., '" + message + "')]")
+            ));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public boolean isClassListDisplayed() {
@@ -129,6 +191,73 @@ public class ClassPage extends BasePage {
         }
     }
 
+    // Announcement
+    private List<WebElement> getAnnouncementCards() {
+        waitForElementToBeVisible(classAnnouncementSectionTitle);
+
+        wait.until(driver ->
+                !driver.findElements(By.xpath("//li[contains(@class,'chakra-stack')][.//h2]")).isEmpty()
+        );
+
+        return driver.findElements(By.xpath("//li[contains(@class,'chakra-stack')][.//h2]"));
+    }
+
+    public boolean isAnnouncementListDisplayed() {
+        try {
+            List<WebElement> data = getAnnouncementCards();
+            if (data.isEmpty()) return false;
+
+            int idx = 0;
+            for (WebElement dt : data) {
+                // Announcement title
+                boolean hasTitle = !dt.findElements(By.xpath(".//h2[normalize-space()]")).isEmpty();
+
+                // Role + Created At (first p)
+                boolean hasRoleAndCreatedAt = !dt.findElements(By.xpath(".//h2/following::p[1][normalize-space()]")).isEmpty();
+
+                // Description (last p)
+                boolean hasDescription = !dt.findElements(By.xpath(".//p[last()][normalize-space()]")).isEmpty();
+
+                // Edit button
+                boolean hasEditButton = !dt.findElements(By.xpath(".//button[normalize-space()='Edit']")).isEmpty();
+
+                // Delete button
+                boolean hasDeleteButton = !dt.findElements(By.xpath(".//button[normalize-space()='Delete']")).isEmpty();
+
+                if (!(hasTitle && hasRoleAndCreatedAt && hasDescription && hasEditButton && hasDeleteButton)) {
+                    System.out.println("Announcement invalid at - " + idx);
+                    return false;
+                }
+
+                idx++;
+            }
+
+            return true;
+        } catch (Exception e) {
+            logger.error("Announcement list validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Map<String, String>> getAnnouncementCardData() {
+        List<Map<String, String>> result = new ArrayList<>();
+
+        for (WebElement dt : getAnnouncementCards()) {
+            Map<String, String> data = new HashMap<>();
+
+            String roleAndCreatedAt = dt.findElement(By.xpath(".//h2/following::p[1][normalize-space()]")).getText().trim();
+            String[] parts = roleAndCreatedAt.split(",\\s*", 2);
+            data.put("title", dt.findElement(By.xpath(".//h2[normalize-space()]")).getText().trim());
+            data.put("role", parts.length > 0 ? parts[0].trim() : "");
+            data.put("created-at", parts.length > 1 ? parts[1].trim() : "");
+            data.put("description", dt.findElement(By.xpath(".//p[last()][normalize-space()]")).getText().trim());
+
+            result.add(data);
+        }
+
+        return result;
+    }
+
     // Assertion
     public boolean isSearchClassDisplayed() {
         try {
@@ -151,6 +280,71 @@ public class ClassPage extends BasePage {
     // Action
     public void fillSearchClass(String classTitle) {
         searchClassInput.sendKeys(classTitle);
+    }
+
+    public void fillCreateAnnouncement(String announcementTitle, String announcementDesc) {
+        waitForElementToBeVisible(announcementTitleInput);
+        announcementTitleInput.sendKeys(announcementTitle);
+        waitForElementToBeVisible(announcementDescInput);
+        announcementDescInput.sendKeys(announcementDesc);
+    }
+
+    public void fillEditAnnouncement(String announcementTitle, String announcementDesc) {
+        waitForElementToBeVisible(announcementTitleEditInput);
+        announcementTitleEditInput.sendKeys(announcementTitle);
+        waitForElementToBeVisible(announcementDescEditInput);
+        announcementDescEditInput.sendKeys(announcementDesc);
+    }
+
+    public void clickSubmitAnnouncement() {
+        submitAnnouncementButton.click();
+    }
+
+    public void clickSubmitEditAnnouncement() {
+        submitEditAnnouncementButton.click();
+    }
+
+    public void openTabByTitle(String title) {
+        try {
+            WebElement tab = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@role='tablist']//button[@role='tab'][normalize-space()='" + title + "']")
+            ));
+
+            tab.click();
+
+            // Wait until the clicked tab becomes active
+            wait.until(ExpectedConditions.attributeToBe(tab, "aria-selected", "true"));
+        } catch (TimeoutException e) {
+            throw new NoSuchElementException("Tab not found or could not be opened: " + title, e);
+        }
+    }
+
+    public boolean findAnnouncementByTitle(String title) {
+        List<WebElement> cards = getAnnouncementCards();
+
+        for (WebElement card : cards) {
+            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
+            if (announcementTitle.equalsIgnoreCase(title.trim())) return true;
+        }
+
+        return false;
+    }
+
+    public void clickEditAnnouncementByTitle(String title) {
+        List<WebElement> cards = getAnnouncementCards();
+
+        for (WebElement card : cards) {
+            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
+
+            if (announcementTitle.equalsIgnoreCase(title.trim())) {
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit']"));
+                wait.until(ExpectedConditions.elementToBeClickable(editButton));
+                editButton.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No announcement found with title: " + title);
     }
 
     public void selectClassBatch(String batch) {
