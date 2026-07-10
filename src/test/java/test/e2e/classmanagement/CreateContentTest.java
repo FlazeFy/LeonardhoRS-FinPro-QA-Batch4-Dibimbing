@@ -34,6 +34,7 @@ public class CreateContentTest extends BaseTest {
     private String contentLinkMeeting;
     private String contentPreTestUrl;
     private String checkInKey;
+    private String invalidUrl;
     private String checkOutKey;
 
     @BeforeMethod
@@ -50,6 +51,7 @@ public class CreateContentTest extends BaseTest {
         contentPreTestUrl = TestDataReader.getValue("valid-link");
         checkInKey = TestDataReader.getValue("check-in-key");
         checkOutKey = TestDataReader.getValue("check-out-key");
+        invalidUrl = TestDataReader.getValue("invalid-link");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
@@ -59,7 +61,8 @@ public class CreateContentTest extends BaseTest {
                 Map.of("key", "Live Class Duration", "value", liveClassDuration),
                 Map.of("key", "Meeting Link", "value", contentLinkMeeting),
                 Map.of("key", "Check In Key", "value", checkInKey),
-                Map.of("key", "Check Out Key", "value", checkOutKey)
+                Map.of("key", "Check Out Key", "value", checkOutKey),
+                Map.of("key", "Invalid Url", "value", invalidUrl)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 
@@ -102,6 +105,80 @@ public class CreateContentTest extends BaseTest {
         Assert.assertTrue(classPage.isClassContentSectionTitleDisplayed(), "Section title 'Content' must be visible");
 
         logger.info("User can add class content with valid data: executed successfully");
+    }
+
+    // Negative Test | P3 | Invalid
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-017 - User cant add class content with invalid pre test url")
+    public void testUserCantAddClassContentWithInvalidPreTestUrl() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Content tab");
+        classPage.openTabByTitle("Content");
+        Assert.assertTrue(classPage.isClassContentSectionTitleDisplayed(), "Section title 'Content' must be visible");
+
+        logger.info("TS-2: Click 'Create Content' button");
+        classPage.clickAddContentPageButton();
+
+        logger.info("TS-3: Toggle active at Activate Attendance");
+        classPage.setAttendanceEnabled(true);
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateContent(
+                contentTitle,
+                contentDesc,
+                checkInKey,
+                checkOutKey,
+                invalidUrl,
+                contentLinkMeeting,
+                liveClassDuration,
+                DataGenerator.getDateTimeFromNow(7)
+        );
+
+        logger.info("TS-5: Click 'Add Content' button");
+        classPage.clickSubmitContent();
+
+        logger.info("Expected Result: System show failed message 'Pretest Url harus menggunakan url yang valid'");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Pretest Url harus menggunakan url yang valid"), "The success message is mismatched");
+
+        logger.info("User cant add class content with invalid pre test url: executed successfully");
+    }
+
+    // Negative Test | P2 | Invalid
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-018 - User cant add class content with invalid class meeting link")
+    public void testUserCantAddClassContentWithInvalidClassMeetingLink() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Content tab");
+        classPage.openTabByTitle("Content");
+        Assert.assertTrue(classPage.isClassContentSectionTitleDisplayed(), "Section title 'Content' must be visible");
+
+        logger.info("TS-2: Click 'Create Content' button");
+        classPage.clickAddContentPageButton();
+
+        logger.info("TS-3: Toggle active at Activate Attendance");
+        classPage.setAttendanceEnabled(true);
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateContent(
+                contentTitle,
+                contentDesc,
+                checkInKey,
+                checkOutKey,
+                contentPreTestUrl,
+                invalidUrl,
+                liveClassDuration,
+                DataGenerator.getDateTimeFromNow(7)
+        );
+
+        logger.info("TS-5: Click 'Add Content' button");
+        classPage.clickSubmitContent();
+
+        logger.info("Expected Result: System show failed message 'Zoom Url harus menggunakan url yang valid'");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Zoom Url harus menggunakan url yang valid"), "The success message is mismatched");
+
+        logger.info("User cant add class content with invalid class meeting link: executed successfully");
     }
 
     @AfterMethod

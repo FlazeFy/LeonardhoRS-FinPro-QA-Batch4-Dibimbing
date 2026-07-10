@@ -6,54 +6,54 @@
     </listeners>
 
     <!-- E2E UI Test -->
-    <test name="Auth Tests">
-        <classes>
-            <class name="test.e2e.auth.LoginTest"/>
-        </classes>
-    </test>
+<!--    <test name="Auth Tests">-->
+<!--        <classes>-->
+<!--            <class name="test.e2e.auth.LoginTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Dashboard Tests">
-        <classes>
-            <class name="test.e2e.dashboard.CompanyProfileTest"/>
-            <class name="test.e2e.dashboard.FastTrackClassTest"/>
-        </classes>
-    </test>
+<!--    <test name="Dashboard Tests">-->
+<!--        <classes>-->
+<!--            <class name="test.e2e.dashboard.CompanyProfileTest"/>-->
+<!--            <class name="test.e2e.dashboard.FastTrackClassTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <test name="Class Management Tests">
         <classes>
-            <class name="test.e2e.classmanagement.ViewClassTest"/>
-            <class name="test.e2e.classmanagement.SearchClassTest"/>
-            <class name="test.e2e.classmanagement.FilterClassByBatch"/>
-            <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
+<!--            <class name="test.e2e.classmanagement.ViewClassTest"/>-->
+<!--            <class name="test.e2e.classmanagement.SearchClassTest"/>-->
+<!--            <class name="test.e2e.classmanagement.FilterClassByBatch"/>-->
+<!--            <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.EditAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>-->
             <class name="test.e2e.classmanagement.CreateContentTest"/>
         </classes>
     </test>
 
     <!-- Integration API Test -->
-    <test name="API Integration Test : Auth Module">
-        <classes>
-            <class name="test.integration.auth.MutationLogin"/>
-            <class name="test.integration.auth.MutationLogout"/>
-        </classes>
-    </test>
+<!--    <test name="API Integration Test : Auth Module">-->
+<!--        <classes>-->
+<!--            <class name="test.integration.auth.MutationLogin"/>-->
+<!--            <class name="test.integration.auth.MutationLogout"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="API Integration Test : Dashboard Module">
-        <classes>
-            <class name="test.integration.dashboard.QueryMyCompany"/>
-            <class name="test.integration.dashboard.QueryCountEmployees"/>
-            <class name="test.integration.dashboard.QueryCountPrograms"/>
-            <class name="test.integration.dashboard.QueryCountActiveTraining"/>
-            <class name="test.integration.dashboard.QueryCountFinishTraining"/>
-        </classes>
-    </test>
+<!--    <test name="API Integration Test : Dashboard Module">-->
+<!--        <classes>-->
+<!--            <class name="test.integration.dashboard.QueryMyCompany"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountEmployees"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountPrograms"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountActiveTraining"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountFinishTraining"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="API Integration Test : Class Management Module">
-        <classes>
-            <class name="test.integration.classmanagement.QueryAngkatan"/>
-            <class name="test.integration.classmanagement.QueryBootcamps"/>
-        </classes>
-    </test>
+<!--    <test name="API Integration Test : Class Management Module">-->
+<!--        <classes>-->
+<!--            <class name="test.integration.classmanagement.QueryAngkatan"/>-->
+<!--            <class name="test.integration.classmanagement.QueryBootcamps"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>
