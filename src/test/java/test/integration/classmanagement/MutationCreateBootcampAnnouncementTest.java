@@ -12,7 +12,6 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.integration.dashboard.QueryMyCompanyTest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +20,12 @@ import java.util.Map;
 import static core.TestUtil.templateGraphQLRequest;
 
 public class MutationCreateBootcampAnnouncementTest extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
+    private static final Logger logger = LogManager.getLogger(MutationCreateBootcampAnnouncementTest.class);
     private String sid;
     private String classId;
     private String announcementTitle;
     private String announcementDesc;
+    private String announcementId;
 
     private static final String mutation = """
     mutation createBootcampAnnouncement($input: InputBootcampAnnouncement!) {
@@ -83,6 +83,8 @@ public class MutationCreateBootcampAnnouncementTest extends BaseApiTest {
         List<String> notEmptyStringFields = List.of("id");
         TestUtil.validateNotEmptyString(dataObj, notEmptyStringFields);
 
+        announcementId = (String)dataObj.get("id");
+
         logger.info("User can create class announcement: executed successfully");
     }
 
@@ -91,6 +93,7 @@ public class MutationCreateBootcampAnnouncementTest extends BaseApiTest {
         // Store created announcement
         if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("createBootcampAnnouncement")) {
             TestDataReader.setValue("created-announcement-title", announcementTitle);
+            TestDataReader.setValue("created-announcement-id", announcementId);
         }
     }
 }
