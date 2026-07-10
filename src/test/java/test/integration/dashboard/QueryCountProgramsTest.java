@@ -9,10 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static core.TestUtil.templateGraphQLRequest;
-
-public class QueryCountPrograms extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(QueryMyCompany.class);
+public class QueryCountProgramsTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
 
     private static final String query = """
           query CountPrograms {
@@ -27,7 +25,9 @@ public class QueryCountPrograms extends BaseApiTest {
         final String sid = TestUtil.getSid();
 
         // Request
-        Response response = templateGraphQLRequest("countPrograms", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest(
+                "countPrograms", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate total employee

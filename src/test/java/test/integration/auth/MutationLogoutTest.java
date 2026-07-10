@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 
 import static core.TestUtil.templateGraphQLRequest;
 
-public class MutationLogout extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(MutationLogout.class);
+public class MutationLogoutTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(MutationLogoutTest.class);
 
     private static final String mutation = """
         mutation Logout {

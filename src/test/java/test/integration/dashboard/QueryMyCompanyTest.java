@@ -11,10 +11,8 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 
-import static core.TestUtil.templateGraphQLRequest;
-
-public class QueryMyCompany extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(QueryMyCompany.class);
+public class QueryMyCompanyTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
 
     private static final String query = """
         query MyCompany {
@@ -31,7 +29,9 @@ public class QueryMyCompany extends BaseApiTest {
         final String sid = TestUtil.getSid();
 
         // Request
-        Response response = templateGraphQLRequest("myCompany", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest(
+                "myCompany", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure

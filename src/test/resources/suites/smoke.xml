@@ -38,25 +38,31 @@
     <!-- Integration API Test -->
     <test name="API Integration Test : Auth Module">
         <classes>
-            <class name="test.integration.auth.MutationLogin"/>
-            <class name="test.integration.auth.MutationLogout"/>
+            <class name="test.integration.auth.MutationLoginTest"/>
+            <class name="test.integration.auth.MutationLogoutTest"/>
         </classes>
     </test>
 
     <test name="API Integration Test : Dashboard Module">
         <classes>
-            <class name="test.integration.dashboard.QueryMyCompany"/>
-            <class name="test.integration.dashboard.QueryCountEmployees"/>
-            <class name="test.integration.dashboard.QueryCountPrograms"/>
-            <class name="test.integration.dashboard.QueryCountActiveTraining"/>
-            <class name="test.integration.dashboard.QueryCountFinishTraining"/>
+            <class name="test.integration.dashboard.QueryMyCompanyTest"/>
+            <class name="test.integration.dashboard.QueryCountEmployeesTest"/>
+            <class name="test.integration.dashboard.QueryCountProgramsTest"/>
+            <class name="test.integration.dashboard.QueryCountActiveTrainingTest"/>
+            <class name="test.integration.dashboard.QueryCountFinishTrainingTest"/>
         </classes>
     </test>
 
     <test name="API Integration Test : Class Management Module">
         <classes>
-            <class name="test.integration.classmanagement.QueryAngkatan"/>
-            <class name="test.integration.classmanagement.QueryBootcamps"/>
+            <class name="test.integration.classmanagement.QueryAngkatanTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampsTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
+            <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>
+            <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>
+            <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>
         </classes>
     </test>
 </suite>
