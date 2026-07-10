@@ -16,11 +16,11 @@ import java.util.Map;
 public class SearchClassContentTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(CompanyProfileTest.class);
     private ClassPage classPage;
-    private AllPage allPage;
 
     // Test Data
     private String classTitle;
     private String contentTitle;
+    private String invalidContentTitle;
 
     @BeforeMethod
     public void setUp() {
@@ -30,11 +30,13 @@ public class SearchClassContentTest extends BaseTest {
         // Test Data
         classTitle = TestDataReader.getValue("class-title");
         contentTitle = TestDataReader.getValue("valid-content-title");
+        invalidContentTitle = TestDataReader.getValue("class-content-invalid");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
             Map.of("key", "Class Title", "value", classTitle),
-            Map.of("key", "Content Title", "value", contentTitle)
+            Map.of("key", "Content Title", "value", contentTitle),
+            Map.of("key", "Invalid Content Title", "value", invalidContentTitle)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 
@@ -60,7 +62,6 @@ public class SearchClassContentTest extends BaseTest {
         classPage.waitForPageLoading();
 
         logger.info("Expected Result: The content list is displayed, contains all required information (title and live class date) and content title related to search keyword");
-        allPage = new AllPage(DriverManager.getDriver());
         classPage.isContentListDisplayed();
 
         List<Map<String, String>> contentData = classPage.getContentCardData();
@@ -79,5 +80,29 @@ public class SearchClassContentTest extends BaseTest {
         }
 
         logger.info("User can search class content with valid keyword: executed successfully");
+    }
+
+    // Negative Test | P4 | Invalid
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-022 - User can view no data message when no class found")
+    public void testUserCanViewNoDataMessageWhenNoClassFound() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Content tab");
+        classPage.openTabByTitle("Content");
+
+        logger.info("TS-2: Scroll to Content section");
+        Assert.assertTrue(classPage.isClassContentSectionTitleDisplayed(), "Section title 'Content' must be visible");
+
+        logger.info("TS-3: Locate input with placeholder 'Search content'");
+        Assert.assertTrue(classPage.isSearchClassContentDisplayed(), "Search bar class content must be visible");
+
+        logger.info("TS-4: Type the content keyword");
+        classPage.fillSearchClassContent(invalidContentTitle);
+        classPage.waitForPageLoading();
+
+        logger.info("Expected Result: System show failed message 'Class content not found'");
+        Assert.assertTrue(classPage.isClassContentFailedMessageDisplayed("Class content not found"), "The failed message must be visible and match 'Class content not found'");
+
+        logger.info("User can view no data message when no class found: executed successfully");
     }
 }

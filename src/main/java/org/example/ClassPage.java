@@ -195,6 +195,19 @@ public class ClassPage extends BasePage {
         }
     }
 
+    public boolean isClassContentFailedMessageDisplayed(String message) {
+        try {
+            waitForElementToBeVisible(addNewContentButton);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[normalize-space()='Create Content']/following::div[contains(., '" + message + "')]")
+            ));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     public boolean isClassListDisplayed() {
         try {
             List<WebElement> data = getClassCards();
