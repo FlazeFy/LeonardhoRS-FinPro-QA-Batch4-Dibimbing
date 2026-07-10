@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static core.TestUtil.templateGraphQLRequest;
 
-public class MutationLogin extends BaseApiTest {
+public class MutationLoginTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(LoginTest.class);
 
     private static final String mutation = """

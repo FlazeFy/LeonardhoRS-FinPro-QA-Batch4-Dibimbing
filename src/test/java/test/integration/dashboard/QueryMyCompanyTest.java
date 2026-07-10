@@ -13,8 +13,8 @@ import java.util.Map;
 
 import static core.TestUtil.templateGraphQLRequest;
 
-public class QueryMyCompany extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(QueryMyCompany.class);
+public class QueryMyCompanyTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
 
     private static final String query = """
         query MyCompany {

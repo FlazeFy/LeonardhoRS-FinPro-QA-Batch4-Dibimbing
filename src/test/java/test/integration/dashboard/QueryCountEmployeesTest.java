@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 
 import static core.TestUtil.templateGraphQLRequest;
 
-public class QueryCountEmployees extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(QueryMyCompany.class);
+public class QueryCountEmployeesTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
 
     private static final String query = """
           query CountEmployees {

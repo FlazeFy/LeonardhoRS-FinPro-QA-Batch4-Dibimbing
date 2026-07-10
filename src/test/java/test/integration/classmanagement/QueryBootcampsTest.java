@@ -8,9 +8,8 @@ import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.integration.dashboard.QueryMyCompany;
+import test.integration.dashboard.QueryMyCompanyTest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +17,8 @@ import java.util.Map;
 
 import static core.TestUtil.templateGraphQLRequest;
 
-public class QueryBootcamps extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(QueryMyCompany.class);
+public class QueryBootcampsTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
     private String classTitle;
 
     private static final String query = """
