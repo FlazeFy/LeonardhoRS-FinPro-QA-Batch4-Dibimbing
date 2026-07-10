@@ -1,5 +1,7 @@
 package org.example;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -24,5 +26,19 @@ public class BasePage {
 
     public void waitForUrlToContain(String partialUrl) {
         wait.until(ExpectedConditions.urlContains(partialUrl));
+    }
+
+    public void clearInput(WebElement element) {
+        Keys modifier = System.getProperty("os.name").toLowerCase().contains("mac") ? Keys.COMMAND : Keys.CONTROL;
+        element.click();
+        element.sendKeys(Keys.chord(modifier, "a"));
+        element.sendKeys(Keys.DELETE);
+    }
+
+    public void clearRichText(WebElement element) {
+        Keys modifier = System.getProperty("os.name").toLowerCase().contains("mac") ? Keys.COMMAND : Keys.CONTROL;
+        element.click();
+        element.sendKeys(Keys.chord(modifier, "a"));
+        element.sendKeys(Keys.DELETE);
     }
 }

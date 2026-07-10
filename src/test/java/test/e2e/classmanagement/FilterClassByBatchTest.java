@@ -17,7 +17,7 @@ import java.util.Map;
 
 // FR-ID    : FR-CLMG-01
 // Module   : Class Management
-public class FilterClassByBatch extends BaseTest {
+public class FilterClassByBatchTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(CompanyProfileTest.class);
     private ClassPage classPage;
     private DashboardPage dashboardPage;

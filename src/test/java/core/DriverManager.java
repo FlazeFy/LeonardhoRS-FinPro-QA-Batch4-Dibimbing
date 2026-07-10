@@ -6,6 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DriverManager {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
@@ -39,6 +42,9 @@ public class DriverManager {
                 options.addArguments("--disable-plugins");
                 options.addArguments("--disable-component-extensions-with-background-pages");
                 options.setExperimentalOption("useAutomationExtension", false);
+                Map<String, Object> prefs = new HashMap<>();
+                prefs.put("profile.default_content_setting_values.local_network_access", 2);
+                options.setExperimentalOption("prefs", prefs);
                 options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 
                 if (isCI) {
