@@ -23,13 +23,14 @@
         <classes>
             <class name="test.e2e.classmanagement.ViewClassTest"/>
             <class name="test.e2e.classmanagement.SearchClassTest"/>
-            <class name="test.e2e.classmanagement.FilterClassByBatch"/>
+            <class name="test.e2e.classmanagement.FilterClassByBatchTest"/>
             <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>
             <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
             <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
             <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
             <class name="test.e2e.classmanagement.CreateContentTest"/>
             <class name="test.e2e.classmanagement.SearchClassContentTest"/>
+            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
         </classes>
     </test>
 

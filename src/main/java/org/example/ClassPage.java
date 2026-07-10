@@ -568,6 +568,43 @@ public class ClassPage extends BasePage {
         }
     }
 
+    public void clickAContent(String contentTitle) {
+        List<WebElement> cards = getContentCards();
+
+        for (WebElement card : cards) {
+            String title = card.findElement(By.xpath(".//button//p[1]")).getText().trim();
+            if (title.equalsIgnoreCase(contentTitle.trim())) {
+                WebElement accordionButton = card.findElement(By.xpath(".//button"));
+                wait.until(ExpectedConditions.elementToBeClickable(accordionButton));
+                accordionButton.click();
+
+                // Wait until accordion is expanded
+                wait.until(ExpectedConditions.attributeToBe(accordionButton, "aria-expanded", "true"));
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No content found with title: " + contentTitle);
+    }
+
+    public void deleteAContent(String contentTitle) {
+        WebElement expandedAccordion = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
+            )
+        );
+
+        String currentTitle = expandedAccordion.findElement(By.xpath(".//button//p[1]")).getText().trim();
+        if (!currentTitle.equalsIgnoreCase(contentTitle.trim())) {
+            throw new NoSuchElementException("Expanded content title mismatch. Expected: '" + contentTitle + "', but found: '" + currentTitle + "'");
+        }
+
+        WebElement deleteButton = expandedAccordion.findElement(By.xpath(".//button[normalize-space()='Delete']"));
+
+        wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
+        deleteButton.click();
+    }
+
     public void setAttendanceEnabled(boolean enabled) {
         WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//p[normalize-space()='Activate Attendance']/following::input[@type='checkbox'][1]")
