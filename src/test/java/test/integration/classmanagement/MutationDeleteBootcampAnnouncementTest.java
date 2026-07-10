@@ -17,19 +17,17 @@ import java.util.Map;
 
 import static core.TestUtil.templateGraphQLRequest;
 
-public class MutationUpdateBootcampAnnouncementTest extends BaseApiTest {
+public class MutationDeleteBootcampAnnouncementTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(MutationUpdateBootcampAnnouncementTest.class);
     private String sid;
     private String announcementId;
-    private String announcementTitle;
-    private String announcementDesc;
 
     private static final String mutation = """
-    mutation updateBootcampAnnouncement($input: InputBootcampAnnouncement!, $id: String!) {
-      updateBootcampAnnouncement(input: $input, id: $id) {
-        id
-      }
-    }
+     mutation deleteBootcampAnnouncement($id: String!) {
+       deleteBootcampAnnouncement(id: $id) {
+         id
+       }
+     }
     """;
 
     @BeforeMethod
@@ -39,40 +37,31 @@ public class MutationUpdateBootcampAnnouncementTest extends BaseApiTest {
 
         logger.info("Pre-Condition: At least one announcement exists");
         announcementId = TestDataReader.getValue("created-announcement-id");
-        announcementTitle = TestDataReader.getValue("valid-announcement-title");
-        announcementDesc = TestDataReader.getValue("valid-announcement-desc");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-                Map.of("key", "Announcement Id", "value", announcementId),
-                Map.of("key", "Announcement Title", "value", announcementTitle),
-                Map.of("key", "Announcement Description", "value", announcementDesc)
+                Map.of("key", "Announcement Id", "value", announcementId)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
     }
 
-    // Positive Test | P2 | Valid
-    @Test(priority = 2, groups = {"api-test"}, description = "TC-CLMG-011 - User can update class announcement")
-    public void updateBootcampAnnouncement() {
-        // Payload / Test Data can be found at Test Steps 4
-        Map<String, Object> input = new HashMap<>();
-        input.put("title", announcementTitle+"-edit");
-        input.put("content", "<p>" + announcementDesc + "-edit</p>");
+    // Positive Test | P2
+    @Test(priority = 4, groups = {"api-test"}, description = "TC-CLMG-013 - User can delete class announcement")
+    public void deleteBootcampAnnouncement() {
         Map<String, Object> variables = new HashMap<>();
         variables.put("id", announcementId);
-        variables.put("input", input);
 
         // Request
-        Response response = templateGraphQLRequest("updateBootcampAnnouncement", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = templateGraphQLRequest("deleteBootcampAnnouncement", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure
-        Assert.assertNotNull(jsonPath.get("data.updateBootcampAnnouncement"));
-        Assert.assertTrue(jsonPath.get("data.updateBootcampAnnouncement") instanceof Map);
+        Assert.assertNotNull(jsonPath.get("data.deleteBootcampAnnouncement"));
+        Assert.assertTrue(jsonPath.get("data.deleteBootcampAnnouncement") instanceof Map);
 
         // Validate announcement props
         // Get list key / column
-        Map<String, Object> dataObj = jsonPath.getMap("data.updateBootcampAnnouncement");
+        Map<String, Object> dataObj = jsonPath.getMap("data.deleteBootcampAnnouncement");
 
         List<String> stringFields = List.of("id");
         TestUtil.validateColumn(dataObj, stringFields, "string", false);
@@ -81,6 +70,6 @@ public class MutationUpdateBootcampAnnouncementTest extends BaseApiTest {
         List<String> notEmptyStringFields = List.of("id");
         TestUtil.validateNotEmptyString(dataObj, notEmptyStringFields);
 
-        logger.info("User can update class announcement: executed successfully");
+        logger.info("User can delete class announcement: executed successfully");
     }
 }
