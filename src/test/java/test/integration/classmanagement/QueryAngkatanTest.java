@@ -13,8 +13,6 @@ import test.integration.dashboard.QueryMyCompanyTest;
 import java.util.List;
 import java.util.Map;
 
-import static core.TestUtil.templateGraphQLRequest;
-
 public class QueryAngkatanTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
 
@@ -33,7 +31,9 @@ public class QueryAngkatanTest extends BaseApiTest {
         final String sid = TestUtil.getSid();
 
         // Request
-        Response response = templateGraphQLRequest("angkatans", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest(
+                "angkatans", query, null, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure

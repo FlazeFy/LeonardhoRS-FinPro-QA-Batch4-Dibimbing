@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static core.TestUtil.templateGraphQLRequest;
-
 public class QueryBootcampsTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);
     private String classTitle;
@@ -44,7 +42,9 @@ public class QueryBootcampsTest extends BaseApiTest {
         variables.put("param", param);
 
         // Request
-        Response response = templateGraphQLRequest("bootcamps", query, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest(
+                "bootcamps", query, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
         JsonPath jsonPath = response.jsonPath();
 
         System.out.println(jsonPath);
@@ -108,7 +108,7 @@ public class QueryBootcampsTest extends BaseApiTest {
         variables.put("param", param);
 
         // Request
-        Response response = templateGraphQLRequest("bootcamps", query, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest("bootcamps", query, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
         JsonPath jsonPath = response.jsonPath();
 
         System.out.println(jsonPath);

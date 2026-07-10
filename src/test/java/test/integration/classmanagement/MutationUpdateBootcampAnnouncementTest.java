@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static core.TestUtil.templateGraphQLRequest;
-
 public class MutationUpdateBootcampAnnouncementTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(MutationUpdateBootcampAnnouncementTest.class);
     private String sid;
@@ -63,7 +61,9 @@ public class MutationUpdateBootcampAnnouncementTest extends BaseApiTest {
         variables.put("input", input);
 
         // Request
-        Response response = templateGraphQLRequest("updateBootcampAnnouncement", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest(
+                "updateBootcampAnnouncement", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure

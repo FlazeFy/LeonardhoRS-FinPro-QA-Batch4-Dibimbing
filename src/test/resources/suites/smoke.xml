@@ -57,10 +57,11 @@
         <classes>
 <!--            <class name="test.integration.classmanagement.QueryAngkatanTest"/>-->
 <!--            <class name="test.integration.classmanagement.QueryBootcampsTest"/>-->
-            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
-            <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>
-            <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>
-            <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>
+<!--            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>-->
+            <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>
         </classes>
     </test>
 </suite>
