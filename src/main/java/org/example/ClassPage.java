@@ -422,6 +422,7 @@ public class ClassPage extends BasePage {
     }
 
     public void fillSearchClassContent(String classContentTitle) {
+        waitForElementToBeVisible(searchClassContentInput);
         searchClassContentInput.sendKeys(classContentTitle);
     }
 
@@ -590,7 +591,7 @@ public class ClassPage extends BasePage {
     public void deleteAContent(String contentTitle) {
         WebElement expandedAccordion = wait.until(
             ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
+                By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
             )
         );
 
@@ -605,14 +606,54 @@ public class ClassPage extends BasePage {
         deleteButton.click();
     }
 
+    public void toggleHideContent(String contentTitle, String type) {
+        WebElement expandedAccordion = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
+            )
+        );
+
+        String currentTitle = expandedAccordion.findElement(By.xpath(".//button//p[1]")).getText().trim();
+
+        if (!currentTitle.equalsIgnoreCase(contentTitle.trim())) {
+            throw new NoSuchElementException(
+                "Expanded content title mismatch. Expected: '" + contentTitle + "', but found: '" + currentTitle + "'"
+            );
+        }
+
+        WebElement toggleButton = expandedAccordion.findElement(By.xpath(".//button[normalize-space()='" + type + "']"));
+
+        // Scroll button into view
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center', inline:'nearest'});",  toggleButton);
+
+        wait.until(ExpectedConditions.elementToBeClickable(toggleButton));
+        toggleButton.click();
+    }
+
+    public boolean isContentToggleButtonDisplayed(String contentTitle, String type) {
+        WebElement expandedAccordion = wait.until(
+            ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
+            )
+        );
+
+        String currentTitle = expandedAccordion.findElement(By.xpath(".//button//p[1]")).getText().trim();
+
+        if (!currentTitle.equalsIgnoreCase(contentTitle.trim())) {
+            throw new NoSuchElementException("Expanded content title mismatch. Expected: '" + contentTitle + "', but found: '" + currentTitle + "'");
+        }
+
+        return !expandedAccordion.findElements(By.xpath(".//button[normalize-space()='" + type + "']")).isEmpty();
+    }
+
     public void setAttendanceEnabled(boolean enabled) {
         WebElement checkbox = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//p[normalize-space()='Activate Attendance']/following::input[@type='checkbox'][1]")
+            By.xpath("//p[normalize-space()='Activate Attendance']/following::input[@type='checkbox'][1]")
         ));
 
         if (checkbox.isSelected() != enabled) {
             WebElement toggle = driver.findElement(
-                    By.xpath("//p[normalize-space()='Activate Attendance']/following::span[contains(@class,'chakra-switch__track')][1]")
+                By.xpath("//p[normalize-space()='Activate Attendance']/following::span[contains(@class,'chakra-switch__track')][1]")
             );
 
             wait.until(ExpectedConditions.elementToBeClickable(toggle));
@@ -625,8 +666,8 @@ public class ClassPage extends BasePage {
     public void selectCheckInOutKeyOption(String option, String type) {
         WebElement radio = wait.until(ExpectedConditions.elementToBeClickable(
             By.xpath(
-                    "//p[normalize-space()='Enable " + type + " Key']/following::div[@role='radiogroup'][1]" +
-                            "//p[normalize-space()='" + option + "']"
+                "//p[normalize-space()='Enable " + type + " Key']/following::div[@role='radiogroup'][1]" +
+                        "//p[normalize-space()='" + option + "']"
             )
         ));
 
@@ -635,7 +676,7 @@ public class ClassPage extends BasePage {
 
     public void waitForPageLoading() {
         wait.until(driver ->
-                driver.findElements(By.cssSelector("#nprogress")).isEmpty()
+            driver.findElements(By.cssSelector("#nprogress")).isEmpty()
         );
     }
 }

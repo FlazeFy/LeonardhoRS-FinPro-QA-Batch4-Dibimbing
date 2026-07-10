@@ -31,6 +31,7 @@
             <class name="test.e2e.classmanagement.CreateContentTest"/>
             <class name="test.e2e.classmanagement.SearchClassContentTest"/>
             <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
+            <class name="test.e2e.classmanagement.ToggleContentVisibilityTest"/>
         </classes>
     </test>
 

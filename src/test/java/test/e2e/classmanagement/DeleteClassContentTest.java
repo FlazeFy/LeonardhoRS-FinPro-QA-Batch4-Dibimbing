@@ -32,6 +32,7 @@ public class DeleteClassContentTest extends BaseTest {
 
         // Test Data
         classTitle = TestDataReader.getValue("class-title");
+        // Pre-Condition : At least one class content exists
         contentTitle = TestDataReader.getValue("valid-content-title");
 
         // Validate each test data
