@@ -29,6 +29,9 @@ public class ClassPage extends BasePage {
     private WebElement announcementDeleteButton;
 
     // Input Element - Content
+    @FindBy(xpath = "//input[@placeholder='Search content...']")
+    private WebElement searchClassContentInput;
+
     @FindBy(xpath = "//input[@placeholder='Title']")
     private WebElement contentTitleInput;
 
@@ -239,7 +242,7 @@ public class ClassPage extends BasePage {
         }
     }
 
-    // Announcement
+    // Select Announcement
     private List<WebElement> getAnnouncementCards() {
         waitForElementToBeVisible(classAnnouncementSectionTitle);
 
@@ -306,11 +309,77 @@ public class ClassPage extends BasePage {
         return result;
     }
 
+    // Select Content
+    private List<WebElement> getContentCards() {
+        waitForElementToBeVisible(classContentSectionTitle);
+
+        By contentCards = By.xpath(
+                "//button[normalize-space()='Create Content']/following::div[contains(@class,'chakra-stack')][1]" +
+                        "//div[contains(@class,'chakra-accordion__item')]"
+        );
+
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(contentCards));
+
+        return driver.findElements(contentCards);
+    }
+
+    public boolean isContentListDisplayed() {
+        try {
+            List<WebElement> data = getContentCards();
+            if (data.isEmpty()) return false;
+
+            int idx = 0;
+            for (WebElement dt : data) {
+                System.out.println(dt);
+                // Content Title (first p)
+                boolean hasTitle = !dt.findElements(By.xpath(".//button[1]//p[1]")).isEmpty();
+                // Live Class Date (second p)
+                boolean hasDate = !dt.findElements(By.xpath(".//button[1]//p[2]")).isEmpty();
+
+                if (!(hasTitle && hasDate)) {
+                    System.out.println("Content invalid at - " + idx);
+                    return false;
+                }
+
+                idx++;
+            }
+
+            return true;
+        } catch (Exception e) {
+            logger.error("Content list validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Map<String, String>> getContentCardData() {
+        List<Map<String, String>> result = new ArrayList<>();
+
+        for (WebElement dt : getContentCards()) {
+            Map<String, String> data = new HashMap<>();
+
+            data.put("title", dt.findElement(By.xpath(".//button[1]//p[1]")).getText().trim());
+            data.put("created-at", dt.findElement(By.xpath(".//button[1]//p[2]")).getText().trim());
+
+            result.add(data);
+        }
+
+        return result;
+    }
+
     // For Assertion
     public boolean isSearchClassDisplayed() {
         try {
             waitForElementToBeVisible(searchClassInput);
             return searchClassInput.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isSearchClassContentDisplayed() {
+        try {
+            waitForElementToBeVisible(searchClassContentInput);
+            return searchClassContentInput.isDisplayed();
         } catch (Exception e) {
             return false;
         }
@@ -337,6 +406,10 @@ public class ClassPage extends BasePage {
     // Action
     public void fillSearchClass(String classTitle) {
         searchClassInput.sendKeys(classTitle);
+    }
+
+    public void fillSearchClassContent(String classContentTitle) {
+        searchClassContentInput.sendKeys(classContentTitle);
     }
 
     public void fillCreateAnnouncement(String announcementTitle, String announcementDesc) {
@@ -508,5 +581,11 @@ public class ClassPage extends BasePage {
         ));
 
         radio.click();
+    }
+
+    public void waitForPageLoading() {
+        wait.until(driver ->
+                driver.findElements(By.cssSelector("#nprogress")).isEmpty()
+        );
     }
 }

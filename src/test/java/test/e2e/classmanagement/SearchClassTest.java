@@ -67,7 +67,7 @@ public class SearchClassTest extends BaseTest {
             String actualClassTitle = dt.get("title").toLowerCase().trim();
 
             // Validate the class title
-            Assert.assertTrue(actualClassTitle.contains(expectedClassTitle), "Expected "+expectedClassTitle+" to contain in "+actualClassTitle);
+            Assert.assertTrue(actualClassTitle.contains(expectedClassTitle), "Expected " + expectedClassTitle + " to contain in " + actualClassTitle);
         }
 
         logger.info("User can search classes with valid keyword: executed successfully");

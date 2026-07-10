@@ -43,9 +43,9 @@ public class CreateAnnouncementTest extends BaseTest {
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-                Map.of("key", "Class Title", "value", classTitle),
-                Map.of("key", "Announcement Title", "value", announcementTitle),
-                Map.of("key", "Announcement Desc", "value", announcementDesc)
+            Map.of("key", "Class Title", "value", classTitle),
+            Map.of("key", "Announcement Title", "value", announcementTitle),
+            Map.of("key", "Announcement Desc", "value", announcementDesc)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 

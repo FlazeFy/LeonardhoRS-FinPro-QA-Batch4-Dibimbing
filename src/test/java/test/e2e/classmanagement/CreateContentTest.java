@@ -55,14 +55,14 @@ public class CreateContentTest extends BaseTest {
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-                Map.of("key", "Class Title", "value", classTitle),
-                Map.of("key", "Content Title", "value", contentTitle),
-                Map.of("key", "Content Description", "value", contentDesc),
-                Map.of("key", "Live Class Duration", "value", liveClassDuration),
-                Map.of("key", "Meeting Link", "value", contentLinkMeeting),
-                Map.of("key", "Check In Key", "value", checkInKey),
-                Map.of("key", "Check Out Key", "value", checkOutKey),
-                Map.of("key", "Invalid Url", "value", invalidUrl)
+            Map.of("key", "Class Title", "value", classTitle),
+            Map.of("key", "Content Title", "value", contentTitle),
+            Map.of("key", "Content Description", "value", contentDesc),
+            Map.of("key", "Live Class Duration", "value", liveClassDuration),
+            Map.of("key", "Meeting Link", "value", contentLinkMeeting),
+            Map.of("key", "Check In Key", "value", checkInKey),
+            Map.of("key", "Check Out Key", "value", checkOutKey),
+            Map.of("key", "Invalid Url", "value", invalidUrl)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 
@@ -86,14 +86,14 @@ public class CreateContentTest extends BaseTest {
 
         logger.info("TS-4: Fill all the field (based on test data)");
         classPage.fillCreateContent(
-                contentTitle,
-                contentDesc,
-                checkInKey,
-                checkOutKey,
-                contentPreTestUrl,
-                contentLinkMeeting,
-                liveClassDuration,
-                DataGenerator.getDateTimeFromNow(7)
+            contentTitle,
+            contentDesc,
+            checkInKey,
+            checkOutKey,
+            contentPreTestUrl,
+            contentLinkMeeting,
+            liveClassDuration,
+            DataGenerator.getDateTimeFromNow(7)
         );
 
         logger.info("TS-5: Click 'Add Content' button");

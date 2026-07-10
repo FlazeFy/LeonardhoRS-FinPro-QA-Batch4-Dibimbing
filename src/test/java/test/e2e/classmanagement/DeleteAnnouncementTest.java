@@ -37,8 +37,8 @@ public class DeleteAnnouncementTest extends BaseTest {
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-                Map.of("key", "Class Title", "value", classTitle),
-                Map.of("key", "Announcement Title", "value", announcementTitle)
+            Map.of("key", "Class Title", "value", classTitle),
+            Map.of("key", "Announcement Title", "value", announcementTitle)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 
