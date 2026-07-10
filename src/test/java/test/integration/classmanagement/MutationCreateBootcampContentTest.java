@@ -34,6 +34,7 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
     private String contentPreTestUrl;
     private String checkInKey;
     private String checkOutKey;
+    private String invalidUrl;
 
     private static final String mutation = """
     mutation createBootcampContent($input: InputBootcampContent!) {
@@ -57,10 +58,18 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
         contentPreTestUrl = TestDataReader.getValue("valid-link");
         checkInKey = TestDataReader.getValue("check-in-key");
         checkOutKey = TestDataReader.getValue("check-out-key");
+        invalidUrl = TestDataReader.getValue("invalid-link");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-                Map.of("key", "Class Id", "value", classId)
+                Map.of("key", "Class Id", "value", classId),
+                Map.of("key", "Content Title", "value", contentTitle),
+                Map.of("key", "Content Description", "value", contentDesc),
+                Map.of("key", "Live Class Duration", "value", liveClassDuration),
+                Map.of("key", "Meeting Link", "value", contentLinkMeeting),
+                Map.of("key", "Check In Key", "value", checkInKey),
+                Map.of("key", "Check Out Key", "value", checkOutKey),
+                Map.of("key", "Invalid Url", "value", invalidUrl)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
     }
@@ -114,6 +123,78 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
         contentId = (String) dataObj.get("id");
 
         logger.info("User can create class content: executed successfully");
+    }
+
+    // Negative Test | P3 | Invalid
+    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-017 - User cant add class content with invalid pre test url")
+    public void createBootcampContentWithInvalidPreTestUrl() {
+        // Payload / Test Data can be found at Test Steps 4
+        Map<String, Object> input = new HashMap<>();
+        input.put("bootcampId", classId);
+        input.put("title", contentTitle);
+        input.put("descriptions", "<p>" + contentDesc + "</p>");
+        input.put("videoPreClassUrl", "");
+        input.put("videoPostClassUrl", "");
+        input.put("liveClassTime", getDateTimeFromNow(7));
+        input.put("liveClassDuration", Integer.parseInt(liveClassDuration));
+        input.put("preTestUrl", invalidUrl);
+        input.put("isAttendanceCounted", true);
+        input.put("checkInKey", checkInKey);
+        input.put("enableCheckIn", true);
+        input.put("checkOutKey", checkOutKey);
+        input.put("enableCheckOut", true);
+        input.put("zoomUrl", contentLinkMeeting);
+        input.put("learningResourses", new ArrayList<>());
+        input.put("videoAddOns", new ArrayList<>());
+
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("input", input);
+
+        // Request
+        Response response = TestUtil.templateGraphQLRequest(
+                "createBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
+        JsonPath jsonPath = response.jsonPath();
+
+        TestUtil.validateAPIFailed(jsonPath, "Pretest Url harus menggunakan url yang valid");
+
+        logger.info("User cant add class content with invalid pre test url: executed successfully");
+    }
+
+    // Negative Test | P2 | Invalid
+    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-018 - User cant add class content with invalid class meeting link")
+    public void createBootcampContentWithInvalidClassMeetingUrl() {
+        // Payload / Test Data can be found at Test Steps 4
+        Map<String, Object> input = new HashMap<>();
+        input.put("bootcampId", classId);
+        input.put("title", contentTitle);
+        input.put("descriptions", "<p>" + contentDesc + "</p>");
+        input.put("videoPreClassUrl", "");
+        input.put("videoPostClassUrl", "");
+        input.put("liveClassTime", getDateTimeFromNow(7));
+        input.put("liveClassDuration", Integer.parseInt(liveClassDuration));
+        input.put("preTestUrl", contentPreTestUrl);
+        input.put("isAttendanceCounted", true);
+        input.put("checkInKey", checkInKey);
+        input.put("enableCheckIn", true);
+        input.put("checkOutKey", checkOutKey);
+        input.put("enableCheckOut", true);
+        input.put("zoomUrl", invalidUrl);
+        input.put("learningResourses", new ArrayList<>());
+        input.put("videoAddOns", new ArrayList<>());
+
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("input", input);
+
+        // Request
+        Response response = TestUtil.templateGraphQLRequest(
+                "createBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
+        JsonPath jsonPath = response.jsonPath();
+
+        TestUtil.validateAPIFailed(jsonPath, "Zoom Url harus menggunakan url yang valid");
+
+        logger.info("User cant add class content with invalid class meeting link: executed successfully");
     }
 
     @AfterMethod

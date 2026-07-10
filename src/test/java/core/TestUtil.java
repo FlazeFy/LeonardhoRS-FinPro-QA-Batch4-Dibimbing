@@ -1,10 +1,9 @@
 package core;
 
+import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
 
 import io.restassured.response.Response;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import java.time.LocalDate;
@@ -102,6 +101,19 @@ public class TestUtil extends BaseApiTest{
                 }
             }
         }
+    }
+
+    public static void validateAPIFailed(JsonPath jsonPath, String message) {
+        // Validate base structure
+        Assert.assertNull(jsonPath.get("data"));
+        Assert.assertNotNull(jsonPath.get("errors"));
+        Assert.assertTrue(jsonPath.get("errors") instanceof List);
+
+        // Validate error message / Expected Result
+        List<Map<String, Object>> errors = jsonPath.getList("errors");
+        Assert.assertFalse(errors.isEmpty());
+
+        Assert.assertEquals(errors.get(0).get("message"), message, "The error message is mismatched");
     }
 
     public static String getSid() {
