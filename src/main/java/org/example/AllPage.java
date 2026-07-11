@@ -19,8 +19,6 @@ public class AllPage extends BasePage {
         super(driver);
     }
 
-
-
     public String getResponsePopUpText() {
         waitForElementToBeVisible(responseToast);
         wait.until(ExpectedConditions.visibilityOfAllElements(responseToastTexts));
