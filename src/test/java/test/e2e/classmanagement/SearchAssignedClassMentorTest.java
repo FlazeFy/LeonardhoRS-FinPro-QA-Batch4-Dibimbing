@@ -17,12 +17,13 @@ import java.util.Map;
 
 // FR-ID    : FR-CLMG-11
 // Module   : Class Management
-public class ViewAssignedClassMentorTest extends BaseTest {
+public class SearchAssignedClassMentorTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(CompanyProfileTest.class);
     private ClassPage classPage;
 
     // Test Data
     private String classTitle;
+    private String invalidMentorName;
 
     @BeforeMethod
     public void setUp() {
@@ -31,19 +32,21 @@ public class ViewAssignedClassMentorTest extends BaseTest {
 
         // Pre-Condition : User already select a class
         classTitle = TestDataReader.getValue("class-title");
+        invalidMentorName = TestDataReader.getValue("invalid-mentor-name");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-            Map.of("key", "Class Title", "value", classTitle)
+                Map.of("key", "Class Title", "value", classTitle),
+                Map.of("key", "Invalid Mentor Name", "value", invalidMentorName)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
 
         selectAClassByClassTitle(classTitle);
     }
 
-    // Positive Test | P1
-    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-034 - User can view assigned class mentor")
-    public void testUserCanViewAssignedClassMentor() {
+    // Negative Test | P2 | Invalid
+    @Test(priority = 2, groups = {"ui-test"}, description = "TC-CLMG-035 - User can view no data message when no assigned class mentor found")
+    public void testUserCanViewNoDataMessageWhenNoAssignedClassMentorFound() {
         classPage = new ClassPage(DriverManager.getDriver());
 
         logger.info("TS-1: On the Edit Class page, open the Mentor tab");
@@ -52,23 +55,16 @@ public class ViewAssignedClassMentorTest extends BaseTest {
         logger.info("TS-2: Scroll to the Mentor List section");
         Assert.assertTrue(classPage.isClassMentorSectionTitleDisplayed(), "Section title 'Announcement' must be visible");
 
-        logger.info("TS-3: Observe the list of mentor displayed in table");
-        logger.info("Expected Result: The mentor list is displayed and contains all required information (id, name, major, role, project assigned, test assigned, and action button)");
-        Assert.assertTrue(classPage.isTableDisplayed(), "Table must be visible");
-        Assert.assertTrue(classPage.isTableDataValid(), "All table body data must not empty");
+        logger.info("TS-3: Locate the field with placeholder 'Search name'");
+        Assert.assertTrue(classPage.isSearchClassMentorDisplayed(), "Search class input must be visible");
 
-        // Validate table data
-        List<Map<String, String>> mentorData = classPage.getTableData();
-        List<Map<String, Integer>> intFieldMentorData = mentorData.stream()
-            .map(map -> Map.of(
-                    "ID", Integer.parseInt(map.get("ID")),
-                    "Projects Assigned", Integer.parseInt(map.get("Projects Assigned")),
-                    "Tests Assigned", Integer.parseInt(map.get("Tests Assigned"))
-            ))
-            .toList();
-        List<String> stringNullableFields = List.of("ID", "Projects Assigned", "Tests Assigned");
-        TestUtil.validateColumn(intFieldMentorData, stringNullableFields, "number", false);
+        logger.info("TS-4: Type the mentor name");
+        classPage.fillSearchClassMentor(invalidMentorName);
+        classPage.waitForPageLoading();
 
-        logger.info("User can view assigned class mentor: executed successfully");
+        logger.info("Expected Result: System show failed message 'No mentor found with this keyword'");
+        Assert.assertTrue(classPage.isClassMentorFailedMessageDisplayed("No mentor found with this keyword"), "The failed message must be visible and match 'No mentor found with this keyword'");
+
+        logger.info("User can view no data message when no assigned class mentor found: executed successfully");
     }
 }

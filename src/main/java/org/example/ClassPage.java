@@ -32,6 +32,9 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Search content...']")
     private WebElement searchClassContentInput;
 
+    @FindBy(xpath = "//input[@placeholder='Search name...']")
+    private WebElement searchClassMentorInput;
+
     @FindBy(xpath = "//input[@placeholder='Title']")
     private WebElement contentTitleInput;
 
@@ -76,6 +79,9 @@ public class ClassPage extends BasePage {
 
     @FindBy(id = "content-create-button")
     private WebElement addNewContentButton;
+
+    @FindBy(id = "button-add-mentor-button")
+    private WebElement addMentorButton;
 
     @FindBy(xpath = "//button[normalize-space()='Add Content']")
     private WebElement submitContentButton;
@@ -230,6 +236,19 @@ public class ClassPage extends BasePage {
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//button[normalize-space()='Create Content']/following::div[contains(., '" + message + "')]")
+            ));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public boolean isClassMentorFailedMessageDisplayed(String message) {
+        try {
+            waitForElementToBeVisible(addMentorButton);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[normalize-space()='Add Mentor']/following::div[contains(., '" + message + "')]")
             ));
             return true;
         } catch (TimeoutException e) {
@@ -427,6 +446,15 @@ public class ClassPage extends BasePage {
         }
     }
 
+    public boolean isSearchClassMentorDisplayed() {
+        try {
+            waitForElementToBeVisible(searchClassMentorInput);
+            return searchClassMentorInput.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean isFilterClassBatchDisplayed() {
         try {
             waitForElementToBeVisible(filterClassBatchSelect);
@@ -453,6 +481,11 @@ public class ClassPage extends BasePage {
     public void fillSearchClassContent(String classContentTitle) {
         waitForElementToBeVisible(searchClassContentInput);
         searchClassContentInput.sendKeys(classContentTitle);
+    }
+
+    public void fillSearchClassMentor(String classMentorName) {
+        waitForElementToBeVisible(searchClassMentorInput);
+        searchClassMentorInput.sendKeys(classMentorName);
     }
 
     public void fillCreateAnnouncement(String announcementTitle, String announcementDesc) {
