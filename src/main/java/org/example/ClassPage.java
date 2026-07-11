@@ -56,6 +56,10 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Live Class Date']")
     private WebElement contentLiveClassDateInput;
 
+    // Input Element - Mentor
+    @FindBy(xpath = "//header[normalize-space()='Add Mentor']//following::input[@placeholder='Search name...']")
+    private WebElement contentAddMentorSearchInput;
+
     // Richtext Editor Element
     @FindBy(id = "create-announcement-description-input")
     private WebElement announcementDescInput;
@@ -104,6 +108,9 @@ public class ClassPage extends BasePage {
 
     @FindBy(xpath = "//p[normalize-space()='Update Content']")
     private WebElement classUpdateContentSectionTitle;
+
+    @FindBy(xpath = "//header[normalize-space()='Add Mentor']")
+    private WebElement classAddMentorSectionTitle;
 
     @FindBy(xpath = "//section[contains(@class,'chakra-modal__content') and @role='dialog']//header//p[normalize-space()='Delete Announcement']")
     private WebElement deleteAnnouncementModalTitle;
@@ -249,6 +256,19 @@ public class ClassPage extends BasePage {
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//button[normalize-space()='Add Mentor']/following::div[contains(., '" + message + "')]")
+            ));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public boolean isClassAddMentorFailedMessageDisplayed(String message) {
+        try {
+            waitForElementToBeVisible(addMentorButton);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@placeholder='Search name...']/following::div[contains(., '" + message + "')]")
             ));
             return true;
         } catch (TimeoutException e) {
@@ -697,6 +717,33 @@ public class ClassPage extends BasePage {
 
     public void openEditContent(String contentTitle) {
         clickContentButton(contentTitle, "Edit Content");
+    }
+
+    public void openAddMentor() {
+        waitForElementToBeVisible(addMentorButton);
+        addMentorButton.click();
+    }
+
+    public boolean isAddClassMentorPopupDisplayed() {
+        try {
+            waitForElementToBeVisible(classAddMentorSectionTitle);
+            return classAddMentorSectionTitle.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isSearchAddClassMentorDisplayed() {
+        try {
+            waitForElementToBeVisible(contentAddMentorSearchInput);
+            return contentAddMentorSearchInput.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void fillSearchAddClassMentor(String mentorName) {
+        contentAddMentorSearchInput.sendKeys(mentorName);
     }
 
     public void toggleHideContent(String contentTitle, String type) {

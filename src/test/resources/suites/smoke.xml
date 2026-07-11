@@ -35,6 +35,7 @@
             <class name="test.e2e.classmanagement.EditClassContentTest"/>
             <class name="test.e2e.classmanagement.ViewAssignedClassMentorTest"/>
             <class name="test.e2e.classmanagement.SearchAssignedClassMentorTest"/>
+            <class name="test.e2e.classmanagement.SearchClassMentorTest"/>
         </classes>
     </test>
 
