@@ -108,4 +108,45 @@ public class EditClassContentTest extends BaseTest {
 
         logger.info("User cant edit class content with invalid pre test url: executed successfully");
     }
+
+    // Negative Test | P4 | Invalid
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-031 - User cant edit class content with invalid class meeting link")
+    public void testUserCanEditClassContentWithInvalidClassMeetingLink() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Content tab");
+        classPage.openTabByTitle("Content");
+        Assert.assertTrue(classPage.isClassContentSectionTitleDisplayed(), "Section title 'Content' must be visible");
+
+        logger.info("TS-2: Click a content");
+        classPage.fillSearchClassContent(contentTitle);
+        classPage.waitForPageLoading();
+        classPage.clickAContent(contentTitle);
+
+        logger.info("TS-3: Click 'Edit Content' button");
+        classPage.openEditContent(contentTitle);
+        Assert.assertTrue(classPage.isClassUpdateContentSectionTitleDisplayed(), "Section title 'Update Content' must be visible");
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateContent(
+                contentTitle,
+                contentDesc,
+                checkInKey,
+                checkOutKey,
+                contentPreTestUrl,
+                invalidUrl,
+                liveClassDuration,
+                DataGenerator.getDateTimeFromNow(7)
+        );
+
+        logger.info("TS-5: Click 'Update Content' button");
+        classPage.clickSubmitUpdateContent();
+
+        logger.info("Expected Result: System show failed message 'Zoom Url harus menggunakan url yang valid'");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Zoom Url harus menggunakan url yang valid"), "The failed message is mismatched");
+        Assert.assertTrue(classPage.isClassUpdateContentSectionTitleDisplayed(), "Section title 'Update Content' must be visible");
+
+        logger.info("User cant edit class content with invalid class meeting link: executed successfully");
+    }
 }
