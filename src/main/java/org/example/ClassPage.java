@@ -739,4 +739,88 @@ public class ClassPage extends BasePage {
             driver.findElements(By.cssSelector("#nprogress")).isEmpty()
         );
     }
+
+    private WebElement getTable() {
+        waitForElementToBeVisible(classManagementSectionTitle);
+
+        wait.until(driver -> !driver.findElements(By.xpath("//table[.//th]")).isEmpty());
+
+        return driver.findElement(By.xpath("//table[.//th]"));
+    }
+
+    public boolean isTableDisplayed() {
+        try {
+            WebElement table = getTable();
+
+            boolean hasThead = !table.findElements(By.tagName("thead")).isEmpty();
+            boolean hasTbody = !table.findElements(By.tagName("tbody")).isEmpty();
+
+            return hasThead && hasTbody;
+        } catch (Exception e) {
+            logger.error("Table display check failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isTableDataValid() {
+        try {
+            WebElement table = getTable();
+            List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
+            if (rows.isEmpty()) return false;
+
+            int idx = 0;
+            for (WebElement row : rows) {
+                List<WebElement> cells = row.findElements(By.tagName("td"));
+                if (cells.isEmpty()) return false;
+
+                // Validate every column (except the last) is not empty
+                boolean hasAllColumnsFilled = true;
+                for (int i = 0; i < cells.size() - 1; i++) {
+                    if (cells.get(i).getText().trim().isEmpty()) {
+                        hasAllColumnsFilled = false;
+                        break;
+                    }
+                }
+
+                // Validate the last column contains a button
+                WebElement lastCell = cells.get(cells.size() - 1);
+                boolean hasActionButton = !lastCell.findElements(By.tagName("button")).isEmpty();
+
+                if (!(hasAllColumnsFilled && hasActionButton)) {
+                    System.out.println("Table row invalid at - " + idx);
+                    return false;
+                }
+
+                idx++;
+            }
+
+            return true;
+        } catch (Exception e) {
+            logger.error("Table data validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Map<String, String>> getTableData() {
+        List<Map<String, String>> result = new ArrayList<>();
+
+        WebElement table = getTable();
+        List<WebElement> headers = table.findElements(By.xpath(".//thead//th"));
+        List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
+
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            Map<String, String> data = new HashMap<>();
+
+            for (int i = 0; i < headers.size() && i < cells.size(); i++) {
+                String key = headers.get(i).getText().trim();
+                String value = cells.get(i).getText().trim();
+                data.put(key, value);
+            }
+
+            result.add(data);
+        }
+
+        return result;
+    }
 }
