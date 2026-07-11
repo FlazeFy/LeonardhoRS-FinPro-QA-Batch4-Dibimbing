@@ -60,6 +60,7 @@ public class CreateContentTest extends BaseTest {
             Map.of("key", "Content Description", "value", contentDesc),
             Map.of("key", "Live Class Duration", "value", liveClassDuration),
             Map.of("key", "Meeting Link", "value", contentLinkMeeting),
+            Map.of("key", "Content Pre Test Url", "value", contentPreTestUrl),
             Map.of("key", "Check In Key", "value", checkInKey),
             Map.of("key", "Check Out Key", "value", checkOutKey),
             Map.of("key", "Invalid Url", "value", invalidUrl)

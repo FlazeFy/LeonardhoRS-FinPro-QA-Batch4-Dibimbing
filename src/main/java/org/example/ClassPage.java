@@ -80,6 +80,9 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//button[normalize-space()='Add Content']")
     private WebElement submitContentButton;
 
+    @FindBy(xpath = "//button[normalize-space()='Update Content']")
+    private WebElement submitUpdateContentButton;
+
     // Text
     @FindBy(xpath = "//p[normalize-space()='Manage Class']")
     private WebElement classManagementSectionTitle;
@@ -87,8 +90,14 @@ public class ClassPage extends BasePage {
     @FindBy(xpath = "//p[normalize-space()='Announcement']")
     private WebElement classAnnouncementSectionTitle;
 
+    @FindBy(xpath = "//p[normalize-space()='Mentor List']")
+    private WebElement classMentorSectionTitle;
+
     @FindBy(xpath = "//p[normalize-space()='Content']")
     private WebElement classContentSectionTitle;
+
+    @FindBy(xpath = "//p[normalize-space()='Update Content']")
+    private WebElement classUpdateContentSectionTitle;
 
     @FindBy(xpath = "//section[contains(@class,'chakra-modal__content') and @role='dialog']//header//p[normalize-space()='Delete Announcement']")
     private WebElement deleteAnnouncementModalTitle;
@@ -118,10 +127,30 @@ public class ClassPage extends BasePage {
         }
     }
 
+    public boolean isClassMentorSectionTitleDisplayed() {
+        try {
+            waitForElementToBeVisible(classMentorSectionTitle);
+            return classMentorSectionTitle.isDisplayed();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public boolean isClassContentSectionTitleDisplayed() {
         try {
             waitForElementToBeVisible(classContentSectionTitle);
             return classContentSectionTitle.isDisplayed();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isClassUpdateContentSectionTitleDisplayed() {
+        try {
+            waitForElementToBeVisible(classUpdateContentSectionTitle);
+            return classUpdateContentSectionTitle.isDisplayed();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -475,6 +504,25 @@ public class ClassPage extends BasePage {
         contentLiveClassDateInput.sendKeys(liveClassDate);
     }
 
+    public void fillEditContent(
+            String contentTitle, String contentDesc, String checkInKey, String checkOutKey, String contentPreTestUrl,
+            String contentLinkMeeting, String liveClassDuration, String liveClassDate) {
+
+        clearAndFill(contentTitleInput, contentTitle);
+        WebElement editor = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//p[normalize-space()='Description']/following::div[@role='textbox'][1]")));
+        clearRichText(editor);
+        editor.sendKeys(contentDesc);
+        clearAndFill(contentCheckInKeyInput, checkInKey);
+        clearAndFill(contentCheckOutKeyInput, checkOutKey);
+        selectCheckInOutKeyOption("Enable", "Check In");
+        selectCheckInOutKeyOption("Enable", "Check Out");
+        clearAndFill(contentLinkMeetingClassInput, contentLinkMeeting);
+        clearAndFill(contentPreTestUrlInput, contentPreTestUrl);
+        clearAndFill(contentLiveClassDurationInput, liveClassDuration);
+        clearAndFill(contentLiveClassDateInput, liveClassDate);
+    }
+
     public void clickSubmitAnnouncement() {
         submitAnnouncementButton.click();
     }
@@ -547,6 +595,10 @@ public class ClassPage extends BasePage {
         submitContentButton.click();
     }
 
+    public void clickSubmitUpdateContent () {
+        submitUpdateContentButton.click();
+    }
+
     public void selectClassBatch(String batch) {
         try {
             filterClassBatchSelect.click();
@@ -588,11 +640,11 @@ public class ClassPage extends BasePage {
         throw new NoSuchElementException("No content found with title: " + contentTitle);
     }
 
-    public void deleteAContent(String contentTitle) {
+    public void clickContentButton(String contentTitle, String type) {
         WebElement expandedAccordion = wait.until(
-            ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
-            )
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//div[contains(@class,'chakra-accordion__item')][.//button[@aria-expanded='true']]")
+                )
         );
 
         String currentTitle = expandedAccordion.findElement(By.xpath(".//button//p[1]")).getText().trim();
@@ -600,10 +652,18 @@ public class ClassPage extends BasePage {
             throw new NoSuchElementException("Expanded content title mismatch. Expected: '" + contentTitle + "', but found: '" + currentTitle + "'");
         }
 
-        WebElement deleteButton = expandedAccordion.findElement(By.xpath(".//button[normalize-space()='Delete']"));
+        WebElement actionButton = expandedAccordion.findElement(By.xpath(".//button[normalize-space()='" + type + "']"));
 
-        wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
-        deleteButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(actionButton));
+        actionButton.click();
+    }
+
+    public void deleteAContent(String contentTitle) {
+        clickContentButton(contentTitle, "Delete");
+    }
+
+    public void openEditContent(String contentTitle) {
+        clickContentButton(contentTitle, "Edit Content");
     }
 
     public void toggleHideContent(String contentTitle, String type) {

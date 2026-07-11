@@ -1,9 +1,6 @@
 package org.example;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -40,5 +37,20 @@ public class BasePage {
         element.click();
         element.sendKeys(Keys.chord(modifier, "a"));
         element.sendKeys(Keys.DELETE);
+    }
+
+    protected void clearAndFill(WebElement element, String value) {
+        waitForElementToBeVisible(element);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;" +
+                        "nativeInputValueSetter.call(arguments[0], '');" +
+                        "var event = new Event('input', { bubbles: true });" +
+                        "arguments[0].dispatchEvent(event);",
+                element
+        );
+
+        element.sendKeys(value);
     }
 }
