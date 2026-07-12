@@ -90,11 +90,11 @@ public class SearchAssignedClassMentorTest extends BaseTest {
         classPage.waitForPageLoading();
 
         logger.info("Expected Result: The mentor list is displayed and contains all required information (id, name, major, role, project assigned, test assigned, and action button)");
-        Assert.assertTrue(classPage.isTableDisplayed(), "Table must be visible");
-        Assert.assertTrue(classPage.isTableDataValid(), "All table body data must not empty");
+        Assert.assertTrue(classPage.isTableDisplayed(null), "Table must be visible");
+        Assert.assertTrue(classPage.isTableDataValid(null, "button"), "All table body data must not empty");
 
         // Validate mentor name must related to search keyword
-        List<Map<String, String>> mentorData = classPage.getTableData();
+        List<Map<String, String>> mentorData = classPage.getTableData(null);
         for (Map<String, String> dt: mentorData) {
             String actualMentorName = dt.get("Name");
             String expectedMentorName = validMentorName;

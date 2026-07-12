@@ -54,11 +54,11 @@ public class ViewAssignedClassMentorTest extends BaseTest {
 
         logger.info("TS-3: Observe the list of mentor displayed in table");
         logger.info("Expected Result: The mentor list is displayed and contains all required information (id, name, major, role, project assigned, test assigned, and action button)");
-        Assert.assertTrue(classPage.isTableDisplayed(), "Table must be visible");
-        Assert.assertTrue(classPage.isTableDataValid(), "All table body data must not empty");
+        Assert.assertTrue(classPage.isTableDisplayed(null), "Table must be visible");
+        Assert.assertTrue(classPage.isTableDataValid(null, "button"), "All table body data must not empty");
 
         // Validate table data
-        List<Map<String, String>> mentorData = classPage.getTableData();
+        List<Map<String, String>> mentorData = classPage.getTableData(null);
         List<Map<String, Integer>> intFieldMentorData = mentorData.stream()
             .map(map -> Map.of(
                     "ID", Integer.parseInt(map.get("ID")),

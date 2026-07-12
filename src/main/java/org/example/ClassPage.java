@@ -110,7 +110,7 @@ public class ClassPage extends BasePage {
     private WebElement classUpdateContentSectionTitle;
 
     @FindBy(xpath = "//header[normalize-space()='Add Mentor']")
-    private WebElement classAddMentorSectionTitle;
+    public WebElement classAddMentorSectionTitle;
 
     @FindBy(xpath = "//section[contains(@class,'chakra-modal__content') and @role='dialog']//header//p[normalize-space()='Delete Announcement']")
     private WebElement deleteAnnouncementModalTitle;
@@ -820,17 +820,24 @@ public class ClassPage extends BasePage {
         );
     }
 
-    private WebElement getTable() {
+    private WebElement getTable(WebElement afterElement) {
         waitForElementToBeVisible(classManagementSectionTitle);
+
+        if (afterElement != null) {
+            waitForElementToBeVisible(afterElement);
+            return afterElement.findElement(
+                    By.xpath("ancestor::section[1]//table")
+            );
+        }
 
         wait.until(driver -> !driver.findElements(By.xpath("//table[.//th]")).isEmpty());
 
         return driver.findElement(By.xpath("//table[.//th]"));
     }
 
-    public boolean isTableDisplayed() {
+    public boolean isTableDisplayed(WebElement afterElement) {
         try {
-            WebElement table = getTable();
+            WebElement table = getTable(afterElement);
 
             boolean hasThead = !table.findElements(By.tagName("thead")).isEmpty();
             boolean hasTbody = !table.findElements(By.tagName("tbody")).isEmpty();
@@ -842,9 +849,15 @@ public class ClassPage extends BasePage {
         }
     }
 
-    public boolean isTableDataValid() {
+    public boolean isTableDataValid(WebElement afterElement, String tagName) {
         try {
-            WebElement table = getTable();
+            WebElement table = getTable(afterElement);
+            // check this, still failed at the TC-CLMG-037
+            wait.until(driver -> {
+                List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
+                return rows.stream()
+                        .anyMatch(row -> !row.getText().trim().isEmpty());
+            });
             List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
             if (rows.isEmpty()) return false;
 
@@ -862,9 +875,11 @@ public class ClassPage extends BasePage {
                     }
                 }
 
-                // Validate the last column contains a button
+                // Validate the last column contains a custom search
                 WebElement lastCell = cells.get(cells.size() - 1);
-                boolean hasActionButton = !lastCell.findElements(By.tagName("button")).isEmpty();
+                boolean hasActionButton = wait.until(
+                        ExpectedConditions.presenceOfNestedElementLocatedBy(lastCell, By.tagName(tagName))
+                ) != null;
 
                 if (!(hasAllColumnsFilled && hasActionButton)) {
                     System.out.println("Table row invalid at - " + idx);
@@ -881,10 +896,10 @@ public class ClassPage extends BasePage {
         }
     }
 
-    public List<Map<String, String>> getTableData() {
+    public List<Map<String, String>> getTableData(WebElement afterElement) {
         List<Map<String, String>> result = new ArrayList<>();
 
-        WebElement table = getTable();
+        WebElement table = getTable(afterElement);
         List<WebElement> headers = table.findElements(By.xpath(".//thead//th"));
         List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
 
