@@ -21,6 +21,10 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void waitForElementToDisappear(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOf(element));
+    }
+
     public void waitForUrlToContain(String partialUrl) {
         wait.until(ExpectedConditions.urlContains(partialUrl));
     }
