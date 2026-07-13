@@ -70,6 +70,7 @@
             <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>
             <class name="test.integration.classmanagement.MutationToggleHideBootcampContentTest"/>
             <class name="test.integration.classmanagement.QueryAssignedMentorTest"/>
+            <class name="test.integration.classmanagement.QueryUnassignedMentorTest"/>
         </classes>
     </test>
 </suite>
