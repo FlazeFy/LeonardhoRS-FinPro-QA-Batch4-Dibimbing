@@ -67,6 +67,7 @@
             <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>
             <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>
             <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>
+            <class name="test.integration.classmanagement.MutationToggleHideBootcampContentTest"/>
         </classes>
     </test>
 </suite>
