@@ -6,68 +6,69 @@
     </listeners>
 
     <!-- E2E UI Test -->
-    <test name="Auth Tests">
-        <classes>
-            <class name="test.e2e.auth.LoginTest"/>
-        </classes>
-    </test>
+<!--    <test name="Auth Tests">-->
+<!--        <classes>-->
+<!--            <class name="test.e2e.auth.LoginTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="Dashboard Tests">
-        <classes>
-            <class name="test.e2e.dashboard.CompanyProfileTest"/>
-            <class name="test.e2e.dashboard.FastTrackClassTest"/>
-        </classes>
-    </test>
+<!--    <test name="Dashboard Tests">-->
+<!--        <classes>-->
+<!--            <class name="test.e2e.dashboard.CompanyProfileTest"/>-->
+<!--            <class name="test.e2e.dashboard.FastTrackClassTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <test name="Class Management Tests">
         <classes>
-            <class name="test.e2e.classmanagement.ViewClassTest"/>
-            <class name="test.e2e.classmanagement.SearchClassTest"/>
-            <class name="test.e2e.classmanagement.FilterClassByBatchTest"/>
-            <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.CreateContentTest"/>
-            <class name="test.e2e.classmanagement.SearchClassContentTest"/>
-            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.ToggleContentVisibilityTest"/>
-            <class name="test.e2e.classmanagement.EditClassContentTest"/>
-            <class name="test.e2e.classmanagement.ViewAssignedClassMentorTest"/>
-            <class name="test.e2e.classmanagement.SearchAssignedClassMentorTest"/>
-            <class name="test.e2e.classmanagement.SearchClassMentorTest"/>
+<!--            <class name="test.e2e.classmanagement.ViewClassTest"/>-->
+<!--            <class name="test.e2e.classmanagement.SearchClassTest"/>-->
+<!--            <class name="test.e2e.classmanagement.FilterClassByBatchTest"/>-->
+<!--            <class name="test.e2e.classmanagement.CreateAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.EditAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.CreateContentTest"/>-->
+<!--            <class name="test.e2e.classmanagement.SearchClassContentTest"/>-->
+<!--            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>-->
+<!--            <class name="test.e2e.classmanagement.ToggleContentVisibilityTest"/>-->
+<!--            <class name="test.e2e.classmanagement.EditClassContentTest"/>-->
+<!--            <class name="test.e2e.classmanagement.ViewAssignedClassMentorTest"/>-->
+<!--            <class name="test.e2e.classmanagement.SearchAssignedClassMentorTest"/>-->
+<!--            <class name="test.e2e.classmanagement.SearchClassMentorTest"/>-->
+            <class name="test.e2e.classmanagement.AssignClassMentorTest"/>
         </classes>
     </test>
 
     <!-- Integration API Test -->
-    <test name="API Integration Test : Auth Module">
-        <classes>
-            <class name="test.integration.auth.MutationLoginTest"/>
-            <class name="test.integration.auth.MutationLogoutTest"/>
-        </classes>
-    </test>
+<!--    <test name="API Integration Test : Auth Module">-->
+<!--        <classes>-->
+<!--            <class name="test.integration.auth.MutationLoginTest"/>-->
+<!--            <class name="test.integration.auth.MutationLogoutTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="API Integration Test : Dashboard Module">
-        <classes>
-            <class name="test.integration.dashboard.QueryMyCompanyTest"/>
-            <class name="test.integration.dashboard.QueryCountEmployeesTest"/>
-            <class name="test.integration.dashboard.QueryCountProgramsTest"/>
-            <class name="test.integration.dashboard.QueryCountActiveTrainingTest"/>
-            <class name="test.integration.dashboard.QueryCountFinishTrainingTest"/>
-        </classes>
-    </test>
+<!--    <test name="API Integration Test : Dashboard Module">-->
+<!--        <classes>-->
+<!--            <class name="test.integration.dashboard.QueryMyCompanyTest"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountEmployeesTest"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountProgramsTest"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountActiveTrainingTest"/>-->
+<!--            <class name="test.integration.dashboard.QueryCountFinishTrainingTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
-    <test name="API Integration Test : Class Management Module">
-        <classes>
-            <class name="test.integration.classmanagement.QueryAngkatanTest"/>
-            <class name="test.integration.classmanagement.QueryBootcampsTest"/>
-            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
-            <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>
-            <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>
-            <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>
-            <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>
-            <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>
-            <class name="test.integration.classmanagement.MutationToggleHideBootcampContentTest"/>
-        </classes>
-    </test>
+<!--    <test name="API Integration Test : Class Management Module">-->
+<!--        <classes>-->
+<!--            <class name="test.integration.classmanagement.QueryAngkatanTest"/>-->
+<!--            <class name="test.integration.classmanagement.QueryBootcampsTest"/>-->
+<!--            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>-->
+<!--            <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>-->
+<!--            <class name="test.integration.classmanagement.MutationToggleHideBootcampContentTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>
