@@ -156,13 +156,13 @@ public class MutationCreateBootcampQuizTest extends BaseApiTest {
         // Store created quiz
         if (result.getStatus() == ITestResult.SUCCESS) {
             if (result.getMethod().getMethodName().equals("createBootcampQuizClassTest")) {
-                TestDataReader.setValue("created-quiz-id-class", quizIdClass);
-                TestDataReader.setValue("created-quiz-title-class", quizTitle);
+                TestDataReader.setValue("created-quiz-id-class-api", quizIdClass);
+                TestDataReader.setValue("created-quiz-title-class-api", quizTitle);
             }
 
             if (result.getMethod().getMethodName().equals("createBootcampQuizContentTest")) {
-                TestDataReader.setValue("created-quiz-id-content", quizIdContent);
-                TestDataReader.setValue("created-quiz-title-content", quizTitle);
+                TestDataReader.setValue("created-quiz-id-content-api", quizIdContent);
+                TestDataReader.setValue("created-quiz-title-content-api", quizTitle);
             }
         }
     }

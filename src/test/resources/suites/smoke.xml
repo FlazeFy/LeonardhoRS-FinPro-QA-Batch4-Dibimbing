@@ -114,4 +114,10 @@
             <class name="test.integration.classmanagement.MutationCreateBootcampQuizTest"/>
         </classes>
     </test>
+
+    <test name="API/Integration Test: Class - Submission Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
+        </classes>
+    </test>
 </suite>
