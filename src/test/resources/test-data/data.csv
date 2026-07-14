@@ -16,11 +16,11 @@ content-live-class-duration,3,2026-07-08 17:02:11
 valid-link,https://google.com,2026-07-08 17:02:11
 check-in-key,IN123,2026-07-08 17:02:11
 check-out-key,OUT123,2026-07-08 17:02:11
-created-content-title,content-title-test,2026-07-14 16:04:51
+created-content-title,content-title-test,2026-07-14 22:50:54
 invalid-link,google,2026-07-08 17:02:11
 class-id,e74d73c6-23a4-4d20-8eac-4f70925a476d,2026-07-08 17:02:11
 created-announcement-id,8c5165c2-aa5e-4e13-9739-d50e8acb87f8,2026-07-14 16:04:11
-created-content-id,a05e54c7-388f-48a4-9beb-cb48f5606094,2026-07-14 16:04:51
+created-content-id,8b1e0780-4b78-4764-90c3-153c28964d93,2026-07-14 22:50:54
 mentor-id-1,09618904-8a4c-4141-a137-a9d1038436ad,2026-07-14 16:24:24
 mentor-id-2,37ce85b2-586f-4c72-a49a-df475133f839,2026-07-14 16:24:24
 mentor-id-3,6320fd88-93d5-4a3c-b2ce-b4bcc888ac03,2026-07-14 16:24:24
@@ -31,3 +31,9 @@ bootcamp-enrollment-key,TEST123,2026-07-12 09:21:57
 angkatan-id,4,2026-07-12 09:21:57
 created-bootcamp-id-api,72082559-0657-435d-bfb7-20f91e5b3c2c,2026-07-14 15:53:34
 created-bootcamp-title-api,class-test-1407155333,2026-07-14 15:53:34
+quiz-timer,1800000,2026-07-14 15:53:34
+quiz-title,exam-test,2026-07-08 17:02:11
+created-quiz-id-class,f2620f6c-534c-4ae9-92c1-13d1e3f4ec97,2026-07-14 22:50:54
+created-quiz-title-class,exam-test,2026-07-14 22:50:54
+created-quiz-id-content,bebf43c2-d325-46fb-9628-36393bf17b82,2026-07-14 22:50:54
+created-quiz-title-content,exam-test,2026-07-14 22:50:54

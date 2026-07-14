@@ -108,4 +108,10 @@
             <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
         </classes>
     </test>
+
+    <test name="API/Integration Test: Class - Test Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampQuizTest"/>
+        </classes>
+    </test>
 </suite>
