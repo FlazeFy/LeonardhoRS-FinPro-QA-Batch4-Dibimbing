@@ -97,9 +97,7 @@ public class TestListener implements ITestListener {
             }
         }
 
-        if (throwable != null) {
-            extentTest.get().log(Status.FAIL, throwable);
-        }
+        if (throwable != null) extentTest.get().log(Status.FAIL, throwable);
     }
 
     @Override

@@ -1,19 +1,18 @@
 package test.e2e.classmanagement;
 
-import core.BaseTest;
-import core.DriverManager;
-import core.TestDataReader;
-import core.TestUtil;
+import java.util.List;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.ClassPage;
+import org.example.page.ClassPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.e2e.dashboard.CompanyProfileTest;
-
-import java.util.List;
-import java.util.Map;
+import core.BaseTest;
+import core.DriverManager;
+import core.TestDataReader;
+import core.TestUtil;
 
 // FR-ID    : FR-CLMG-11
 // Module   : Class Management
@@ -92,11 +91,11 @@ public class SearchClassMentorTest extends BaseTest {
         classPage.waitForPageLoading();
 
         logger.info("Expected Result: The mentor list is displayed, contains all required information (id, name, program studi, role, and choose checkbox) and mentor name related with search keyword");
-        Assert.assertTrue(classPage.isTableDisplayed(classPage.classAddMentorSectionTitle), "Table must be visible");
-        Assert.assertTrue(classPage.isTableDataValid(classPage.classAddMentorSectionTitle, "svg"), "All table body data must not empty");
+        Assert.assertTrue(classPage.isTableDisplayed(classPage.getClassAddMentorSectionTitle()), "Table must be visible");
+        Assert.assertTrue(classPage.isTableDataValid(classPage.getClassAddMentorSectionTitle(), "svg"), "All table body data must not empty");
 
         // Validate mentor name must related to search keyword
-        List<Map<String, String>> mentorData = classPage.getTableData(classPage.classAddMentorSectionTitle);
+        List<Map<String, String>> mentorData = classPage.getTableData(classPage.getClassAddMentorSectionTitle());
         for (Map<String, String> dt: mentorData) {
             String actualMentorName = dt.get("Name");
             String expectedMentorName = validMentorName;

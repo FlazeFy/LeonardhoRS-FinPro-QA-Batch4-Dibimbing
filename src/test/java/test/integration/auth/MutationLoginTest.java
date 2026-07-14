@@ -1,7 +1,8 @@
 package test.integration.auth;
 
-import core.BaseApiTest;
-import core.TestUtil;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -9,10 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.e2e.auth.LoginTest;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import core.BaseApiTest;
+import core.TestUtil;
 
 import static core.TestUtil.templateGraphQLRequest;
 

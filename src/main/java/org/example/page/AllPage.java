@@ -1,4 +1,4 @@
-package org.example;
+package org.example.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
