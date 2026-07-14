@@ -3,7 +3,7 @@ package test.e2e.classmanagement;
 import core.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.ClassPage;
+import org.example.page.ClassPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

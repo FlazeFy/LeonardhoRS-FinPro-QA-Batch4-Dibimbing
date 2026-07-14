@@ -4,7 +4,7 @@ import core.BaseTest;
 import core.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.DashboardPage;
+import org.example.page.DashboardPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

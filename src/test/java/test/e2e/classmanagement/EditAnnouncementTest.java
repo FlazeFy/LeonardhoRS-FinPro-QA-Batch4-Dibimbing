@@ -7,7 +7,7 @@ import core.TestUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.AllPage;
-import org.example.ClassPage;
+import org.example.page.ClassPage;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
