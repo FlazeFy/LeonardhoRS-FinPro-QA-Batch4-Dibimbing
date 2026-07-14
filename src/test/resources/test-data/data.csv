@@ -31,3 +31,18 @@ bootcamp-enrollment-key,TEST123,2026-07-12 09:21:57
 angkatan-id,4,2026-07-12 09:21:57
 created-bootcamp-id-api,72082559-0657-435d-bfb7-20f91e5b3c2c,2026-07-14 15:53:34
 created-bootcamp-title-api,class-test-1407155333,2026-07-14 15:53:34
+quiz-timer,1800000,2026-07-14 15:53:34
+quiz-title,exam-test,2026-07-08 17:02:11
+created-quiz-id-class,f2620f6c-534c-4ae9-92c1-13d1e3f4ec97,2026-07-14 22:50:54
+created-quiz-title-class,exam-test,2026-07-14 22:50:54
+created-quiz-id-content,bebf43c2-d325-46fb-9628-36393bf17b82,2026-07-14 22:50:54
+created-quiz-title-content,exam-test,2026-07-14 22:50:54
+submission-title,submission-test,2026-07-14 22:50:54
+submission-description,description-test,2026-07-14 22:50:54
+created-submission-id-api,dd0296ad-d301-46ed-8eda-6ce8b0e7320a,2026-07-14 23:30:43
+created-submission-title-api,submission-test,2026-07-14 23:30:43
+assessment-detail,just clean code,2026-07-14 23:04:41
+assessment-aspect,clean code,2026-07-14 23:04:41
+max-score,100,2026-07-14 23:04:41
+create-announcement-title-api,announcement-title,2026-07-14 23:04:41
+create-announcement-id-api,100,2026-07-14 23:04:41
