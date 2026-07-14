@@ -37,10 +37,10 @@ public class QueryBootcampContentsTest extends BaseApiTest {
         sid = TestUtil.getSid();
 
         logger.info("Pre-Condition: User already select a class");
-        classId = TestDataReader.getValue("class-id");
+        classId = TestDataReader.getValue("created-bootcamp-id-api");
 
         // Test Data
-        contentTitle = TestDataReader.getValue("valid-content-title");
+        contentTitle = TestDataReader.getValue("created-content-title");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(

@@ -8,6 +8,8 @@ import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.integration.dashboard.QueryMyCompanyTest;
@@ -20,6 +22,9 @@ public class QueryUnassignedMentorTest extends BaseApiTest {
     private String sid;
     private String classId;
     private String mentorName;
+    private String mentorId1;
+    private String mentorId2;
+    private String mentorId3;
 
     private static final String query = """
         query UnassignedMentor($bootcampId: String!, $query: UserBaseQuery) {
@@ -35,7 +40,7 @@ public class QueryUnassignedMentorTest extends BaseApiTest {
         sid = TestUtil.getSid();
 
         logger.info("Pre-Condition: User already select a class");
-        classId = TestDataReader.getValue("class-id");
+        classId = TestDataReader.getValue("created-bootcamp-id-api");
 
         logger.info("Pre-Condition: At least one mentor assigned");
         mentorName = TestDataReader.getValue("valid-search-mentor-name");
@@ -49,7 +54,7 @@ public class QueryUnassignedMentorTest extends BaseApiTest {
     }
 
     // Positive Test | P3 | Valid
-    @Test(priority = 2, groups = {"api-test"}, description = "TC-CLMG-037 - User can search class mentor in the Add Mentor pop-up")
+    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-037 - User can search class mentor in the Add Mentor pop-up")
     public void unassignedMentorWithValidKeyword() {
         // Params
         Map<String, Object> param = new HashMap<>();
@@ -99,6 +104,20 @@ public class QueryUnassignedMentorTest extends BaseApiTest {
             TestUtil.validateColumn(mt, stringDivisionFields, "string", false);
         }
 
+        mentorId1 = (String)mentors.get(0).get("id");
+        mentorId2 = (String)mentors.get(1).get("id");
+        mentorId3 = (String)mentors.get(2).get("id");
+
         logger.info("User can search class mentor in the Add Mentor pop-up: executed successfully");
+    }
+
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        // Store created announcement
+        if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("unassignedMentorWithValidKeyword")) {
+            TestDataReader.setValue("mentor-id-1", mentorId1);
+            TestDataReader.setValue("mentor-id-2", mentorId2);
+            TestDataReader.setValue("mentor-id-3", mentorId3);
+        }
     }
 }

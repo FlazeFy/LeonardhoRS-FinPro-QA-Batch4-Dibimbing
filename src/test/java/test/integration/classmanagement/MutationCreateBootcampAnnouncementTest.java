@@ -38,7 +38,7 @@ public class MutationCreateBootcampAnnouncementTest extends BaseApiTest {
         sid = TestUtil.getSid();
 
         logger.info("Pre-Condition: User already select a class");
-        classId = TestDataReader.getValue("class-id");
+        classId = TestDataReader.getValue("created-bootcamp-id-api");
         announcementTitle = TestDataReader.getValue("valid-announcement-title");
         announcementDesc = TestDataReader.getValue("valid-announcement-desc");
 
