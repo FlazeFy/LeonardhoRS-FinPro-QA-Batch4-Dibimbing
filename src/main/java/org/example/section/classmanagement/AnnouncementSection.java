@@ -6,7 +6,6 @@ import org.example.page.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,28 +14,30 @@ import java.util.Map;
 public class AnnouncementSection extends BasePage {
     private static final Logger logger = LogManager.getLogger(AnnouncementSection.class);
 
-    // Input Element - Announcement
+    // Input Element
     @FindBy(id = "create-announcement-title-input")
     private WebElement announcementTitleInput;
 
     @FindBy(id = "edit-announcement-title-input")
     private WebElement announcementTitleEditInput;
 
-    @FindBy(id = "delete-announcement-delete-button")
-    private WebElement announcementDeleteButton;
-
-    @FindBy(xpath = "//p[normalize-space()='Announcement']")
-    private WebElement classAnnouncementSectionTitle;
-
     // Richtext Editor Element
     @FindBy(id = "create-announcement-description-input")
     private WebElement announcementDescInput;
+
+    // Button Element
+    @FindBy(id = "delete-announcement-delete-button")
+    private WebElement announcementDeleteButton;
 
     @FindBy(id = "create-announcement-button")
     private WebElement submitAnnouncementButton;
 
     @FindBy(id = "edit-announcement-button")
     private WebElement submitEditAnnouncementButton;
+
+    // Text Element
+    @FindBy(xpath = "//p[normalize-space()='Announcement']")
+    private WebElement classAnnouncementSectionTitle;
 
     @FindBy(xpath = "//section[contains(@class,'chakra-modal__content') and @role='dialog']//header//p[normalize-space()='Delete Announcement']")
     private WebElement deleteAnnouncementModalTitle;
@@ -45,6 +46,7 @@ public class AnnouncementSection extends BasePage {
         super(driver);
     }
 
+    // Fill Input Action
     public void fillCreate(String announcementTitle, String announcementDesc) {
         waitForElementToBeVisible(announcementTitleInput);
         announcementTitleInput.sendKeys(announcementTitle);
@@ -62,10 +64,45 @@ public class AnnouncementSection extends BasePage {
         editor.sendKeys(announcementDesc);
     }
 
+    // Click Action
     public void clickSubmitDelete() {
         announcementDeleteButton.click();
     }
 
+    private void clickAnnouncementButton(String title, String type) {
+        List<WebElement> cards = getListElement();
+
+        for (WebElement card : cards) {
+            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
+
+            if (announcementTitle.equalsIgnoreCase(title.trim())) {
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='" + type + "']"));
+                wait.until(ExpectedConditions.elementToBeClickable(editButton));
+                editButton.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No announcement found with title: " + title);
+    }
+
+    public void clickEditByTitle(String title) {
+        clickAnnouncementButton(title, "Edit");
+    }
+
+    public void clickDeleteByTitle(String title) {
+        clickAnnouncementButton(title, "Delete");
+    }
+
+    public void clickSubmit() {
+        submitAnnouncementButton.click();
+    }
+
+    public void clickSubmitEdit() {
+        submitEditAnnouncementButton.click();
+    }
+
+    // Visibility Action
     public boolean isSectionTitleDisplayed() {
         try {
             waitForElementToBeVisible(classAnnouncementSectionTitle);
@@ -76,6 +113,27 @@ public class AnnouncementSection extends BasePage {
         }
     }
 
+    public boolean findByTitle(String title) {
+        List<WebElement> cards = getListElement();
+
+        for (WebElement card : cards) {
+            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
+            if (announcementTitle.equalsIgnoreCase(title.trim())) return true;
+        }
+
+        return false;
+    }
+
+    public boolean isDeleteModalDisplayed() {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(deleteAnnouncementModalTitle));
+            return deleteAnnouncementModalTitle.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    // Validate List Item
     public List<WebElement> getListElement() {
         waitForElementToBeVisible(classAnnouncementSectionTitle);
 
@@ -131,6 +189,7 @@ public class AnnouncementSection extends BasePage {
 
             String roleAndCreatedAt = dt.findElement(By.xpath(".//h2/following::p[1][normalize-space()]")).getText().trim();
             String[] parts = roleAndCreatedAt.split(",\\s*", 2);
+
             data.put("title", dt.findElement(By.xpath(".//h2[normalize-space()]")).getText().trim());
             data.put("role", parts.length > 0 ? parts[0].trim() : "");
             data.put("created-at", parts.length > 1 ? parts[1].trim() : "");
@@ -140,58 +199,5 @@ public class AnnouncementSection extends BasePage {
         }
 
         return result;
-    }
-
-    private void clickAnnouncementButton(String title, String type) {
-        List<WebElement> cards = getListElement();
-
-        for (WebElement card : cards) {
-            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
-
-            if (announcementTitle.equalsIgnoreCase(title.trim())) {
-                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='" + type + "']"));
-                wait.until(ExpectedConditions.elementToBeClickable(editButton));
-                editButton.click();
-                return;
-            }
-        }
-
-        throw new NoSuchElementException("No announcement found with title: " + title);
-    }
-
-    public void clickEditByTitle(String title) {
-        clickAnnouncementButton(title, "Edit");
-    }
-
-    public void clickDeleteByTitle(String title) {
-        clickAnnouncementButton(title, "Delete");
-    }
-
-    public void clickSubmit() {
-        submitAnnouncementButton.click();
-    }
-
-    public void clickSubmitEdit() {
-        submitEditAnnouncementButton.click();
-    }
-
-    public boolean findByTitle(String title) {
-        List<WebElement> cards = getListElement();
-
-        for (WebElement card : cards) {
-            String announcementTitle = card.findElement(By.xpath(".//h2")).getText().trim();
-            if (announcementTitle.equalsIgnoreCase(title.trim())) return true;
-        }
-
-        return false;
-    }
-
-    public boolean isDeleteModalDisplayed() {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(deleteAnnouncementModalTitle));
-            return deleteAnnouncementModalTitle.isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
     }
 }

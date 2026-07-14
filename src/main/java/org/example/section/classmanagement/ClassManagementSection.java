@@ -1,11 +1,11 @@
 package org.example.section.classmanagement;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.page.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +30,30 @@ public class ClassManagementSection extends BasePage {
         super(driver);
     }
 
+    // Select Action
+    public void selectClassBatch(String batch) {
+        try {
+            filterClassBatchSelect.click();
+            WebElement menuItem = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@role='menu']//button[@role='menuitem'][normalize-space(.)='" + batch + "']")
+            ));
+            menuItem.click();
+
+            // Confirm the dropdown menu is hidden (render finish)
+            wait.until(driver -> {
+                WebElement menu = driver.findElement(By.xpath(
+                        "//button[.//p[normalize-space()='Filter by Angkatan']]/following::div[@role='menu'][1]"
+                ));
+
+                String visibility = menu.getCssValue("visibility");
+                return "hidden".equalsIgnoreCase(visibility);
+            });
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Visibility Action
     public boolean isSearchDisplayed() {
         try {
             waitForElementToBeVisible(searchClassInput);
@@ -52,10 +76,6 @@ public class ClassManagementSection extends BasePage {
         }
     }
 
-    public void fillSearch(String classTitle) {
-        searchClassInput.sendKeys(classTitle);
-    }
-
     public boolean isFilterBatchDisplayed() {
         try {
             waitForElementToBeVisible(filterClassBatchSelect);
@@ -65,6 +85,30 @@ public class ClassManagementSection extends BasePage {
         }
     }
 
+    // Fill Input Action
+    public void fillSearch(String classTitle) {
+        searchClassInput.sendKeys(classTitle);
+    }
+
+    // Navigate Action
+    public void openDetail(String title) {
+        List<WebElement> cards = getElement();
+
+        for (WebElement card : cards) {
+            String cardTitle = card.findElement(By.xpath(".//p[1]")).getText().trim().toLowerCase();
+
+            if (cardTitle.equals(title.trim().toLowerCase())) {
+                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit & Manage Content']"));
+                wait.until(ExpectedConditions.elementToBeClickable(editButton));
+                editButton.click();
+                return;
+            }
+        }
+
+        throw new NoSuchElementException("No class card found with title: " + title);
+    }
+
+    // Validate List Item
     private List<WebElement> getElement() {
         waitForElementToBeVisible(addNewClassButton);
 
@@ -99,45 +143,6 @@ public class ClassManagementSection extends BasePage {
         }
 
         return result;
-    }
-
-    public void openDetail(String title) {
-        List<WebElement> cards = getElement();
-
-        for (WebElement card : cards) {
-            String cardTitle = card.findElement(By.xpath(".//p[1]")).getText().trim().toLowerCase();
-
-            if (cardTitle.equals(title.trim().toLowerCase())) {
-                WebElement editButton = card.findElement(By.xpath(".//button[normalize-space()='Edit & Manage Content']"));
-                wait.until(ExpectedConditions.elementToBeClickable(editButton));
-                editButton.click();
-                return;
-            }
-        }
-
-        throw new NoSuchElementException("No class card found with title: " + title);
-    }
-
-    public void selectClassBatch(String batch) {
-        try {
-            filterClassBatchSelect.click();
-            WebElement menuItem = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//div[@role='menu']//button[@role='menuitem'][normalize-space(.)='" + batch + "']")
-            ));
-            menuItem.click();
-
-            // Confirm the dropdown menu is hidden (render finish)
-            wait.until(driver -> {
-                WebElement menu = driver.findElement(By.xpath(
-                        "//button[.//p[normalize-space()='Filter by Angkatan']]/following::div[@role='menu'][1]"
-                ));
-
-                String visibility = menu.getCssValue("visibility");
-                return "hidden".equalsIgnoreCase(visibility);
-            });
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     public boolean isListDisplayed() {

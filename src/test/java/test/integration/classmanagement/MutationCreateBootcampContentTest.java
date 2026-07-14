@@ -1,8 +1,9 @@
 package test.integration.classmanagement;
 
-import core.BaseApiTest;
-import core.TestDataReader;
-import core.TestUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -12,11 +13,9 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import core.BaseApiTest;
+import core.TestDataReader;
+import core.TestUtil;
 
 import static core.DataGenerator.getDateTimeFromNow;
 

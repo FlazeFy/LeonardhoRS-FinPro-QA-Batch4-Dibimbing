@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
 import java.util.Properties;
 
 public class BaseTest {

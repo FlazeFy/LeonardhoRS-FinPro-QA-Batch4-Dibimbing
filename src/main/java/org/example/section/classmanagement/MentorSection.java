@@ -18,13 +18,14 @@ import java.util.stream.Collectors;
 public class MentorSection extends BasePage {
     private static final Logger logger = LogManager.getLogger(MentorSection.class);
 
-    // Input Element - Mentor
+    // Input Element
     @FindBy(xpath = "//header[normalize-space()='Add Mentor']//following::input[@placeholder='Search name...']")
     private WebElement contentAddMentorSearchInput;
 
     @FindBy(xpath = "//input[@placeholder='Search name...']")
     private WebElement searchClassMentorInput;
 
+    // Button Element
     @FindBy(id = "button-add-mentor-button")
     private WebElement addMentorButton;
 
@@ -34,6 +35,7 @@ public class MentorSection extends BasePage {
     @FindBy(id = "button-add-mentor-confirm-add-mentor-button")
     private WebElement confirmAddMentorButton;
 
+    // Text Element
     @Getter
     @FindBy(xpath = "//header[normalize-space()='Add Mentor']")
     public WebElement classAddMentorSectionTitle;
@@ -54,6 +56,64 @@ public class MentorSection extends BasePage {
         this.table = new TableComponent(driver);
     }
 
+    // Fill Input Action
+    public void fillSearch(String classMentorName) {
+        waitForElementToBeVisible(searchClassMentorInput);
+        searchClassMentorInput.sendKeys(classMentorName);
+    }
+
+    public void fillSearchAdd(String mentorName) {
+        contentAddMentorSearchInput.sendKeys(mentorName);
+    }
+
+    // Click Action
+    public void openAdd() {
+        waitForElementToBeVisible(addMentorButton);
+        addMentorButton.click();
+    }
+
+    public void assignAdd() {
+        waitForElementToBeVisible(assignMentorButton);
+        assignMentorButton.click();
+    }
+
+    public void confirmAdd() {
+        waitForElementToBeVisible(confirmAddMentorButton);
+        confirmAddMentorButton.click();
+    }
+
+    public String selectFirstAndGetName() {
+        try {
+            WebElement table = this.table.getElement(classAddMentorSectionTitle);
+
+            wait.until(driver -> {
+                WebElement firstRow = table.findElement(By.xpath(".//tbody/tr[1]"));
+                List<WebElement> cells = firstRow.findElements(By.tagName("td"));
+
+                return cells.size() > 1 && !cells.get(1).getText().trim().isEmpty();
+            });
+
+            // First row
+            WebElement firstRow = table.findElement(By.xpath(".//tbody/tr[1]"));
+            List<WebElement> cells = firstRow.findElements(By.tagName("td"));
+
+            // Get name
+            String name = cells.get(1).getText().trim();
+
+            // Click the SVG in the last column
+            WebElement svg = wait.until(
+                    ExpectedConditions.elementToBeClickable(firstRow.findElement(By.xpath("./td[last()]//*[name()='svg']")))
+            );
+            svg.click();
+
+            return name;
+        } catch (Exception e) {
+            logger.error("Failed to select first row: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return null;
+        }
+    }
+
+    // Visibility Action
     public boolean isSectionTitleDisplayed() {
         try {
             waitForElementToBeVisible(classMentorSectionTitle);
@@ -99,26 +159,6 @@ public class MentorSection extends BasePage {
         }
     }
 
-    public void fillSearch(String classMentorName) {
-        waitForElementToBeVisible(searchClassMentorInput);
-        searchClassMentorInput.sendKeys(classMentorName);
-    }
-
-    public void openAdd() {
-        waitForElementToBeVisible(addMentorButton);
-        addMentorButton.click();
-    }
-
-    public void assignAdd() {
-        waitForElementToBeVisible(assignMentorButton);
-        assignMentorButton.click();
-    }
-
-    public void confirmAdd() {
-        waitForElementToBeVisible(confirmAddMentorButton);
-        confirmAddMentorButton.click();
-    }
-
     public boolean isAddPopupDisplayed() {
         try {
             waitForElementToBeVisible(classAddMentorSectionTitle);
@@ -143,41 +183,6 @@ public class MentorSection extends BasePage {
             return true;
         } catch (TimeoutException e) {
             return false;
-        }
-    }
-
-    public void fillSearchAdd(String mentorName) {
-        contentAddMentorSearchInput.sendKeys(mentorName);
-    }
-
-    public String selectFirstAndGetName() {
-        try {
-            WebElement table = this.table.getElement(classAddMentorSectionTitle);
-
-            wait.until(driver -> {
-                WebElement firstRow = table.findElement(By.xpath(".//tbody/tr[1]"));
-                List<WebElement> cells = firstRow.findElements(By.tagName("td"));
-
-                return cells.size() > 1 && !cells.get(1).getText().trim().isEmpty();
-            });
-
-            // First row
-            WebElement firstRow = table.findElement(By.xpath(".//tbody/tr[1]"));
-            List<WebElement> cells = firstRow.findElements(By.tagName("td"));
-
-            // Get name
-            String name = cells.get(1).getText().trim();
-
-            // Click the SVG in the last column
-            WebElement svg = wait.until(
-                    ExpectedConditions.elementToBeClickable(firstRow.findElement(By.xpath("./td[last()]//*[name()='svg']")))
-            );
-            svg.click();
-
-            return name;
-        } catch (Exception e) {
-            logger.error("Failed to select first row: {} - {}", e.getClass().getSimpleName(), e.getMessage());
-            return null;
         }
     }
 

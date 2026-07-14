@@ -2,10 +2,8 @@ package core;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
-
 import io.restassured.response.Response;
 import org.testng.Assert;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -23,13 +21,9 @@ public class TestUtil extends BaseApiTest{
 
         RequestSpecification request = given().contentType(contentType);
         // Basic Auth
-        if (username != null && !username.isBlank()) {
-            request.auth().preemptive().basic(username, password);
-        }
+        if (username != null && !username.isBlank()) request.auth().preemptive().basic(username, password);
         // Session Cookie
-        if (sessionId != null && !sessionId.isBlank()) {
-            request.cookie("sid_b2b", sessionId);
-        }
+        if (sessionId != null && !sessionId.isBlank()) request.cookie("sid_b2b", sessionId);
 
         Response response = request
                 .body(requestBody)
@@ -118,23 +112,10 @@ public class TestUtil extends BaseApiTest{
 
     public static String getSid() {
         final String mutation = """
-            mutation Login(
-               $companyId: String!
-               $usernameOrEmail: String!
-               $password: String!
-             ) {
-               login(
-                 companyId: $companyId
-                 usernameOrEmail: $usernameOrEmail
-                 password: $password
-               ) {
-                 user {
-                   id
-                 }
-                 errors {
-                   field
-                   message
-                 }
+            mutation Login($companyId: String!, $usernameOrEmail: String!, $password: String!) {
+               login(companyId: $companyId, usernameOrEmail: $usernameOrEmail, password: $password) {
+                 user { id }
+                 errors { field message }
                }
              }
             """;

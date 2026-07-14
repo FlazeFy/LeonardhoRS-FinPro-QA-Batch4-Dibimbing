@@ -4,7 +4,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class BasePage {
@@ -29,6 +28,7 @@ public class BasePage {
         wait.until(ExpectedConditions.urlContains(partialUrl));
     }
 
+    // Global Action
     public void clearInput(WebElement element) {
         Keys modifier = System.getProperty("os.name").toLowerCase().contains("mac") ? Keys.COMMAND : Keys.CONTROL;
         element.click();
@@ -46,6 +46,7 @@ public class BasePage {
     protected void clearAndFill(WebElement element, String value) {
         waitForElementToBeVisible(element);
 
+        // Use to fill an input that already has a value
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(
                 "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;" +
