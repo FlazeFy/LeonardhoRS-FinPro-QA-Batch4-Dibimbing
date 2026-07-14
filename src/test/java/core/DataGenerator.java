@@ -9,4 +9,8 @@ public class DataGenerator {
     public static String getDateTimeFromNow(int daysFromNow) {
         return LocalDateTime.now().plusDays(daysFromNow).format(FORMATTER);
     }
+
+    public static String getUniqueChar() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMHHmmss"));
+    }
 }

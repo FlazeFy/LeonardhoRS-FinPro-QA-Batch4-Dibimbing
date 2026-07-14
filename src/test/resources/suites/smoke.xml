@@ -75,6 +75,7 @@
 
     <test name="API/Integration Test: Class Management Module">
         <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampTest"/>
             <class name="test.integration.classmanagement.QueryAngkatanTest"/>
             <class name="test.integration.classmanagement.QueryBootcampsTest"/>
         </classes>
