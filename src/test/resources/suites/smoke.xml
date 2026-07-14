@@ -118,6 +118,7 @@
     <test name="API/Integration Test: Class - Submission Module">
         <classes>
             <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampSubmissionTest"/>
         </classes>
     </test>
 </suite>

@@ -29,6 +29,9 @@ public class MutationCreateBootcampSubmissionTest extends BaseApiTest {
     // Test Data
     private String submissionTitle;
     private String submissionDescription;
+    private String assessmentDetail;
+    private String assessmentAspect;
+    private String maxScore;
 
     private static final String mutation = """
     mutation createBootcampSubmission($input: InputBootcampSubmission!) {
@@ -47,12 +50,18 @@ public class MutationCreateBootcampSubmissionTest extends BaseApiTest {
         classId = TestDataReader.getValue("created-bootcamp-id-api");
         submissionTitle = TestDataReader.getValue("submission-title");
         submissionDescription = TestDataReader.getValue("submission-description");
+        assessmentDetail = TestDataReader.getValue("assessment-detail");
+        assessmentAspect = TestDataReader.getValue("assessment-aspect");
+        maxScore = TestDataReader.getValue("max-score");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
                 Map.of("key", "Class Id", "value", classId),
                 Map.of("key", "Submission Title", "value", submissionTitle),
-                Map.of("key", "Submission Description", "value", submissionDescription)
+                Map.of("key", "Submission Description", "value", submissionDescription),
+                Map.of("key", "Assessment Aspect", "value", assessmentAspect),
+                Map.of("key", "Assessment Detail", "value", assessmentDetail),
+                Map.of("key", "Max Score", "value", maxScore)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
     }
@@ -62,11 +71,11 @@ public class MutationCreateBootcampSubmissionTest extends BaseApiTest {
     public void createBootcampSubmission() {
         // Payload / Test Data can be found at Test Steps 4
         Map<String, Object> gradingDetail = new HashMap<>();
-        gradingDetail.put("assessmentDetail", "just clean code");
-        gradingDetail.put("maxScore", 100);
+        gradingDetail.put("assessmentDetail", assessmentDetail);
+        gradingDetail.put("maxScore", Integer.parseInt(maxScore));
 
         Map<String, Object> gradingCriteria = new HashMap<>();
-        gradingCriteria.put("assessmentAspect", "clean code");
+        gradingCriteria.put("assessmentAspect", assessmentAspect);
         gradingCriteria.put("gradingDetail", List.of(gradingDetail));
 
         Map<String, Object> input = new HashMap<>();
