@@ -1,0 +1,61 @@
+package org.example.page;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+public class BasePage {
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        PageFactory.initElements(driver, this);
+    }
+
+    public void waitForElementToBeVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void waitForElementToDisappear(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOf(element));
+    }
+
+    public void waitForUrlToContain(String partialUrl) {
+        wait.until(ExpectedConditions.urlContains(partialUrl));
+    }
+
+    // Global Action
+    public void clearInput(WebElement element) {
+        Keys modifier = System.getProperty("os.name").toLowerCase().contains("mac") ? Keys.COMMAND : Keys.CONTROL;
+        element.click();
+        element.sendKeys(Keys.chord(modifier, "a"));
+        element.sendKeys(Keys.DELETE);
+    }
+
+    public void clearRichText(WebElement element) {
+        Keys modifier = System.getProperty("os.name").toLowerCase().contains("mac") ? Keys.COMMAND : Keys.CONTROL;
+        element.click();
+        element.sendKeys(Keys.chord(modifier, "a"));
+        element.sendKeys(Keys.DELETE);
+    }
+
+    protected void clearAndFill(WebElement element, String value) {
+        waitForElementToBeVisible(element);
+
+        // Use to fill an input that already has a value
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;" +
+                        "nativeInputValueSetter.call(arguments[0], '');" +
+                        "var event = new Event('input', { bubbles: true });" +
+                        "arguments[0].dispatchEvent(event);",
+                element
+        );
+
+        element.sendKeys(value);
+    }
+}
