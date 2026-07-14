@@ -33,7 +33,6 @@
             <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
             <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
             <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
         </classes>
     </test>
 
@@ -84,8 +83,8 @@
 
     <test name="API/Integration Test: Class - Announcement Module">
         <classes>
-            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
             <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
             <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>
             <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>
         </classes>
