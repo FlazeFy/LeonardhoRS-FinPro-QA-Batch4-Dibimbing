@@ -47,7 +47,7 @@ public class MutationUpdateBootcampContentTest extends BaseApiTest {
         sid = TestUtil.getSid();
 
         logger.info("Pre-Condition: User already select a class and class content");
-        classId = TestDataReader.getValue("class-id");
+        classId = TestDataReader.getValue("created-bootcamp-id-api");
         contentId = TestDataReader.getValue("created-content-id");
         contentTitle = TestDataReader.getValue("valid-content-title");
         contentDesc = TestDataReader.getValue("content-desc");

@@ -102,10 +102,10 @@
 
     <test name="API/Integration Test: Class - Mentor Module">
         <classes>
-            <class name="test.integration.classmanagement.MutationAssignMentorTest"/>
-            <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
-            <class name="test.integration.classmanagement.QueryAssignedMentorTest"/>
             <class name="test.integration.classmanagement.QueryUnassignedMentorTest"/>
+            <class name="test.integration.classmanagement.MutationAssignMentorTest"/>
+            <class name="test.integration.classmanagement.QueryAssignedMentorTest"/>
+            <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
         </classes>
     </test>
 </suite>
