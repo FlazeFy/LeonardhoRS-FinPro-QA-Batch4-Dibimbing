@@ -82,7 +82,9 @@ public class MutationCreateBootcampTest extends BaseApiTest {
         variables.put("input", input);
 
         // Request
-        Response response = TestUtil.templateGraphQLRequest("createBootcamp", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid);
+        Response response = TestUtil.templateGraphQLRequest(
+                "createBootcamp", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+        );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure

@@ -40,7 +40,7 @@ public class QueryBootcampContentsTest extends BaseApiTest {
         classId = TestDataReader.getValue("class-id");
 
         // Test Data
-        contentTitle = TestDataReader.getValue("valid-content-title");
+        contentTitle = TestDataReader.getValue("created-content-title");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
