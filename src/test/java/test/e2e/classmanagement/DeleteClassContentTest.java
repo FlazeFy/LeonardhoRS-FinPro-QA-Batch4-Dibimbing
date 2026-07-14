@@ -1,20 +1,19 @@
 package test.e2e.classmanagement;
 
-import core.BaseTest;
-import core.DriverManager;
-import core.TestDataReader;
-import core.TestUtil;
+import java.util.List;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.AllPage;
-import org.example.ClassPage;
+import org.example.page.AllPage;
+import org.example.page.ClassPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.e2e.dashboard.CompanyProfileTest;
-
-import java.util.List;
-import java.util.Map;
+import core.BaseTest;
+import core.DriverManager;
+import core.TestDataReader;
+import core.TestUtil;
 
 public class DeleteClassContentTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(CompanyProfileTest.class);

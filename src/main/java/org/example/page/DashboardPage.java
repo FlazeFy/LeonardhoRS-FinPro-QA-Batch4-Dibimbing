@@ -1,11 +1,10 @@
-package org.example;
+package org.example.page;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import java.util.List;
 
 public class DashboardPage extends BasePage {
@@ -25,11 +24,7 @@ public class DashboardPage extends BasePage {
         super(driver);
     }
 
-    // Locate Element
-
-    // Image Element: Since the company profile box does not have an ID or unique locator,
-    // navigate using the company logo as a temporary solution.
-    // This condition applies until the developers provide a unique locator.
+    // Visibility Action
     private List<WebElement> waitForCompanyLogos() {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("img[alt='Logo Company']")));
 
@@ -71,8 +66,7 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    // Company Profile Box
-    // All <p> elements that come after the logo, in document order
+    // Get Data Action
     public String getCompanyName() {
         WebElement element = getCompanyInfoElement(1);
         waitForElementToBeVisible(element);
@@ -111,7 +105,6 @@ public class DashboardPage extends BasePage {
         return valueElement.getText().trim();
     }
 
-    // Company Profile
     public String getCompanyVision() {
         return getValueByLabel("Company Vision", "following", "p");
     }
@@ -128,7 +121,6 @@ public class DashboardPage extends BasePage {
         return getValueByLabel("Total Employee", "preceding","p");
     }
 
-    // Fast Track Element
     public String getTotalFastTrack() {
         return getValueByLabel("Total Fast Track Class", "preceding", "p");
     }
@@ -145,7 +137,7 @@ public class DashboardPage extends BasePage {
         return getValueByLabel("Nearest Fast Track Class", "following", "div");
     }
 
-    // Action
+    // Click Action
     public void clickProfileButton() {
         try {
             waitForElementToBeVisible(profileButton);

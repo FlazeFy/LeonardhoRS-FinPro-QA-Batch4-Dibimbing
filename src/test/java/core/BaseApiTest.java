@@ -3,7 +3,6 @@ package core;
 import io.restassured.RestAssured;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
-
 import java.util.Properties;
 
 public class BaseApiTest {

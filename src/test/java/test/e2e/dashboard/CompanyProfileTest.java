@@ -1,17 +1,16 @@
 package test.e2e.dashboard;
 
-import core.BaseTest;
-import core.DriverManager;
-import core.TestUtil;
+import java.util.List;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.DashboardPage;
+import org.example.page.DashboardPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.List;
-import java.util.Map;
+import core.BaseTest;
+import core.DriverManager;
+import core.TestUtil;
 
 // FR-ID    : FR-DASH-01
 // Module   : Dashboard

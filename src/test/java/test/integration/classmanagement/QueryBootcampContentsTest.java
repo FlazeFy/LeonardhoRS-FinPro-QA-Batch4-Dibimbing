@@ -1,8 +1,8 @@
 package test.integration.classmanagement;
 
-import core.BaseApiTest;
-import core.TestDataReader;
-import core.TestUtil;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -11,10 +11,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.integration.dashboard.QueryMyCompanyTest;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import core.BaseApiTest;
+import core.TestDataReader;
+import core.TestUtil;
 
 public class QueryBootcampContentsTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);

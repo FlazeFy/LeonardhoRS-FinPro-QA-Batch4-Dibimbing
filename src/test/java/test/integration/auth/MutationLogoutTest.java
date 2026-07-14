@@ -1,13 +1,13 @@
 package test.integration.auth;
 
-import core.BaseApiTest;
-import core.TestUtil;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import core.BaseApiTest;
+import core.TestUtil;
 
 import static core.TestUtil.templateGraphQLRequest;
 

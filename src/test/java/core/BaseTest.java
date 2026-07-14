@@ -2,16 +2,15 @@ package core;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.ClassPage;
-import org.example.DashboardPage;
-import org.example.LoginPage;
+import org.example.page.ClassPage;
+import org.example.page.DashboardPage;
+import org.example.page.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
 import java.util.Properties;
 
 public class BaseTest {

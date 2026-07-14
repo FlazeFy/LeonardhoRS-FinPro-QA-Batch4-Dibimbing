@@ -1,7 +1,7 @@
 package test.integration.classmanagement;
 
-import core.BaseApiTest;
-import core.TestUtil;
+import java.util.List;
+import java.util.Map;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -9,9 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.integration.dashboard.QueryMyCompanyTest;
-
-import java.util.List;
-import java.util.Map;
+import core.BaseApiTest;
+import core.TestUtil;
 
 public class QueryAngkatanTest extends BaseApiTest {
     private static final Logger logger = LogManager.getLogger(QueryMyCompanyTest.class);

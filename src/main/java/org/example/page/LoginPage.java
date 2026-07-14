@@ -1,4 +1,4 @@
-package org.example;
+package org.example.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,7 +27,7 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    // Assertion
+    // Visibility Action
     public boolean isErrorMessageDisplayed() {
         try {
             waitForElementToBeVisible(loginErrorMessage);
@@ -41,7 +41,6 @@ public class LoginPage extends BasePage {
         return "password".equals(passwordInput.getAttribute("type"));
     }
 
-    // Check last rendered text
     protected String waitForStableText(WebElement element, int timeoutSeconds) {
         long endTime = System.currentTimeMillis() + (timeoutSeconds * 1000L);
         String previous = "";
@@ -72,13 +71,14 @@ public class LoginPage extends BasePage {
         }
     }
 
-    // Action
+    // Fill Input Action
     public void fillLoginCredentials(String username, String password) {
         waitForElementToBeVisible(usernameInput);
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
     }
 
+    // Click Action
     public void clickSignIn() {
         loginButton.click();
     }

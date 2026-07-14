@@ -1,16 +1,15 @@
 package test.e2e.classmanagement;
 
-import core.*;
+import java.util.List;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.ClassPage;
+import org.example.page.ClassPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import test.e2e.dashboard.CompanyProfileTest;
-
-import java.util.List;
-import java.util.Map;
+import core.*;
 
 public class SearchClassContentTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(CompanyProfileTest.class);
