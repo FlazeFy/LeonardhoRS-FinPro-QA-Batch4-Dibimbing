@@ -4,26 +4,36 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.page.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class TestSection extends BasePage {
     private static final Logger logger = LogManager.getLogger(TestSection.class);
 
+    // Input Element
+    @FindBy(xpath = "//input[@placeholder='Search test...']")
+    private WebElement classTestSearchInput;
+
+    // Text Element
     @FindBy(xpath = "//p[normalize-space()='List Test']")
     public WebElement classTestSectionTitle;
+
+    // Button Element
+    @FindBy(id = "create-class-test-button")
+    private WebElement addTestButton;
 
     public TestSection(WebDriver driver) {
         super(driver);
     }
 
+    // Fill Input Action
+    public void fillSearchAdd(String mentorName) {
+        classTestSearchInput.sendKeys(mentorName);
+    }
+    
     // Visibility Action
     public boolean isSectionTitleDisplayed() {
         try {
@@ -34,60 +44,25 @@ public class TestSection extends BasePage {
         }
     }
 
-    // Validate List Action
-    private List<WebElement> getElement() {
-        waitForElementToBeVisible(classTestSectionTitle);
-
-        By contentCards = By.xpath(
-                "//button[@id='create-class-test-button']/following::div[contains(@class,'chakra-stack')][1]" +
-                        "//div[contains(@class,'chakra-accordion__item')]"
-        );
-
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(contentCards));
-
-        return driver.findElements(contentCards);
-    }
-
-    public boolean isListDisplayed() {
+    public boolean isSearchDisplayed() {
         try {
-            List<WebElement> data = getElement();
-            if (data.isEmpty()) return false;
-
-            int idx = 0;
-            for (WebElement dt : data) {
-                System.out.println(dt);
-                // Content Title (first p)
-                boolean hasTitle = !dt.findElements(By.xpath(".//button[1]//p[1]")).isEmpty();
-                // Live Class Date (second p)
-                boolean hasDate = !dt.findElements(By.xpath(".//button[1]//p[2]")).isEmpty();
-
-                if (!(hasTitle && hasDate)) {
-                    System.out.println("Content invalid at - " + idx);
-                    return false;
-                }
-
-                idx++;
-            }
-
-            return true;
+            waitForElementToBeVisible(classTestSearchInput);
+            return classTestSearchInput.isDisplayed();
         } catch (Exception e) {
-            logger.error("Content list validation failed: {} - {}", e.getClass().getSimpleName(), e.getMessage());
             return false;
         }
     }
 
-    public List<Map<String, String>> getData() {
-        List<Map<String, String>> result = new ArrayList<>();
+    public boolean isFailedMessageDisplayed(String message) {
+        try {
+            waitForElementToBeVisible(addTestButton);
 
-        for (WebElement dt : getElement()) {
-            Map<String, String> data = new HashMap<>();
-
-            data.put("title", dt.findElement(By.xpath(".//button[1]//p[1]")).getText().trim());
-            data.put("created-at", dt.findElement(By.xpath(".//button[1]//p[2]")).getText().trim());
-
-            result.add(data);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@placeholder='Search test...']/following::div[contains(., '" + message + "')]")
+            ));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
         }
-
-        return result;
     }
 }

@@ -300,8 +300,16 @@ public class ClassPage extends BasePage {
         return this.test.isSectionTitleDisplayed();
     }
 
-    public boolean isTestListDisplayed() {
-        return this.test.isListDisplayed();
+    public boolean isSearchClassTestDisplayed() {
+        return this.test.isSearchDisplayed();
+    }
+
+    public void fillSearchClassTest(String testName) {
+        this.test.fillSearchAdd(testName);
+    }
+
+    public boolean isClassTestFailedMessageDisplayed(String message) {
+        return this.test.isFailedMessageDisplayed(message);
     }
 
     // Table Component
