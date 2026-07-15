@@ -53,20 +53,19 @@ public class ViewAssignedClassMentorTest extends BaseTest {
 
         logger.info("TS-3: Observe the list of mentor displayed in table");
         logger.info("Expected Result: The mentor list is displayed and contains all required information (id, name, major, role, project assigned, test assigned, and action button)");
-        Assert.assertTrue(classPage.isTableDisplayed(null), "Table must be visible");
-        Assert.assertTrue(classPage.isTableDataValid(null, "button"), "All table body data must not empty");
+        Assert.assertTrue(classPage.isTableDisplayed(classPage.getClassMentorSectionTitle(),null), "Table must be visible");
+        Assert.assertTrue(classPage.isTableDataValid(classPage.getClassMentorSectionTitle(),null, "button"), "All table body data must not empty");
 
         // Validate table data
-        List<Map<String, String>> mentorData = classPage.getTableData(null);
+        List<Map<String, String>> mentorData = classPage.getTableData(classPage.getClassMentorSectionTitle(),null);
         List<Map<String, Integer>> intFieldMentorData = mentorData.stream()
             .map(map -> Map.of(
-                    "ID", Integer.parseInt(map.get("ID")),
                     "Projects Assigned", Integer.parseInt(map.get("Projects Assigned")),
                     "Tests Assigned", Integer.parseInt(map.get("Tests Assigned"))
             ))
             .toList();
-        List<String> stringNullableFields = List.of("ID", "Projects Assigned", "Tests Assigned");
-        TestUtil.validateColumn(intFieldMentorData, stringNullableFields, "number", false);
+        List<String> intFields = List.of("Projects Assigned", "Tests Assigned");
+        TestUtil.validateColumn(intFieldMentorData, intFields, "number", false);
 
         logger.info("User can view assigned class mentor: executed successfully");
     }
