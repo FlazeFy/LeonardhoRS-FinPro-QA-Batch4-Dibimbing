@@ -15,7 +15,7 @@ import core.TestDataReader;
 import core.TestUtil;
 
 public class MutationDeleteBootcampContentTest extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(MutationUpdateBootcampContentTest.class);
+    private static final Logger logger = LogManager.getLogger(MutationDeleteBootcampContentTest.class);
     private String sid;
     private String contentId;
 

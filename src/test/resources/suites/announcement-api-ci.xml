@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Announcement Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="API/Integration Test: Announcement Module">
+        <classes>
+            <class name="test.integration.announcement.MutationCreateAnnouncementTest"/>
+            <class name="test.integration.announcement.QueryAnnouncementsTest"/>
+            <class name="test.integration.announcement.MutationDeleteAnnouncementTest"/>
+        </classes>
+    </test>
+</suite>
