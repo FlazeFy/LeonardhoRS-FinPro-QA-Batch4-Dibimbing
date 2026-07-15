@@ -127,6 +127,7 @@
     <test name="API/Integration Test: Announcement Module">
         <classes>
             <class name="test.integration.announcement.QueryAnnouncementsTest"/>
+            <class name="test.integration.announcement.MutationDeleteAnnouncementTest"/>
         </classes>
     </test>
 </suite>
