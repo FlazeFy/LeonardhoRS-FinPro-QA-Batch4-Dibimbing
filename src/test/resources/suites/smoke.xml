@@ -108,4 +108,27 @@
             <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
         </classes>
     </test>
+
+    <test name="API/Integration Test: Class - Test Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampQuizTest"/>
+        </classes>
+    </test>
+
+    <test name="API/Integration Test: Class - Submission Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationSubmissionFinishGradingToggleTest"/>
+            <class name="test.integration.classmanagement.MutationUpdateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampSubmissionTest"/>
+        </classes>
+    </test>
+
+    <test name="API/Integration Test: Announcement Module">
+        <classes>
+            <class name="test.integration.announcement.MutationCreateAnnouncementTest"/>
+            <class name="test.integration.announcement.QueryAnnouncementsTest"/>
+            <class name="test.integration.announcement.MutationDeleteAnnouncementTest"/>
+        </classes>
+    </test>
 </suite>

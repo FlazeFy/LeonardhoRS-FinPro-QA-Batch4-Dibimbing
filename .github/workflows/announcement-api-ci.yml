@@ -1,11 +1,11 @@
-name: Dashboard Integration Test
+name: Announcement Integration Test
 
 on:
   push:
     branches: [main]
 
 jobs:
-  dashboard-integration:
+  announcement-integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,8 +31,8 @@ jobs:
           validPasswordAuth=${{ secrets.VALIDPASSWORDAUTH }}
           EOF
 
-      - name: Run Dashboard Integration Tests
-        run: ./gradlew test -Psuite=dashboard-api-ci.xml -Penv=staging
+      - name: Run Announcement Integration Tests
+        run: ./gradlew test -Psuite=announcement-api-ci.xml -Penv=staging
 
       - name: Send test report via email
         if: always()
@@ -43,12 +43,12 @@ jobs:
           secure: true
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Dashboard Integration/API Test Report - ${{ job.status }} - ${{ github.repository }}"
+          subject: "Announcement Integration/API Test Report - ${{ job.status }} - ${{ github.repository }}"
           to: ${{ secrets.MAIL_TO }}
           from: Dibimbing-LMS-B2B Automation Test Bot
           body: |
             Test run finished with status: ${{ job.status }}
-            Module: Dashboard
+            Module: Announcement
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
             Triggered by: ${{ github.actor }}
