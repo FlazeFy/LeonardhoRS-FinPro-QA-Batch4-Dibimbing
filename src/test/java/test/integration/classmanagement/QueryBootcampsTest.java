@@ -67,7 +67,6 @@ public class QueryBootcampsTest extends BaseApiTest {
         TestUtil.validateColumn(bootcamps, intNullableFields, "number", true);
 
         // Validate each fields not empty / not whitespace only
-        // check this again .....
         List<String> notEmptyStringFields = List.of("id");
         TestUtil.validateNotEmptyString(bootcamps, notEmptyStringFields);
 

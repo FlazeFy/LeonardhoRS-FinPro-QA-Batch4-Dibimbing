@@ -119,6 +119,7 @@
         <classes>
             <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
             <class name="test.integration.classmanagement.MutationSubmissionFinishGradingToggleTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampSubmissionsTest"/>
             <class name="test.integration.classmanagement.MutationUpdateBootcampSubmissionTest"/>
             <class name="test.integration.classmanagement.MutationDeleteBootcampSubmissionTest"/>
         </classes>
