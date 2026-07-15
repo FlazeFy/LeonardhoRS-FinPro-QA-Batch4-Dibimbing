@@ -112,6 +112,7 @@
     <test name="API/Integration Test: Class - Test Module">
         <classes>
             <class name="test.integration.classmanagement.MutationCreateBootcampQuizTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampQuizsTest"/>
         </classes>
     </test>
 
@@ -119,6 +120,7 @@
         <classes>
             <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
             <class name="test.integration.classmanagement.MutationSubmissionFinishGradingToggleTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampSubmissionsTest"/>
             <class name="test.integration.classmanagement.MutationUpdateBootcampSubmissionTest"/>
             <class name="test.integration.classmanagement.MutationDeleteBootcampSubmissionTest"/>
         </classes>

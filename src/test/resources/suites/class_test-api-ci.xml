@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Class - Test Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="API/Integration Test: Class - Test Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampQuizTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampQuizsTest"/>
+        </classes>
+    </test>
+</suite>
