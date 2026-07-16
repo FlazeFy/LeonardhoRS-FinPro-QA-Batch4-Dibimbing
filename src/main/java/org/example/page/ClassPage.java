@@ -317,9 +317,9 @@ public class ClassPage extends BasePage {
     }
 
     public void fillCreateTest(
-        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate
+        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate, String contentTestType
     ) {
-        this.test.fillCreate(testTitle, testType, testDurationMethod, duration, mentorName, startDate);
+        this.test.fillCreate(testTitle, testType, testDurationMethod, duration, mentorName, startDate, contentTestType);
     }
 
     public void clickSubmitTest() {

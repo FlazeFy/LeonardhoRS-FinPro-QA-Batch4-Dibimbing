@@ -32,6 +32,9 @@ public class TestSection extends BasePage {
     @FindBy(id = "create-class-test-choose-mentor-input")
     private WebElement testMentorNameInput;
 
+    @FindBy(id = "create-class-test-content-id-input")
+    private WebElement testClassContentNameInput;
+
     // Radio Element
     @FindBy(id = "create-class-test-test-relation-input")
     private WebElement testContentTypeRadio;
@@ -74,14 +77,22 @@ public class TestSection extends BasePage {
     }
 
     public void fillCreate(
-        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate
+        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate, String contentTestType
     ) {
-        // Test Title
-        waitForElementToBeVisible(testTitleInput);
-        testTitleInput.sendKeys(testTitle);
-        // Start Date
-        waitForElementToBeVisible(testStartDateInput);
-        testStartDateInput.sendKeys(startDate);
+        if (contentTestType.equals("Class Test")) {
+            // Test Title
+            waitForElementToBeVisible(testTitleInput);
+            testTitleInput.sendKeys(testTitle);
+
+            // Start Date
+            waitForElementToBeVisible(testStartDateInput);
+            testStartDateInput.sendKeys(startDate);
+        } else {
+            // Content Title
+            waitForElementToBeVisible(testClassContentNameInput);
+            testClassContentNameInput.sendKeys(testTitle);
+        }
+
         // Test Type
         waitForElementToBeVisible(testTypeInput);
         testTypeInput.sendKeys(testType);

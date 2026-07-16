@@ -24,6 +24,7 @@ public class CreateQuizTest extends BaseTest {
     // Test Data
     private String classTitle;
     private String testTitle;
+    private String contentTitle;
     private String testType;
     private String duration;
     private String mentorName;
@@ -36,6 +37,7 @@ public class CreateQuizTest extends BaseTest {
         // Test Data
         classTitle = TestDataReader.getValue("class-title");
         testTitle = TestDataReader.getValue("valid-test-title");
+        contentTitle = TestDataReader.getValue("created-content-title");
         duration = TestDataReader.getValue("test-duration");
         testType = TestDataReader.getValue("test-type");
         mentorName = TestDataReader.getValue("valid-add-mentor-name");
@@ -44,6 +46,7 @@ public class CreateQuizTest extends BaseTest {
         List<Map<String, String>> notEmptyFields = List.of(
                 Map.of("key", "Class Title", "value", classTitle),
                 Map.of("key", "Test Title", "value", testTitle),
+                Map.of("key", "Content Title", "value", contentTitle),
                 Map.of("key", "Test Type", "value", testType),
                 Map.of("key", "Duration", "value", duration),
                 Map.of("key", "Mentor Name", "value", mentorName)
@@ -75,7 +78,8 @@ public class CreateQuizTest extends BaseTest {
                 "Timer",
                 duration,
                 mentorName,
-                DataGenerator.getDateTimeFromNow(7)
+                DataGenerator.getDateTimeFromNow(7),
+                "Class Test"
         );
 
         logger.info("TS-5: Click 'Create Test'");
@@ -111,7 +115,8 @@ public class CreateQuizTest extends BaseTest {
                 "Timer",
                 duration,
                 mentorName,
-                DataGenerator.getDateTimeFromNow(7)
+                DataGenerator.getDateTimeFromNow(7),
+                "Class Test"
         );
 
         logger.info("TS-5: Click 'Create Test'");
@@ -124,11 +129,52 @@ public class CreateQuizTest extends BaseTest {
         logger.info("User cant add class test with invalid empty title: executed successfully");
     }
 
+    // Positive Test | P1 | Valid
+    @Test(priority = 2, groups = {"ui-test"}, description = "TC-CLMG-054 - User can add content test with valid data")
+    public void testUserCanAddContentTestWithValidData() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Test tab");
+        classPage.openTabByTitle("Test");
+        Assert.assertTrue(classPage.isClassTestSectionTitleDisplayed(), "Section title 'Test' must be visible");
+
+        logger.info("TS-2: Click 'Create Test' button");
+        classPage.clickAddTestButton();
+
+        logger.info("TS-3: Select a test test type");
+        classPage.setTestContentType("Content Test");
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateTest(
+                contentTitle,
+                testType,
+                "Timer",
+                duration,
+                mentorName,
+                DataGenerator.getDateTimeFromNow(7),
+                "Content Test"
+        );
+
+        logger.info("TS-5: Click 'Create Test'");
+        classPage.clickSubmitTest();
+
+        logger.info("Expected Result: System redirected to Class Edit Page and at the Test tab and a success message 'Succes Create Test' appear");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Succes Create Test"), "The success message is mismatched");
+        Assert.assertTrue(classPage.isClassTestSectionTitleDisplayed(), "Section title 'Test' must be visible");
+
+        logger.info("User can add content test with valid data: executed successfully");
+    }
+
     @AfterMethod
     public void tearDown(ITestResult result) {
         // Store created test
         if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("testUserCanAddClassTestWithValidData")) {
-            TestDataReader.setValue("created-test-title", testTitle);
+            TestDataReader.setValue("created-test-title-class", testTitle);
+        }
+
+        if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("testUserCanAddContentTestWithValidData")) {
+            TestDataReader.setValue("created-test-title-content", testTitle);
         }
     }
 }
