@@ -308,6 +308,24 @@ public class ClassPage extends BasePage {
         this.test.fillSearchAdd(testName);
     }
 
+    public void clickAddTestButton() {
+        this.test.clickAddButton();
+    }
+
+    public void setTestContentType(String testContentType) {
+        this.test.setTestContentType(testContentType);
+    }
+
+    public void fillCreateTest(
+        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate
+    ) {
+        this.test.fillCreate(testTitle, testType, testDurationMethod, duration, mentorName, startDate);
+    }
+
+    public void clickSubmitTest() {
+        this.test.clickSubmit();
+    }
+
     public boolean isClassTestFailedMessageDisplayed(String message) {
         return this.test.isFailedMessageDisplayed(message);
     }

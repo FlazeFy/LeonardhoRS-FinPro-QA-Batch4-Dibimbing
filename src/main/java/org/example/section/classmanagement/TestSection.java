@@ -17,6 +17,31 @@ public class TestSection extends BasePage {
     @FindBy(xpath = "//input[@placeholder='Search test...']")
     private WebElement classTestSearchInput;
 
+    @FindBy(id = "create-class-test-title-input")
+    private WebElement testTitleInput;
+
+    @FindBy(id = "create-class-test-start-date-input")
+    private WebElement testStartDateInput;
+
+    @FindBy(id = "create-class-test-test-type-input")
+    private WebElement testTypeInput;
+
+    @FindBy(id = "create-class-test-duration-timer-input")
+    private WebElement testDurationInput;
+
+    @FindBy(id = "create-class-test-choose-mentor-input")
+    private WebElement testMentorNameInput;
+
+    // Radio Element
+    @FindBy(id = "create-class-test-test-relation-input")
+    private WebElement testContentTypeRadio;
+
+    @FindBy(id = "create-class-test-duration-method-input")
+    private WebElement testDurationMethodRadio;
+
+    @FindBy(id = "create-class-test-need-finish-grading-input")
+    private WebElement testNeedGradingStatusRadio;
+
     // Text Element
     @FindBy(xpath = "//p[normalize-space()='List Test']")
     public WebElement classTestSectionTitle;
@@ -25,13 +50,66 @@ public class TestSection extends BasePage {
     @FindBy(id = "create-class-test-button")
     private WebElement addTestButton;
 
+    @FindBy(id = "create-class-test-create-test-button")
+    private WebElement submitTestButton;
+
     public TestSection(WebDriver driver) {
         super(driver);
+    }
+
+    // Click Action
+    public void clickAddButton() {
+        waitForElementToBeVisible(addTestButton);
+        addTestButton.click();
+    }
+
+    public void clickSubmit() {
+        waitForElementToBeVisible(submitTestButton);
+        submitTestButton.click();
     }
 
     // Fill Input Action
     public void fillSearchAdd(String mentorName) {
         classTestSearchInput.sendKeys(mentorName);
+    }
+
+    public void fillCreate(
+        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate
+    ) {
+        // Test Title
+        waitForElementToBeVisible(testTitleInput);
+        testTitleInput.sendKeys(testTitle);
+        // Start Date
+        waitForElementToBeVisible(testStartDateInput);
+        testStartDateInput.sendKeys(startDate);
+        // Test Type
+        waitForElementToBeVisible(testTypeInput);
+        testTypeInput.sendKeys(testType);
+        // Test Duration Method
+        selectRadioGroup(testDurationMethodRadio, testDurationMethod);
+        // Test Duration
+        waitForElementToBeVisible(testDurationInput);
+        testDurationInput.sendKeys(duration);
+        // Test Grading Status
+        selectRadioGroup(testNeedGradingStatusRadio, "No");
+        // Mentor Name
+        waitForElementToBeVisible(testMentorNameInput);
+        testMentorNameInput.sendKeys(mentorName);
+    }
+
+    private void selectRadioGroup(WebElement radioElement, String val) {
+        waitForElementToBeVisible(radioElement);
+
+        WebElement radioOption = radioElement.findElement(
+                By.xpath(".//label[.//p[starts-with(normalize-space(), '" + val + "')]]")
+        );
+
+        wait.until(ExpectedConditions.elementToBeClickable(radioOption));
+        radioOption.click();
+    }
+
+    public void setTestContentType(String testContentType) {
+        selectRadioGroup(testContentTypeRadio, testContentType);
     }
     
     // Visibility Action

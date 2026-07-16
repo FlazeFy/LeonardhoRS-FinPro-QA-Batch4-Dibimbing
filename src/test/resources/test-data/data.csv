@@ -48,3 +48,7 @@ create-announcement-title-api,final-exam-test,2026-07-15 11:33:11
 create-announcement-id-api,2763c0ea-ec7d-4a5d-85ba-ab3b8995974f,2026-07-15 11:33:11
 invalid-test-title,exam-not-found,2026-07-15 11:33:11
 created-test-title-api,exam-test,2026-07-15 11:33:11
+valid-test-title,exam-test,2026-07-15 11:33:11
+test-duration,30,2026-07-15 11:33:11
+test-type,Pre Test,2026-07-15 11:33:11
+created-test-title,exam-test,2026-07-16 12:58:02
