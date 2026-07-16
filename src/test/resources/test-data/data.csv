@@ -46,4 +46,5 @@ assessment-aspect,clean code,2026-07-14 23:04:41
 max-score,100,2026-07-14 23:04:41
 create-announcement-title-api,final-exam-test,2026-07-15 11:33:11
 create-announcement-id-api,2763c0ea-ec7d-4a5d-85ba-ab3b8995974f,2026-07-15 11:33:11
-invalid-test-name,exam-not-found,2026-07-15 11:33:11
+invalid-test-title,exam-not-found,2026-07-15 11:33:11
+created-test-title-api,exam-test,2026-07-15 11:33:11
