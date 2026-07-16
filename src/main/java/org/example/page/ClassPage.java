@@ -3,10 +3,7 @@ package org.example.page;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.component.TableComponent;
-import org.example.section.classmanagement.AnnouncementSection;
-import org.example.section.classmanagement.ClassManagementSection;
-import org.example.section.classmanagement.ContentSection;
-import org.example.section.classmanagement.MentorSection;
+import org.example.section.classmanagement.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,6 +21,7 @@ public class ClassPage extends BasePage {
     private final AnnouncementSection announcement;
     private final ContentSection content;
     private final MentorSection mentor;
+    private final TestSection test;
     private final TableComponent table;
 
     public ClassPage(WebDriver driver) {
@@ -32,11 +30,20 @@ public class ClassPage extends BasePage {
         this.announcement = new AnnouncementSection(driver);
         this.content = new ContentSection(driver);
         this.mentor = new MentorSection(driver);
+        this.test = new TestSection(driver);
         this.table = new TableComponent(driver);
     }
 
     public WebElement getClassAddMentorSectionTitle() {
         return this.mentor.classAddMentorSectionTitle;
+    }
+
+    public WebElement getClassMentorSectionTitle() {
+        return this.mentor.classMentorSectionTitle;
+    }
+
+    public WebElement getClassTestSectionTitle() {
+        return this.test.classTestSectionTitle;
     }
 
     // Class Management
@@ -288,16 +295,52 @@ public class ClassPage extends BasePage {
         return this.mentor.isSelectedValid(selectedMentor);
     }
 
+    // Test Section
+    public boolean isClassTestSectionTitleDisplayed() {
+        return this.test.isSectionTitleDisplayed();
+    }
+
+    public boolean isSearchClassTestDisplayed() {
+        return this.test.isSearchDisplayed();
+    }
+
+    public void fillSearchClassTest(String testName) {
+        this.test.fillSearchAdd(testName);
+    }
+
+    public void clickAddTestButton() {
+        this.test.clickAddButton();
+    }
+
+    public void setTestContentType(String testContentType) {
+        this.test.setTestContentType(testContentType);
+    }
+
+    public void fillCreateTest(
+        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate,
+        String contentTestType, String deadlineDate
+    ) {
+        this.test.fillCreate(testTitle, testType, testDurationMethod, duration, mentorName, startDate, contentTestType, deadlineDate);
+    }
+
+    public void clickSubmitTest() {
+        this.test.clickSubmit();
+    }
+
+    public boolean isClassTestFailedMessageDisplayed(String message) {
+        return this.test.isFailedMessageDisplayed(message);
+    }
+
     // Table Component
-    public boolean isTableDisplayed(WebElement afterElement) {
-        return this.table.isDisplayed(afterElement);
+    public boolean isTableDisplayed(WebElement sectionTitleElement, WebElement afterElement) {
+        return this.table.isDisplayed(sectionTitleElement, afterElement);
     }
 
-    public boolean isTableDataValid(WebElement afterElement, String tagName) {
-        return this.table.isDataValid(afterElement, tagName);
+    public boolean isTableDataValid(WebElement sectionTitleElement, WebElement afterElement, String tagName) {
+        return this.table.isDataValid(sectionTitleElement, afterElement, tagName);
     }
 
-    public List<Map<String, String>> getTableData(WebElement afterElement) {
-        return this.table.getData(afterElement);
+    public List<Map<String, String>> getTableData(WebElement sectionTitleElement, WebElement afterElement) {
+        return this.table.getData(sectionTitleElement, afterElement);
     }
 }

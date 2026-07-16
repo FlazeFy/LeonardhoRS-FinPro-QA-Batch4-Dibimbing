@@ -54,6 +54,14 @@
         </classes>
     </test>
 
+    <test name="UI/E2E Test: Class - Test Tests">
+        <classes>
+            <class name="test.e2e.classmanagement.CreateQuizTest"/>
+            <class name="test.e2e.classmanagement.ViewClassQuizTest"/>
+            <class name="test.e2e.classmanagement.SearchClassQuizTest"/>
+        </classes>
+    </test>
+
     <!-- Integration API Test -->
     <test name="API/Integration Test: Auth Module">
         <classes>
