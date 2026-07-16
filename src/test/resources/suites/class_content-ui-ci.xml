@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Class - Content Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="UI/E2E Test: Class - Content Tests">
+        <classes>
+            <class name="test.e2e.classmanagement.CreateContentTest"/>
+            <class name="test.e2e.classmanagement.SearchClassContentTest"/>
+            <class name="test.e2e.classmanagement.ToggleContentVisibilityTest"/>
+            <class name="test.e2e.classmanagement.EditClassContentTest"/>
+        </classes>
+    </test>
+</suite>

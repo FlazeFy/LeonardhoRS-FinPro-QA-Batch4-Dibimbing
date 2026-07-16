@@ -9,6 +9,7 @@
     <test name="UI/E2E Test: Auth Tests">
         <classes>
             <class name="test.e2e.auth.LoginTest"/>
+            <class name="test.e2e.auth.SignOutTest"/>
         </classes>
     </test>
 
@@ -47,10 +48,10 @@
 
     <test name="UI/E2E Test: Class - Mentor Tests">
         <classes>
-            <class name="test.e2e.classmanagement.ViewAssignedClassMentorTest"/>
-            <class name="test.e2e.classmanagement.SearchAssignedClassMentorTest"/>
             <class name="test.e2e.classmanagement.SearchClassMentorTest"/>
             <class name="test.e2e.classmanagement.AssignClassMentorTest"/>
+            <class name="test.e2e.classmanagement.ViewAssignedClassMentorTest"/>
+            <class name="test.e2e.classmanagement.SearchAssignedClassMentorTest"/>
         </classes>
     </test>
 
