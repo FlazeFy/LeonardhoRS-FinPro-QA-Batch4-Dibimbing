@@ -23,6 +23,9 @@ public class TestSection extends BasePage {
     @FindBy(id = "create-class-test-start-date-input")
     private WebElement testStartDateInput;
 
+    @FindBy(id = "create-class-test-duration-date-input")
+    private WebElement testDeadlineDateInput;
+
     @FindBy(id = "create-class-test-test-type-input")
     private WebElement testTypeInput;
 
@@ -76,8 +79,10 @@ public class TestSection extends BasePage {
         classTestSearchInput.sendKeys(mentorName);
     }
 
+    // If content test type not equal to 'Class Test'. Test title act as content title
     public void fillCreate(
-        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate, String contentTestType
+        String testTitle, String testType, String testDurationMethod, String duration, String mentorName, String startDate,
+        String contentTestType, String deadlineDate
     ) {
         if (contentTestType.equals("Class Test")) {
             // Test Title
@@ -96,11 +101,19 @@ public class TestSection extends BasePage {
         // Test Type
         waitForElementToBeVisible(testTypeInput);
         testTypeInput.sendKeys(testType);
+
         // Test Duration Method
         selectRadioGroup(testDurationMethodRadio, testDurationMethod);
-        // Test Duration
-        waitForElementToBeVisible(testDurationInput);
-        testDurationInput.sendKeys(duration);
+        if (testDurationMethod.equals("Deadline")) {
+            // Deadline Date
+            waitForElementToBeVisible(testDeadlineDateInput);
+            testDeadlineDateInput.sendKeys(deadlineDate);
+        } else {
+            // Test Duration
+            waitForElementToBeVisible(testDurationInput);
+            testDurationInput.sendKeys(duration);
+        }
+
         // Test Grading Status
         selectRadioGroup(testNeedGradingStatusRadio, "No");
         // Mentor Name

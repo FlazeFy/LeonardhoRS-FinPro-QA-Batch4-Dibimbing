@@ -79,7 +79,8 @@ public class CreateQuizTest extends BaseTest {
                 duration,
                 mentorName,
                 DataGenerator.getDateTimeFromNow(7),
-                "Class Test"
+                "Class Test",
+                null
         );
 
         logger.info("TS-5: Click 'Create Test'");
@@ -116,7 +117,8 @@ public class CreateQuizTest extends BaseTest {
                 duration,
                 mentorName,
                 DataGenerator.getDateTimeFromNow(7),
-                "Class Test"
+                "Class Test",
+                null
         );
 
         logger.info("TS-5: Click 'Create Test'");
@@ -152,7 +154,8 @@ public class CreateQuizTest extends BaseTest {
                 duration,
                 mentorName,
                 DataGenerator.getDateTimeFromNow(7),
-                "Content Test"
+                "Content Test",
+                null
         );
 
         logger.info("TS-5: Click 'Create Test'");
@@ -189,7 +192,8 @@ public class CreateQuizTest extends BaseTest {
                 duration,
                 mentorName,
                 DataGenerator.getDateTimeFromNow(7),
-                "Content Test"
+                "Content Test",
+                null
         );
 
         logger.info("TS-5: Click 'Create Test'");
@@ -200,6 +204,43 @@ public class CreateQuizTest extends BaseTest {
         Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field class content"), "The success message is mismatched");
 
         logger.info("User cant add content test with unselected class content: executed successfully");
+    }
+
+    // Negative Test | P2 | Invalid
+    @Test(priority = 2, groups = {"ui-test"}, description = "TC-CLMG-057 - User cant add content test with invalid deadline before current date")
+    public void testUserCantAddContentTestWithInvalidDeadlineBeforeCurrentDate() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Test tab");
+        classPage.openTabByTitle("Test");
+        Assert.assertTrue(classPage.isClassTestSectionTitleDisplayed(), "Section title 'Test' must be visible");
+
+        logger.info("TS-2: Click 'Create Test' button");
+        classPage.clickAddTestButton();
+
+        logger.info("TS-3: Select a test test type");
+        classPage.setTestContentType("Content Test");
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateTest(
+                contentTitle,
+                testType,
+                "Deadline",
+                duration,
+                mentorName,
+                DataGenerator.getDateTimeFromNow(7),
+                "Content Test",
+                DataGenerator.getDateTimeFromNow(-7)
+        );
+
+        logger.info("TS-5: Click 'Create Test'");
+        classPage.clickSubmitTest();
+
+        logger.info("Expected Result: System show failed message 'Kamu tidak bisa membuat test dengan deadline yang sudah lewat. Periksa dan perbaiki bagian deadline'");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Kamu tidak bisa membuat test dengan deadline yang sudah lewat. Periksa dan perbaiki bagian deadline"), "The success message is mismatched");
+
+        logger.info("User cant add content test with invalid deadline before current date: executed successfully");
     }
 
     @AfterMethod
