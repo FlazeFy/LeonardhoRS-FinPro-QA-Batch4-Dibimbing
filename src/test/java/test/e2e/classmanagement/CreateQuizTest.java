@@ -89,6 +89,41 @@ public class CreateQuizTest extends BaseTest {
         logger.info("User can add class test with valid data: executed successfully");
     }
 
+    // Negative Test | P2 | Invalid
+    @Test(priority = 1, groups = {"ui-test"}, description = "TC-CLMG-049 - User cant add class test with invalid empty title")
+    public void testUserCantAddClassTestWithInvalidEmptyTitle() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Test tab");
+        classPage.openTabByTitle("Test");
+        Assert.assertTrue(classPage.isClassTestSectionTitleDisplayed(), "Section title 'Test' must be visible");
+
+        logger.info("TS-2: Click 'Create Test' button");
+        classPage.clickAddTestButton();
+
+        logger.info("TS-3: Select a test test type");
+        classPage.setTestContentType("Class Test");
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateTest(
+                "",
+                testType,
+                "Timer",
+                duration,
+                mentorName,
+                DataGenerator.getDateTimeFromNow(7)
+        );
+
+        logger.info("TS-5: Click 'Create Test'");
+        classPage.clickSubmitTest();
+
+        logger.info("Expected Result: System show failed message 'Check field title'");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field title"), "The success message is mismatched");
+
+        logger.info("User cant add class test with invalid empty title: executed successfully");
+    }
+
     @AfterMethod
     public void tearDown(ITestResult result) {
         // Store created test
