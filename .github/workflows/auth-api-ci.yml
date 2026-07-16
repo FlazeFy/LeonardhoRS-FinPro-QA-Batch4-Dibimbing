@@ -24,8 +24,6 @@ jobs:
           mkdir -p src/test/resources/config
           cat <<EOF > src/test/resources/config/staging.properties
           baseApiUrl=${{ secrets.BASEAPIURL }}
-          usernameGraphQl=${{ secrets.USERNAMEGRAPHQL }}
-          passwordGraphQl=${{ secrets.PASSWORDGRAPHQL }}
           companyId=${{ secrets.COMPANYID }}
           validEmailAuth=${{ secrets.VALIDEMAILAUTH }}
           invalidUnregisteredEmailAuth=${{ secrets.INVALIDUNREGISTEREDEMAILAUTH }}
