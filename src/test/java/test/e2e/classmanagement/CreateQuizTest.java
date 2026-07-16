@@ -166,6 +166,42 @@ public class CreateQuizTest extends BaseTest {
         logger.info("User can add content test with valid data: executed successfully");
     }
 
+    // Negative Test | P2 | Invalid
+    @Test(priority = 2, groups = {"ui-test"}, description = "TC-CLMG-055 - User cant add content test with unselected class content")
+    public void testUserCantAddContentTestWithUnselectedClassContent() {
+        classPage = new ClassPage(DriverManager.getDriver());
+
+        logger.info("TS-1: On the Edit Class page, open the Test tab");
+        classPage.openTabByTitle("Test");
+        Assert.assertTrue(classPage.isClassTestSectionTitleDisplayed(), "Section title 'Test' must be visible");
+
+        logger.info("TS-2: Click 'Create Test' button");
+        classPage.clickAddTestButton();
+
+        logger.info("TS-3: Select a test test type");
+        classPage.setTestContentType("Content Test");
+
+        logger.info("TS-4: Fill all the field (based on test data)");
+        classPage.fillCreateTest(
+                "",
+                testType,
+                "Timer",
+                duration,
+                mentorName,
+                DataGenerator.getDateTimeFromNow(7),
+                "Content Test"
+        );
+
+        logger.info("TS-5: Click 'Create Test'");
+        classPage.clickSubmitTest();
+
+        logger.info("Expected Result: System show failed message 'Check field class content'");
+        allPage = new AllPage(DriverManager.getDriver());
+        Assert.assertTrue(allPage.getResponsePopUpText().contains("Check field class content"), "The success message is mismatched");
+
+        logger.info("User cant add content test with unselected class content: executed successfully");
+    }
+
     @AfterMethod
     public void tearDown(ITestResult result) {
         // Store created test
@@ -174,7 +210,7 @@ public class CreateQuizTest extends BaseTest {
         }
 
         if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("testUserCanAddContentTestWithValidData")) {
-            TestDataReader.setValue("created-test-title-content", testTitle);
+            TestDataReader.setValue("created-test-title-content", contentTitle);
         }
     }
 }
