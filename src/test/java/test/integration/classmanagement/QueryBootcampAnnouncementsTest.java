@@ -34,7 +34,7 @@ public class QueryBootcampAnnouncementsTest extends BaseApiTest {
         sid = TestUtil.getSid();
 
         logger.info("Pre-Condition: User already select a class");
-        classId = TestDataReader.getValue("class-id");
+        classId = TestDataReader.getValue("created-bootcamp-id-api");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(

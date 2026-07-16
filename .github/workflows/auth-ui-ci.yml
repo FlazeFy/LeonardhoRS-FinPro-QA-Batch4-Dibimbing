@@ -1,11 +1,11 @@
-name: Auth Integration Test
+name: Auth E2E Test
 
 on:
   push:
     branches: [main]
 
 jobs:
-  auth-integration:
+  auth-e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p src/test/resources/config
           cat <<EOF > src/test/resources/config/staging.properties
-          baseApiUrl=${{ secrets.BASEAPIURL }}
+          baseUrl=${{ secrets.BASEURL }}
           companyId=${{ secrets.COMPANYID }}
           validEmailAuth=${{ secrets.VALIDEMAILAUTH }}
           invalidUnregisteredEmailAuth=${{ secrets.INVALIDUNREGISTEREDEMAILAUTH }}
@@ -32,8 +32,8 @@ jobs:
           invalidPasswordAuth=${{ secrets.INVALIDPASSWORDAUTH }}
           EOF
 
-      - name: Run Auth Integration Tests
-        run: ./gradlew test -Psuite=auth-api-ci.xml -Penv=staging
+      - name: Run Auth E2E Tests
+        run: ./gradlew test -Psuite=auth-ui-ci.xml -Penv=staging
 
       - name: Send test report via email
         if: always()
@@ -44,7 +44,7 @@ jobs:
           secure: true
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Auth Integration/API Test Report - ${{ job.status }} - ${{ github.repository }}"
+          subject: "Auth E2E/UI Test Report - ${{ job.status }} - ${{ github.repository }}"
           to: ${{ secrets.MAIL_TO }}
           from: Dibimbing-LMS-B2B Automation Test Bot
           body: |

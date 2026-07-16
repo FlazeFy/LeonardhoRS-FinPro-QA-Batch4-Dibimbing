@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Dashboard Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="API/Integration Test: Dashboard Module">
+        <classes>
+            <class name="test.integration.dashboard.QueryMyCompanyTest"/>
+            <class name="test.integration.dashboard.QueryCountEmployeesTest"/>
+            <class name="test.integration.dashboard.QueryCountProgramsTest"/>
+            <class name="test.integration.dashboard.QueryCountActiveTrainingTest"/>
+            <class name="test.integration.dashboard.QueryCountFinishTrainingTest"/>
+        </classes>
+    </test>
+</suite>

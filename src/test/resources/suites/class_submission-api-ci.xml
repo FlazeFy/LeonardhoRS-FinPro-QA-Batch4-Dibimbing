@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Class - Submission Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="API/Integration Test: Class - Submission Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationSubmissionFinishGradingToggleTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampSubmissionsTest"/>
+            <class name="test.integration.classmanagement.MutationUpdateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampSubmissionTest"/>
+        </classes>
+    </test>
+</suite>

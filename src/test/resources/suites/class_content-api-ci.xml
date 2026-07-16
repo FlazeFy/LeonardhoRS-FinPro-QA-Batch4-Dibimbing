@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Class - Content Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="API/Integration Test: Class - Content Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>
+            <class name="test.integration.classmanagement.MutationToggleHideBootcampContentTest"/>
+            <class name="test.integration.classmanagement.MutationUpdateBootcampContentTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampContentTest"/>
+        </classes>
+    </test>
+</suite>

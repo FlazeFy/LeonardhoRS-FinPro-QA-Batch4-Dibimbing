@@ -14,14 +14,14 @@ import core.BaseApiTest;
 import core.TestDataReader;
 import core.TestUtil;
 
-public class MutationDeleteBootcampAnnouncementTest extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(MutationDeleteBootcampAnnouncementTest.class);
+public class MutationDeleteBootcampSubmissionTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(MutationDeleteBootcampSubmissionTest.class);
     private String sid;
-    private String announcementId;
+    private String submissionId;
 
     private static final String mutation = """
-     mutation deleteBootcampAnnouncement($id: String!) {
-       deleteBootcampAnnouncement(id: $id) {
+     mutation deleteBootcampSubmission($id: String!) {
+       deleteBootcampSubmission(id: $id) {
          id
        }
      }
@@ -32,35 +32,35 @@ public class MutationDeleteBootcampAnnouncementTest extends BaseApiTest {
         logger.info("Pre-Condition: User already signed in");
         sid = TestUtil.getSid();
 
-        logger.info("Pre-Condition: At least one announcement exists");
-        announcementId = TestDataReader.getValue("created-announcement-id");
+        logger.info("Pre-Condition: At least one submission exists");
+        submissionId = TestDataReader.getValue("created-submission-id-api");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
-                Map.of("key", "Announcement Id", "value", announcementId)
+                Map.of("key", "Submission Id", "value", submissionId)
         );
         TestUtil.validateNotEmptyString(notEmptyFields, null);
     }
 
     // Positive Test | P2
-    @Test(priority = 4, groups = {"api-test"}, description = "TC-CLMG-013 - User can delete class announcement")
-    public void deleteBootcampAnnouncement() {
+    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-067 - User can delete a class submission")
+    public void deleteBootcampSubmission() {
         Map<String, Object> variables = new HashMap<>();
-        variables.put("id", announcementId);
+        variables.put("id", submissionId);
 
         // Request
         Response response = TestUtil.templateGraphQLRequest(
-                "deleteBootcampAnnouncement", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+                "deleteBootcampSubmission", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
         );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure
-        Assert.assertNotNull(jsonPath.get("data.deleteBootcampAnnouncement"));
-        Assert.assertTrue(jsonPath.get("data.deleteBootcampAnnouncement") instanceof Map);
+        Assert.assertNotNull(jsonPath.get("data.deleteBootcampSubmission"));
+        Assert.assertTrue(jsonPath.get("data.deleteBootcampSubmission") instanceof Map);
 
-        // Validate announcement props
+        // Validate submission props
         // Get list key / column
-        Map<String, Object> dataObj = jsonPath.getMap("data.deleteBootcampAnnouncement");
+        Map<String, Object> dataObj = jsonPath.getMap("data.deleteBootcampSubmission");
 
         List<String> stringFields = List.of("id");
         TestUtil.validateColumn(dataObj, stringFields, "string", false);
@@ -69,6 +69,6 @@ public class MutationDeleteBootcampAnnouncementTest extends BaseApiTest {
         List<String> notEmptyStringFields = List.of("id");
         TestUtil.validateNotEmptyString(dataObj, notEmptyStringFields);
 
-        logger.info("User can delete class announcement: executed successfully");
+        logger.info("User can delete a class submission: executed successfully");
     }
 }

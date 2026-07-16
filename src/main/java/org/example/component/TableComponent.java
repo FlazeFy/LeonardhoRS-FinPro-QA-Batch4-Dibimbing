@@ -19,8 +19,8 @@ public class TableComponent extends BasePage {
         super(driver);
     }
 
-    public WebElement getElement(WebElement afterElement) {
-//        waitForElementToBeVisible(classManagementSectionTitle);
+    public WebElement getElement(WebElement sectionTitleElement, WebElement afterElement) {
+        waitForElementToBeVisible(sectionTitleElement);
 
         if (afterElement != null) {
             waitForElementToBeVisible(afterElement);
@@ -34,9 +34,9 @@ public class TableComponent extends BasePage {
         return driver.findElement(By.xpath("//table[.//th]"));
     }
 
-    public boolean isDisplayed(WebElement afterElement) {
+    public boolean isDisplayed(WebElement sectionTitleElement, WebElement afterElement) {
         try {
-            WebElement table = getElement(afterElement);
+            WebElement table = getElement(sectionTitleElement, afterElement);
 
             boolean hasThead = !table.findElements(By.tagName("thead")).isEmpty();
             boolean hasTbody = !table.findElements(By.tagName("tbody")).isEmpty();
@@ -48,9 +48,9 @@ public class TableComponent extends BasePage {
         }
     }
 
-    public boolean isDataValid(WebElement afterElement, String tagName) {
+    public boolean isDataValid(WebElement sectionTitleElement, WebElement afterElement, String tagName) {
         try {
-            WebElement table = getElement(afterElement);
+            WebElement table = getElement(sectionTitleElement, afterElement);
             // check this, still failed at the TC-CLMG-037
             wait.until(driver -> {
                 List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
@@ -95,10 +95,10 @@ public class TableComponent extends BasePage {
         }
     }
 
-    public List<Map<String, String>> getData(WebElement afterElement) {
+    public List<Map<String, String>> getData(WebElement sectionTitleElement, WebElement afterElement) {
         List<Map<String, String>> result = new ArrayList<>();
 
-        WebElement table = getElement(afterElement);
+        WebElement table = getElement(sectionTitleElement, afterElement);
         List<WebElement> headers = table.findElements(By.xpath(".//thead//th"));
         List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
 
