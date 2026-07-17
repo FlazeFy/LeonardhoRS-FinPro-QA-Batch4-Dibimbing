@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,8 +82,56 @@ public class DriverManager {
                 }
             }
             case "firefox" -> {
-                WebDriverManager.firefoxdriver().setup();
-                webDriver = new FirefoxDriver();
+                String githubActions = System.getenv("GITHUB_ACTIONS");
+                boolean isCI = githubActions != null && githubActions.equals("true");
+
+                System.out.println("=== Driver Initialization ===");
+                System.out.println("Running in CI: " + isCI);
+
+                if (!isCI) {
+                    System.out.println("Setting up GeckoDriver via WebDriverManager");
+                    WebDriverManager.firefoxdriver().setup();
+                } else {
+                    System.out.println("Using pre-installed GeckoDriver from CI");
+                    String geckoDriverPath = System.getenv("GECKODRIVER_PATH");
+                    if (geckoDriverPath != null && !geckoDriverPath.isEmpty()) {
+                        System.setProperty("webdriver.gecko.driver", geckoDriverPath);
+                        System.out.println("GeckoDriver path set to: " + geckoDriverPath);
+                    }
+                }
+
+                FirefoxOptions options = new FirefoxOptions();
+                options.addPreference("dom.webnotifications.enabled", false);
+                options.addPreference("media.volume_scale", "0.0");
+                options.addPreference("privacy.trackingprotection.enabled", false);
+
+                if (isCI) {
+                    System.out.println("Configuring Firefox for CI environment");
+                    String firefoxBin = System.getenv("FIREFOX_BIN");
+                    if (firefoxBin != null && !firefoxBin.isEmpty()) {
+                        options.setBinary(firefoxBin);
+                        System.out.println("Firefox binary set to: " + firefoxBin);
+                    } else {
+                        System.out.println("FIREFOX_BIN not set, using default");
+                    }
+                    options.addArguments("-headless");
+                    options.addArguments("--width=1920");
+                    options.addArguments("--height=1080");
+                    System.out.println("Headless mode enabled with CI-specific options");
+                } else {
+                    options.addPreference("general.useragent.override",
+                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Gecko/20100101 Firefox/120.0");
+                }
+
+                try {
+                    System.out.println("Creating FirefoxDriver instance...");
+                    webDriver = new FirefoxDriver(options);
+                    System.out.println("FirefoxDriver created successfully!");
+                } catch (Exception e) {
+                    System.err.println("Failed to create FirefoxDriver: " + e.getMessage());
+                    e.printStackTrace();
+                    throw e;
+                }
             }
         }
         driver.set(webDriver);

@@ -27,7 +27,9 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     @Parameters("browser")
     public void setUp(@Optional("chrome") String browser) {
-        DriverManager.initDriver(browser);
+        String resolvedBrowser = System.getProperty("browser", browser);
+        logger.info("Running tests with browser: " + resolvedBrowser);
+        DriverManager.initDriver(resolvedBrowser);
         DriverManager.getDriver().manage().window().maximize();
         DriverManager.getDriver().get(config.getProperty("baseUrl"));
     }

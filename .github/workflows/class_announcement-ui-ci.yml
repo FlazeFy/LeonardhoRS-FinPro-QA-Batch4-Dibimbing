@@ -9,6 +9,10 @@ on:
 jobs:
   class-announcement-e2e:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [ chrome, firefox ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,8 +36,28 @@ jobs:
           validPasswordAuth=${{ secrets.VALIDPASSWORDAUTH }}
           EOF
 
+      - name: Set up Chrome
+        if: matrix.browser == 'chrome'
+        uses: browser-actions/setup-chrome@latest
+
+      - name: Set up ChromeDriver
+        if: matrix.browser == 'chrome'
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: Set up Firefox
+        if: matrix.browser == 'firefox'
+        uses: browser-actions/setup-firefox@latest
+
+      - name: Set up GeckoDriver
+        if: matrix.browser == 'firefox'
+        uses: browser-actions/setup-geckodriver@latest
+
       - name: Run Class Announcement E2E Tests
-        run: ./gradlew test -Psuite=class_announcement-ui-ci.xml -Penv=staging
+        run: ./gradlew test -Psuite=class_announcement-ui-ci.xml -Penv=staging -Pbrowser=${{ matrix.browser }}
+        env:
+          CHROMEDRIVER_PATH: ${{ matrix.browser == 'chrome' && '/usr/local/bin/chromedriver' || '' }}
+          CHROME_BIN: ${{ matrix.browser == 'chrome' && '/usr/bin/google-chrome' || '' }}
+          FIREFOX_BIN: ${{ matrix.browser == 'firefox' && steps.setup-firefox.outputs.firefox-path || '' }}
 
       - name: Send test report via email
         if: always()
@@ -49,6 +73,7 @@ jobs:
           from: Dibimbing-LMS-B2B Automation Test Bot
           body: |
             Test run finished with status: ${{ job.status }}
+            Browser: ${{ matrix.browser }}
             Module: Class Announcement 
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
