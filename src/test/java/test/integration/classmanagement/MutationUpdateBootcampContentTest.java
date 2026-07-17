@@ -9,8 +9,6 @@ import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import core.BaseApiTest;
@@ -19,8 +17,8 @@ import core.TestUtil;
 
 import static core.DataGenerator.getDateTimeFromNow;
 
-public class MutationCreateBootcampContentTest extends BaseApiTest {
-    private static final Logger logger = LogManager.getLogger(MutationCreateBootcampContentTest.class);
+public class MutationUpdateBootcampContentTest extends BaseApiTest {
+    private static final Logger logger = LogManager.getLogger(MutationUpdateBootcampContentTest.class);
     private String contentId;
     private String sid;
     private String classId;
@@ -36,8 +34,8 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
     private String invalidUrl;
 
     private static final String mutation = """
-    mutation createBootcampContent($input: InputBootcampContent!) {
-      createBootcampContent(input: $input) {
+    mutation updateBootcampContent($input: InputBootcampContent!, $id: String!) {
+      updateBootcampContent(input: $input, id: $id) {
         id
       }
     }
@@ -48,8 +46,9 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
         logger.info("Pre-Condition: User already signed in");
         sid = TestUtil.getSid();
 
-        logger.info("Pre-Condition: User already select a class");
+        logger.info("Pre-Condition: User already select a class and class content");
         classId = TestDataReader.getValue("created-bootcamp-id-api");
+        contentId = TestDataReader.getValue("created-content-id");
         contentTitle = TestDataReader.getValue("valid-content-title");
         contentDesc = TestDataReader.getValue("content-desc");
         liveClassDuration = TestDataReader.getValue("content-live-class-duration");
@@ -61,6 +60,7 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
+                Map.of("key", "Content Id", "value", contentId),
                 Map.of("key", "Class Id", "value", classId),
                 Map.of("key", "Content Title", "value", contentTitle),
                 Map.of("key", "Content Description", "value", contentDesc),
@@ -74,13 +74,13 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
     }
 
     // Positive Test | P1 | Valid
-    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-014 - User can create class content")
-    public void createBootcampContent() {
+    @Test(priority = 2, groups = {"api-test"}, description = "TC-CLMG-015 - User can update class content")
+    public void updateBootcampContent() {
         // Payload / Test Data can be found at Test Steps 4
         Map<String, Object> input = new HashMap<>();
         input.put("bootcampId", classId);
-        input.put("title", contentTitle);
-        input.put("descriptions", "<p>" + contentDesc + "</p>");
+        input.put("title", contentTitle + "-test");
+        input.put("descriptions", "<p>" + contentDesc + "-test" + "</p>");
         input.put("videoPreClassUrl", "");
         input.put("videoPostClassUrl", "");
         input.put("liveClassTime", getDateTimeFromNow(7));
@@ -97,20 +97,20 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("input", input);
+        variables.put("id", contentId);
 
         // Request
         Response response = TestUtil.templateGraphQLRequest(
-                "createBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+                "updateBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
         );
         JsonPath jsonPath = response.jsonPath();
 
         // Validate base structure
-        Assert.assertNotNull(jsonPath.get("data.createBootcampContent"));
-        Assert.assertTrue(jsonPath.get("data.createBootcampContent") instanceof Map);
+        Assert.assertNotNull(jsonPath.get("data.updateBootcampContent"));
+        Assert.assertTrue(jsonPath.get("data.updateBootcampContent") instanceof Map);
 
         // Validate content props
-        // Get list key / column
-        Map<String, Object> dataObj = jsonPath.getMap("data.createBootcampContent");
+        Map<String, Object> dataObj = jsonPath.getMap("data.updateBootcampContent");
 
         List<String> stringFields = List.of("id");
         TestUtil.validateColumn(dataObj, stringFields, "string", false);
@@ -119,19 +119,17 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
         List<String> notEmptyStringFields = List.of("id");
         TestUtil.validateNotEmptyString(dataObj, notEmptyStringFields);
 
-        contentId = (String) dataObj.get("id");
-
-        logger.info("User can create class content: executed successfully");
+        logger.info("User can update class content: executed successfully");
     }
 
     // Negative Test | P3 | Invalid
-    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-017 - User cant add class content with invalid pre test url")
-    public void createBootcampContentWithInvalidPreTestUrl() {
+    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-030 - User cant update class content with invalid pre test url")
+    public void updateBootcampContentWithInvalidPreTestUrl() {
         // Payload / Test Data can be found at Test Steps 4
         Map<String, Object> input = new HashMap<>();
         input.put("bootcampId", classId);
-        input.put("title", contentTitle);
-        input.put("descriptions", "<p>" + contentDesc + "</p>");
+        input.put("title", contentTitle + "-test");
+        input.put("descriptions", "<p>" + contentDesc + "-test" + "</p>");
         input.put("videoPreClassUrl", "");
         input.put("videoPostClassUrl", "");
         input.put("liveClassTime", getDateTimeFromNow(7));
@@ -148,26 +146,27 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("input", input);
+        variables.put("id", contentId);
 
         // Request
         Response response = TestUtil.templateGraphQLRequest(
-                "createBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+                "updateBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
         );
         JsonPath jsonPath = response.jsonPath();
 
         TestUtil.validateAPIFailed(jsonPath, "Pretest Url harus menggunakan url yang valid");
 
-        logger.info("User cant add class content with invalid pre test url: executed successfully");
+        logger.info("User cant update class content with invalid pre test url: executed successfully");
     }
 
     // Negative Test | P2 | Invalid
-    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-018 - User cant add class content with invalid class meeting link")
-    public void createBootcampContentWithInvalidClassMeetingUrl() {
+    @Test(priority = 1, groups = {"api-test"}, description = "TC-CLMG-031 - User cant update class content with invalid class meeting link")
+    public void updateBootcampContentWithInvalidClassMeetingUrl() {
         // Payload / Test Data can be found at Test Steps 4
         Map<String, Object> input = new HashMap<>();
         input.put("bootcampId", classId);
-        input.put("title", contentTitle);
-        input.put("descriptions", "<p>" + contentDesc + "</p>");
+        input.put("title", contentTitle + "-test");
+        input.put("descriptions", "<p>" + contentDesc + "-test" + "</p>");
         input.put("videoPreClassUrl", "");
         input.put("videoPostClassUrl", "");
         input.put("liveClassTime", getDateTimeFromNow(7));
@@ -184,24 +183,16 @@ public class MutationCreateBootcampContentTest extends BaseApiTest {
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("input", input);
+        variables.put("id", contentId);
 
         // Request
         Response response = TestUtil.templateGraphQLRequest(
-                "createBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
+                "updateBootcampContent", mutation, variables, config.getProperty("usernameGraphQl"), config.getProperty("passwordGraphQl"), sid
         );
         JsonPath jsonPath = response.jsonPath();
 
         TestUtil.validateAPIFailed(jsonPath, "Zoom Url harus menggunakan url yang valid");
 
-        logger.info("User cant add class content with invalid class meeting link: executed successfully");
-    }
-
-    @AfterMethod
-    public void tearDown(ITestResult result) {
-        // Store created content
-        if (result.getStatus() == ITestResult.SUCCESS && result.getMethod().getMethodName().equals("createBootcampContent")) {
-            TestDataReader.setValue("created-content-title", contentTitle);
-            TestDataReader.setValue("created-content-id", contentId);
-        }
+        logger.info("User cant update class content with invalid class meeting link: executed successfully");
     }
 }

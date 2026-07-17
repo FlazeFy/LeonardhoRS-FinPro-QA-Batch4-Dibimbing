@@ -47,7 +47,7 @@ public class MentorSection extends BasePage {
     private WebElement listSelectedAddMentor;
 
     @FindBy(xpath = "//p[normalize-space()='Mentor List']")
-    private WebElement classMentorSectionTitle;
+    public WebElement classMentorSectionTitle;
 
     private final TableComponent table;
 
@@ -84,7 +84,7 @@ public class MentorSection extends BasePage {
 
     public String selectFirstAndGetName() {
         try {
-            WebElement table = this.table.getElement(classAddMentorSectionTitle);
+            WebElement table = this.table.getElement(classMentorSectionTitle, classAddMentorSectionTitle);
 
             wait.until(driver -> {
                 WebElement firstRow = table.findElement(By.xpath(".//tbody/tr[1]"));

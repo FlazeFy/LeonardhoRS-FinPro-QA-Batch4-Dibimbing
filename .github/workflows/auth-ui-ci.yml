@@ -1,0 +1,58 @@
+name: Auth E2E Test
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  auth-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Create staging.properties
+        run: |
+          mkdir -p src/test/resources/config
+          cat <<EOF > src/test/resources/config/staging.properties
+          baseUrl=${{ secrets.BASEURL }}
+          companyId=${{ secrets.COMPANYID }}
+          validEmailAuth=${{ secrets.VALIDEMAILAUTH }}
+          invalidUnregisteredEmailAuth=${{ secrets.INVALIDUNREGISTEREDEMAILAUTH }}
+          invalidEmailAuth=${{ secrets.INVALIDEMAILAUTH }}
+          validPasswordAuth=${{ secrets.VALIDPASSWORDAUTH }}
+          invalidPasswordAuth=${{ secrets.INVALIDPASSWORDAUTH }}
+          EOF
+
+      - name: Run Auth E2E Tests
+        run: ./gradlew test -Psuite=auth-ui-ci.xml -Penv=staging
+
+      - name: Send test report via email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "Auth E2E/UI Test Report - ${{ job.status }} - ${{ github.repository }}"
+          to: ${{ secrets.MAIL_TO }}
+          from: Dibimbing-LMS-B2B Automation Test Bot
+          body: |
+            Test run finished with status: ${{ job.status }}
+            Module: Auth
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Triggered by: ${{ github.actor }}
+            
+            See attached ExtentReports HTML report here.
+          attachments: reports/extent-report_*.html

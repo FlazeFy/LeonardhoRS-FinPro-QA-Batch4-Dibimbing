@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Class - Mentor Integration Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="core.TestListener"/>
+    </listeners>
+
+    <test name="API/Integration Test: Class - Mentor Module">
+        <classes>
+            <class name="test.integration.classmanagement.QueryUnassignedMentorTest"/>
+            <class name="test.integration.classmanagement.MutationAssignMentorTest"/>
+            <class name="test.integration.classmanagement.QueryAssignedMentorTest"/>
+            <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
+        </classes>
+    </test>
+</suite>

@@ -35,10 +35,10 @@ public class QueryAssignedMentorTest extends BaseApiTest {
         sid = TestUtil.getSid();
 
         logger.info("Pre-Condition: User already select a class");
-        classId = TestDataReader.getValue("class-id");
+        classId = TestDataReader.getValue("created-bootcamp-id-api");
 
         logger.info("Pre-Condition: At least one mentor assigned");
-        mentorName = TestDataReader.getValue("valid-mentor-name");
+        mentorName = TestDataReader.getValue("valid-search-mentor-name");
 
         // Validate each test data
         List<Map<String, String>> notEmptyFields = List.of(
