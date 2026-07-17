@@ -33,7 +33,6 @@
             <class name="test.e2e.classmanagement.ViewClassAnnouncementTest"/>
             <class name="test.e2e.classmanagement.EditAnnouncementTest"/>
             <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
-            <class name="test.e2e.classmanagement.DeleteAnnouncementTest"/>
         </classes>
     </test>
 
@@ -52,6 +51,14 @@
             <class name="test.e2e.classmanagement.SearchAssignedClassMentorTest"/>
             <class name="test.e2e.classmanagement.SearchClassMentorTest"/>
             <class name="test.e2e.classmanagement.AssignClassMentorTest"/>
+        </classes>
+    </test>
+
+    <test name="UI/E2E Test: Class - Test Tests">
+        <classes>
+            <class name="test.e2e.classmanagement.CreateQuizTest"/>
+            <class name="test.e2e.classmanagement.ViewClassQuizTest"/>
+            <class name="test.e2e.classmanagement.SearchClassQuizTest"/>
         </classes>
     </test>
 
@@ -75,15 +82,17 @@
 
     <test name="API/Integration Test: Class Management Module">
         <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampTest"/>
             <class name="test.integration.classmanagement.QueryAngkatanTest"/>
             <class name="test.integration.classmanagement.QueryBootcampsTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampTest"/>
         </classes>
     </test>
 
     <test name="API/Integration Test: Class - Announcement Module">
         <classes>
-            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
             <class name="test.integration.classmanagement.MutationCreateBootcampAnnouncementTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampAnnouncementsTest"/>
             <class name="test.integration.classmanagement.MutationUpdateBootcampAnnouncementTest"/>
             <class name="test.integration.classmanagement.MutationDeleteBootcampAnnouncementTest"/>
         </classes>
@@ -94,15 +103,42 @@
             <class name="test.integration.classmanagement.MutationCreateBootcampContentTest"/>
             <class name="test.integration.classmanagement.QueryBootcampContentsTest"/>
             <class name="test.integration.classmanagement.MutationToggleHideBootcampContentTest"/>
+            <class name="test.integration.classmanagement.MutationUpdateBootcampContentTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampContentTest"/>
         </classes>
     </test>
 
     <test name="API/Integration Test: Class - Mentor Module">
         <classes>
-            <class name="test.integration.classmanagement.MutationAssignMentorTest"/>
-            <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
-            <class name="test.integration.classmanagement.QueryAssignedMentorTest"/>
             <class name="test.integration.classmanagement.QueryUnassignedMentorTest"/>
+            <class name="test.integration.classmanagement.MutationAssignMentorTest"/>
+            <class name="test.integration.classmanagement.QueryAssignedMentorTest"/>
+            <class name="test.integration.classmanagement.MutationUnassignMentorTest"/>
+        </classes>
+    </test>
+
+    <test name="API/Integration Test: Class - Test Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampQuizTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampQuizsTest"/>
+        </classes>
+    </test>
+
+    <test name="API/Integration Test: Class - Submission Module">
+        <classes>
+            <class name="test.integration.classmanagement.MutationCreateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationSubmissionFinishGradingToggleTest"/>
+            <class name="test.integration.classmanagement.QueryBootcampSubmissionsTest"/>
+            <class name="test.integration.classmanagement.MutationUpdateBootcampSubmissionTest"/>
+            <class name="test.integration.classmanagement.MutationDeleteBootcampSubmissionTest"/>
+        </classes>
+    </test>
+
+    <test name="API/Integration Test: Announcement Module">
+        <classes>
+            <class name="test.integration.announcement.MutationCreateAnnouncementTest"/>
+            <class name="test.integration.announcement.QueryAnnouncementsTest"/>
+            <class name="test.integration.announcement.MutationDeleteAnnouncementTest"/>
         </classes>
     </test>
 </suite>

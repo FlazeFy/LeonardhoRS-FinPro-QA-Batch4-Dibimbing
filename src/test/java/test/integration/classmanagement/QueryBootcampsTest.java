@@ -57,17 +57,16 @@ public class QueryBootcampsTest extends BaseApiTest {
         List<String> stringFields = List.of("id");
         TestUtil.validateColumn(bootcamps, stringFields, "string", false);
 
-        List<String> stringNullableFields = List.of("title", "descriptions", "startedAt");
+        List<String> stringNullableFields = List.of("title", "descriptions", "startedAt", "divisionId");
         TestUtil.validateColumn(bootcamps, stringNullableFields, "string", true);
 
         List<String> intFields = List.of("countAssignedUser");
         TestUtil.validateColumn(bootcamps, intFields, "number", false);
 
-        List<String> intNullableFields = List.of("angkatanId", "divisionId");
+        List<String> intNullableFields = List.of("angkatanId");
         TestUtil.validateColumn(bootcamps, intNullableFields, "number", true);
 
         // Validate each fields not empty / not whitespace only
-        // check this again .....
         List<String> notEmptyStringFields = List.of("id");
         TestUtil.validateNotEmptyString(bootcamps, notEmptyStringFields);
 
