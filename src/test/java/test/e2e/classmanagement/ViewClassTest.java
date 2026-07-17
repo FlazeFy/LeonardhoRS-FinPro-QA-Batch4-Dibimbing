@@ -62,17 +62,4 @@ public class ViewClassTest extends BaseTest {
 
         logger.info("User can view all classes: executed successfully");
     }
-
-    @AfterMethod
-    public void tearDown() {
-        // Store first class title for next test scenario
-        if (classPage != null) {
-            List<Map<String, String>> classData = classPage.getClassCardData();
-
-            if (!classData.isEmpty()) {
-                String classTitle = classData.get(0).get("title");
-                if (classTitle != null && !classTitle.trim().isEmpty()) TestDataReader.setValue("class-title", classTitle);
-            }
-        }
-    }
 }

@@ -34,6 +34,38 @@ public class ClassPage extends BasePage {
         this.table = new TableComponent(driver);
     }
 
+    // Create Class
+    public void openClassCreatePage() {
+        this.classManagement.openCreatePage();
+    }
+
+    public void clickSubmitCreateClassForm() {
+        this.classManagement.clickSubmitClassForm();
+    }
+
+    public void clickSubmitCreateClassAssessmentForm() {
+        this.classManagement.clickSubmitClassAssessmentForm();
+    }
+
+    public void clickSubmitCreateClassReviewForm() {
+        this.classManagement.clickSubmitClassReviewForm();
+    }
+
+    public boolean isCreateClassPageTitleDisplayed() {
+        return this.classManagement.isCreatePageTitleDisplayed();
+    }
+
+    public void fillCreateClass(
+            String classTitle, String classDesc, String batch, String major, String startDate, String endDate,
+            String enrollmentKey, String classSyllabusType, String classSyllabusUrl) {
+        this.classManagement.fillCreateClass(classTitle, classDesc, batch, major, startDate, endDate, enrollmentKey,
+                classSyllabusType, classSyllabusUrl);
+    }
+
+    public void fillCreateClassAssessment(String assessmentComponentSelected, String assessmentComponentPercentage) {
+        this.classManagement.fillCreateClassAssessment(assessmentComponentSelected, assessmentComponentPercentage);
+    }
+
     public WebElement getClassAddMentorSectionTitle() {
         return this.mentor.classAddMentorSectionTitle;
     }

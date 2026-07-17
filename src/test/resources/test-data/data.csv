@@ -1,8 +1,19 @@
 key,value,created_at
-class-title,class-test,2026-07-14 09:55:29
+class-title,class-test,2026-07-17 14:08:08
 valid-announcement-title,final-exam-test,2026-07-08 17:02:11
 valid-announcement-desc,description-test,2026-07-08 17:02:11
 invalid-class-title,class-invalid,2026-07-08 17:02:11
+valid-class-title,class-test,2026-07-08 17:02:11
+class-desc,lorem ipsum,2026-07-08 17:02:11
+class-batch,2025 Genap,2026-07-08 17:02:11
+class-major,Bisnis,2026-07-08 17:02:11
+class-start-date,01/07/26,2026-07-08 17:02:11
+class-end-date,31/12/26,2026-07-08 17:02:11
+class-enrollment-key,TEST123,2026-07-08 17:02:11
+class-syllabus-type,Link,2026-07-08 17:02:11
+class-syllabus-url,https://google.com,2026-07-08 17:02:11
+assessment-component-selected,Average Test,2026-07-08 17:02:11
+assessment-component-percentage,100,2026-07-08 17:02:11
 class-content-invalid,content-not-found,2026-07-08 17:02:11
 angkatan,2024 Ganjil,2026-07-08 16:16:59
 created-announcement-title,final-exam-test,2026-07-14 16:04:11

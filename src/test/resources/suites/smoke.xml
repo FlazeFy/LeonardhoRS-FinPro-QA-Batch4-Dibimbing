@@ -21,6 +21,7 @@
 
     <test name="UI/E2E Test: Class Management Tests">
         <classes>
+            <class name="test.e2e.classmanagement.CreateClassTest"/>
             <class name="test.e2e.classmanagement.ViewClassTest"/>
             <class name="test.e2e.classmanagement.SearchClassTest"/>
             <class name="test.e2e.classmanagement.FilterClassByBatchTest"/>
