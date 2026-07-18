@@ -1,11 +1,11 @@
-name: Auth E2E Test
+name: Class Management E2E Test
 
 on:
   push:
     branches: [main]
 
 jobs:
-  auth-e2e:
+  class-management-e2e:
     strategy:
       fail-fast: false
       matrix:
@@ -27,13 +27,10 @@ jobs:
         run: |
           mkdir -p src/test/resources/config
           cat <<EOF > src/test/resources/config/staging.properties
-          baseUrl=${{ secrets.BASEURL }}
+          baseApiUrl=${{ secrets.BASEAPIURL }}
           companyId=${{ secrets.COMPANYID }}
           validEmailAuth=${{ secrets.VALIDEMAILAUTH }}
-          invalidUnregisteredEmailAuth=${{ secrets.INVALIDUNREGISTEREDEMAILAUTH }}
-          invalidEmailAuth=${{ secrets.INVALIDEMAILAUTH }}
           validPasswordAuth=${{ secrets.VALIDPASSWORDAUTH }}
-          invalidPasswordAuth=${{ secrets.INVALIDPASSWORDAUTH }}
           EOF
 
       - name: Set up Chrome
@@ -52,8 +49,8 @@ jobs:
         if: matrix.browser == 'firefox'
         uses: browser-actions/setup-geckodriver@latest
 
-      - name: Run Auth E2E Tests (${{ matrix.browser }})
-        run: ./gradlew test -Psuite=auth-ui-ci.xml -Penv=staging -Pbrowser=${{ matrix.browser }}
+      - name: Run Class Management E2E Tests
+        run: ./gradlew test -Psuite=class_management-ui-ci.xml -Penv=staging -Pbrowser=${{ matrix.browser }}
         env:
           CHROMEDRIVER_PATH: ${{ matrix.browser == 'chrome' && '/usr/local/bin/chromedriver' || '' }}
           CHROME_BIN: ${{ matrix.browser == 'chrome' && '/usr/bin/google-chrome' || '' }}
@@ -68,13 +65,13 @@ jobs:
           secure: true
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Auth E2E/UI Test Report - ${{ job.status }} - ${{ github.repository }}"
+          subject: "Class Management E2E/UI Test Report - ${{ job.status }} - ${{ github.repository }}"
           to: ${{ secrets.MAIL_TO }}
           from: Dibimbing-LMS-B2B Automation Test Bot
           body: |
             Test run finished with status: ${{ job.status }}
             Browser: ${{ matrix.browser }}
-            Module: Auth
+            Module: Class Management 
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
             Triggered by: ${{ github.actor }}

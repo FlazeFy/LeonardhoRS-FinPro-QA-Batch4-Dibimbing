@@ -37,6 +37,9 @@ tasks.test {
             systemProperty("env", project.property("env") as String)
         }
     }
+    if (project.hasProperty("browser")) {
+        systemProperty("browser", project.property("browser") as String)
+    }
     testLogging {
         events("started", "passed", "skipped", "failed", "standardOut", "standardError")
         showStandardStreams = true

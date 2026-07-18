@@ -7,6 +7,7 @@
     <test name="UI/E2E Test: Auth Module">
         <classes>
             <class name="test.e2e.auth.LoginTest"/>
+            <class name="test.e2e.auth.LoginTest"/>
         </classes>
     </test>
 </suite>
