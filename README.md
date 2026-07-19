@@ -7,16 +7,19 @@
 If you want to see the project detail documentation, you can read the QA documentation below.
 
 1. **Test Strategy & Plan**
-   https://docs.google.com/document/d/1c4tvkDNgWVm6nBsyxz45QrE_KsE-42GhOuemr1caSFs/edit?usp=sharing — Test scope, test strategy, test data, entry & exit criteria (this document)
+   https://docs.google.com/document/d/1c4tvkDNgWVm6nBsyxz45QrE_KsE-42GhOuemr1caSFs/edit?usp=sharing
 
 2. **Test Case & Test Result Logging**
-   https://docs.google.com/spreadsheets/d/1KjT3f-P2e1mhddSH_ZcvmIitB2Eax6VoZsLhQN7y-bo/edit?usp=sharing — Test Case - LMS B2B Dibimbing - LeonardhoRS (Google Spreadsheet)
+   https://docs.google.com/spreadsheets/d/1KjT3f-P2e1mhddSH_ZcvmIitB2Eax6VoZsLhQN7y-bo/edit?usp=sharing
 
 3. **Bug / Defect Logging**
-   https://docs.google.com/spreadsheets/d/15asQTbJZ-2HD-x1XVjg8Y5sgrqCcXBEvdlqZbgSWufk/edit?usp=sharing — Bug Report - LMS B2B Dibimbing - LeonardhoRS (Defect Management)
+   https://docs.google.com/spreadsheets/d/15asQTbJZ-2HD-x1XVjg8Y5sgrqCcXBEvdlqZbgSWufk/edit?usp=sharing
 
 4. **Test Schedule (Jira Sprint Board)**
    https://flazenedu-1783068267561.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog
+
+5. **Test Closure**
+   https://docs.google.com/document/d/15LLQt00ajH-mTeaLo2JoBMLjmuu8RJrj/edit?usp=sharing&ouid=112838794069074238487&rtpof=true&sd=true
 
 ### 🌐 Test Environment URL
 
@@ -40,7 +43,7 @@ If you want to see the project detail documentation, you can read the QA documen
   Users can view all announcements, broadcast new ones, and edit or delete existing announcements.
 
 - **Cross-Browser Compatibility**
-  The application is validated across Google Chrome, Mozilla Firefox, and Microsoft Edge to ensure consistent behavior on desktop devices.
+  The application is validated across Google Chrome and Mozilla Firefox to ensure consistent behavior in every browsers.
 
 ## 🚀 Target Users
 
@@ -59,7 +62,7 @@ If you want to see the project detail documentation, you can read the QA documen
 ## 🧠 Problem to Solve
 
 1. Manual-only testing of a growing admin platform is **slow and error-prone**, especially for regression coverage as new features are added to Class Management.
-2. Without automation, **cross-browser verification** (Chrome, Firefox, Edge) requires repeating the same manual steps three times, wasting the limited testing window.
+2. Without automation, **cross-browser verification** (Chrome, Firefox) requires repeating the same manual steps two times, wasting the limited testing window.
 3. Untracked defects and inconsistent severity/priority classification can lead to **critical issues shipping unnoticed** (e.g., data leaks, broken class scheduling).
 4. Without CI/CD integration, regressions introduced by new code changes are **caught late**, after manual testers stumble onto them instead of automatically on every merge.
 5. Sensitive data handling (GraphQL error responses, file uploads, meeting links) needs **structured security verification**, not just functional checks.
@@ -67,7 +70,7 @@ If you want to see the project detail documentation, you can read the QA documen
 ## 💡 Solution
 
 1. Adopt a **layered testing pyramid strategy**: automated API Integration Testing (REST Assured), automated UI E2E Testing (Selenium), manual System Testing, and manual+automated Compatibility/Regression Testing.
-2. Run the **same Selenium suite across a CI build matrix** (Chrome + Firefox in parallel jobs) instead of manually repeating test execution per browser, reserving manual browser checks only for P1 layout/rendering spot-checks.
+2. Run the **same Selenium suite across a CI build matrix** (Chrome + Firefox in parallel jobs) instead of manually repeating test execution per browser.
 3. Integrate **GitHub Actions CI/CD** so API and UI regression suites run automatically on every push/merge to `main`, with `workflow_run` chaining to sequence dependent modules (e.g., Auth before Class Management).
 4. Maintain a structured **Bug/Defect and Security Vulnerability log** (Google Spreadsheet) with defined severity (S1–S4) and priority (P1–P4) classification and SLA-based resolution targets.
 5. Apply the **Page Object Model** with tab-based Section classes for maintainability, so locators and actions stay organized as the LMS UI grows more complex.
@@ -77,8 +80,7 @@ If you want to see the project detail documentation, you can read the QA documen
 - 🧪 API Integration Testing (Java REST Assured)
 - 🖥️ UI End-to-End Testing (Java Selenium WebDriver)
 - 📝 Manual System Testing
-- 🌐 Compatibility Testing (Chrome, Firefox, Edge — CI build matrix + manual P1 spot-check)
-- 🔁 Regression Testing (Manual + GitHub Actions CI/CD)
+- 🌐 Compatibility & Regression Testing (Chrome, Firefox + GitHub Actions CI/CD)
 - 🐞 Defect & Security Vulnerability Tracking
 - 📊 Automation Test Reporting (ExtentReports)
 - 📧 Automated Test Report Delivery via Email
@@ -152,24 +154,24 @@ The project follows the **Page Object Model (POM)**, with large pages further br
 
 To set up the environment, create a `staging.properties` file inside `src/test/resources/config/`. In CI, this file is generated at runtime from GitHub Secrets rather than committed to the repository.
 
-| Variable Name | Description | Example |
-|----------------|--------------|---------|
+| Variable Name | Description | Example                                             |
+|----------------|--------------|-----------------------------------------------------|
 | `baseUrl` | Base URL of the web application under test. | `https://lms-b2b.do.dibimbing.id/dibimbingqa/login` |
-| `baseApiUrl` | Base URL of the GraphQL API under test. | `https://lmsb2b.do.dibimbing.id/graphql` |
-| `usernameGraphQl` | Username used for GraphQL API authentication. | `qa_user` |
-| `passwordGraphQl` | Password used for GraphQL API authentication. | `********` |
-| `companyId` | Company ID used as test context for B2B data. | `1024` |
-| `validEmailAuth` | Valid registered email for login tests. | `arwendymelyn@dibimbing.id` |
-| `invalidUnregisteredEmailAuth` | Email not registered in the system, for negative login tests. | `unregistered@dibimbing.id` |
-| `invalidEmailAuth` | Malformed/invalid email format, for negative login tests. | `invalid-email` |
-| `validPasswordAuth` | Valid password paired with `validEmailAuth`. | `********` |
-| `invalidPasswordAuth` | Incorrect password, for negative login tests. | `wrongpass` |
+| `baseApiUrl` | Base URL of the GraphQL API under test. | `https://lmsb2b.do.dibimbing.id/graphql`            |
+| `usernameGraphQl` | Username used for GraphQL API authentication. | `qa_user`                                           |
+| `passwordGraphQl` | Password used for GraphQL API authentication. | `********`                                          |
+| `companyId` | Company ID used as test context for B2B data. | `1024`                                              |
+| `validEmailAuth` | Valid registered email for login tests. | `jhondoe@dibimbing.id`                              |
+| `invalidUnregisteredEmailAuth` | Email not registered in the system, for negative login tests. | `unregistered@dibimbing.id`                         |
+| `invalidEmailAuth` | Malformed/invalid email format, for negative login tests. | `invalid-email`                                     |
+| `validPasswordAuth` | Valid password paired with `validEmailAuth`. | `********`                                          |
+| `invalidPasswordAuth` | Incorrect password, for negative login tests. | `wrongpass`                                         |
 
 ---
 
 ## 🗓️ Testing Process
 
-Testing follows a **staggered parallel model** across a 5-day cycle: manual testing and automation scripting run concurrently, with automation lagging manual execution by one day so scripts are written against triaged, confirmed expected results rather than unverified behavior. P1/P2 test cases (and their automation) are executed first; P3/P4 test cases follow later.
+Testing follows a **staggered parallel model** across a sprint cycle: manual testing and automation scripting run concurrently, with automation lagging manual execution by one day so scripts are written against triaged, confirmed expected results rather than unverified behavior. P1/P2 test cases (and their automation) are executed first; P3/P4 test cases follow later.
 
 ### Technical Challenges
 
@@ -220,7 +222,7 @@ Testing follows a **staggered parallel model** across a 5-day cycle: manual test
 - Test cases must meet the exit criteria (≥90% pass rate, no open Critical/High defects) before being considered release-ready.
 
 ### 🧱 Technical Limitations
-- Manual and System Testing are executed on **Google Chrome only** (primary browser) to keep manual execution efficient; Firefox and Edge coverage is achieved through automated CI execution instead.
+- Manual and System Testing are executed on **Google Chrome only** (primary browser) to keep manual execution efficient; Firefox coverage is achieved through automated CI execution instead.
 - Compatibility testing on Firefox and Microsoft Edge is a **lightweight manual visual check scoped to P1 features only**, not a full re-execution of all test cases.
 - Chakra UI's auto-generated class names cannot be relied upon as stable selectors.
 
